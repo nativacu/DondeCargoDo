@@ -1,0 +1,47 @@
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            <h3>Log In</h3>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" [(ngModel)]="loginEmail" required/>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" [(ngModel)]="loginPassword" required />
+            </div>
+
+            <div class="form-group">
+                <a href="#" class="ForgetPwd">Forgot Password?</a>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btnSubmit" value="Login" (click)="login()"/>
+        </div>
+    </div>
+    <div class="col-md-6 login-form-2">
+        <h3>Sign Up</h3>
+            <div class="form-group">
+                <input type="text" class="form-control" name="email" placeholder="Email" [(ngModel)]="signupEmail" required/>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" [(ngModel)]="signupPassword" required />
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" [(ngModel)]="fname" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" [(ngModel)]="lname" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="id" id="id" class="form-control" placeholder="Cédula de identidad" [(ngModel)]="id" required>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btnSubmit" value="Sign Up" (click)="signup()" />
+            </div>
+        </div>
+    </div>
+</div>

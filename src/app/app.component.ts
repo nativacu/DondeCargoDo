@@ -1,0 +1,134 @@
+import { Component } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import {MapPage} from '../pages/map/map'
+import { Camera } from '@ionic-native/camera/ngx';
+import { LoginPage } from '../pages/login/login';
+import { AuthProvider } from '../providers/auth/auth';
+import { Observer } from 'firebase';
+
+@Component({
+  templateUrl: 'app.html'
+})
+export class LocationsApp {
+  rootPage:any = LoginPage;
+  userName: string;
+  imageSrc: string;
+  email: string;
+  phoneNumber: string;
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, fauth:AuthProvider) {
+    this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
+    this.userName = "Pedro Pérez";
+    this.email = "pedrop@gmail.com";
+    this.phoneNumber = "+1 (809)-000-0000";
+    fauth.getUser().subscribe(user =>{
+      this.email = user.email;
+    })
+    console.log(platform);
+
+    platform.ready().then(() => {
+      // emailObserveray, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      statusBar.styleDefault();
+      splashScreen.hide();
+    });
+  }
+
+  takePicture(){
+    console.log("still working");
+  }
+
+  openGallery (): void {
+    // let cameraOptions = {
+    //   sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+    //   destinationType: Camera.DestinationType.FILE_URI,      
+    //   quality: 100,
+    //   targetWidth: 1000,
+    //   targetHeight: 1000,
+    //   encodingType: Camera.EncodingType.JPEG,      
+    //   correctOrientation: true
+    // }
+  
+    // Camera.getPicture(cameraOptions)
+    //   .then(FILE_URI => this.imageSrc = FILE_URI, 
+    //   err => console.log(err));   
+  }
+
+
+  changeName(){
+    var currentName = document.getElementById("name");
+    var input = document.getElementById("input");
+    currentName.style.display = "none";
+    input.style.display="inherit";
+  }
+  
+  changeMail(){
+    var currentMail = document.getElementById("mail");
+    var input = document.getElementById("mailInput");
+    currentMail.style.display = "none";
+    input.style.display="inherit";
+  }
+
+  changePhoneNumber(){
+    var currentNo = document.getElementById("phoneNumber");
+    var input = document.getElementById("phoneInput");
+    currentNo.style.display = "none";
+    input.style.display="inherit";
+  }
+
+  showInfo(){
+    var currentName = document.getElementById("name");
+    var input = document.getElementById("input");
+    var currentMail = document.getElementById("mail");
+    var mailInput = document.getElementById("mailInput");
+    var currentNo = document.getElementById("phoneNumber");
+    var phoneInput = document.getElementById("phoneInput");
+    var saveButton = document.getElementById("saveButton");
+    var editIcon = document.getElementById("editIcon");
+    var editIcon1 = document.getElementById("editIcon1");
+    var editIcon2 = document.getElementById("editIcon2");
+    var editButton = document.getElementById("editButton");
+
+    editButton.style.display = "inline";
+    //editButton.style.visibility = "visible"
+    currentName.style.display = "inherit";
+    currentMail.style.display = "inherit";
+    currentNo.style.display = "inherit";
+
+    input.style.display="none";
+    mailInput.style.display="none";
+    phoneInput.style.display="none";
+    saveButton.style.display="none";
+    //saveButton.style.visibility="hidden";
+    editIcon.style.display="none";
+    editIcon1.style.display="none";
+    editIcon2.style.display="none";
+  }
+
+  enableEdit(){
+    var saveButton = document.getElementById("saveButton");
+    var editIcon = document.getElementById("editIcon");
+    var editIcon1 = document.getElementById("editIcon1");
+    var editIcon2 = document.getElementById("editIcon2");
+    var editButton = document.getElementById("editButton");
+
+    //saveButton.style.visibility="visible";
+    saveButton.style.display="inline";
+    editIcon.style.display="inline";
+    editIcon1.style.display="inline";
+    editIcon2.style.display="inline";
+    editButton.style.display="none";
+    //editButton.style.visibility = "hidden";
+  }
+  
+  login()
+  {
+
+  }
+  logout()
+  {
+
+  }
+}
+

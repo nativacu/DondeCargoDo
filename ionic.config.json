@@ -1,0 +1,8 @@
+{
+  "name": "DondeCargo.do",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "id": "d9bbdeb3"
+}

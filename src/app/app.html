@@ -1,0 +1,40 @@
+<ion-menu [content]="mycontent">
+    <ion-content id="user">
+        <div id="picture">
+            <img [src]="imageSrc" height= "25%" (click)="openGallery()"/>  
+            <h3 id = name>
+                {{userName}} <ion-icon name="create" id="editIcon" size="small" (click)="changeName()"></ion-icon>
+            </h3>
+            <!-- Input with placeholder -->
+            <ion-input maxlength="32" [(ngModel)]="userName" id="input" dark></ion-input>
+            
+        </div>
+        <button ion-button round outline small center color="dark" id="editButton" (click)="enableEdit()">Editar Perfil</button>
+        <p id=mail>
+            {{email}}  <ion-icon name="create" id="editIcon1" size="small" (click)="changeMail()"></ion-icon>
+        </p>
+
+        <ion-input maxlength="32" inputmode="email" [(ngModel)]="email" class="edit" id="mailInput"></ion-input>
+
+        <p id=phoneNumber>
+            {{phoneNumber}}<ion-icon name="create"  id="editIcon2" size="small" (click)="changePhoneNumber()"></ion-icon>
+        </p>
+
+        <ion-input maxlength="17" inputmode="tel" [(ngModel)]="phoneNumber" class="edit" id="phoneInput"></ion-input>
+
+        <hr>
+        <h6>Métodos de Pago</h6>
+        <ion-icon name="card"> xxxx 0000</ion-icon>
+        <hr>
+        
+        <button ion-button round (click)="showInfo()" id="saveButton">Salvar</button>
+        <hr>
+        <!-- <button ion-button round (click)="login()" id="loginButton">Login</button> -->
+        <button ion-button round (click)="logout()" id="logoutButton">Logout</button>
+        
+    </ion-content>
+</ion-menu>
+
+      
+
+<ion-nav  #mycontent [root]="rootPage"></ion-nav>
