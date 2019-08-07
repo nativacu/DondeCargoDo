@@ -12,20 +12,24 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpRequestProvider {
   
-  endpoint = 'http://192.168.43.141/';
+  endpoint = 'http://10.0.0.53/';
   //endpoint = 'https://private-443a5-chargingstation.apiary-mock.com/';
   chargers : any;
   reservations: any;
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Access-Control-Allow-Origin',
+      'Accept':'application/json',
+      'content-type': 'application/json'
+    })};
+
   constructor(public http: HttpClient) {
     console.log('Hello HttpResponse Provider');
   }
-
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
 
   private extractData(res: Response) {
     const body = res;
@@ -62,13 +66,10 @@ export class HttpRequestProvider {
     }); 
   }
 
-
-  public sendPostRequest(postData) {
-    var headers = new Headers();
-    headers.append("Accept", 'application/json');
-    headers.append('Content-Type', 'application/json' );
-
-    this.http.post(this.endpoint + '/reservations', headers, postData)
+  public sendPostRequest(postData, path) {
+    console.log(postData)
+    console.log(this.endpoint + path)
+    this.http.post(this.endpoint + path, postData, this.httpOptions)
       .subscribe(data => {
         console.log(data);
        }, error => {

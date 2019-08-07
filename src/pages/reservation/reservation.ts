@@ -54,7 +54,7 @@ export class ReservationPage {
       "time_slot": this.selectedTimeSlot
     }
     if(checkAvailability){
-      this.http.sendPostRequest(postData);
+      this.http.sendPostRequest(postData, 'reservations');
     }
   }
 

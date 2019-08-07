@@ -7,6 +7,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { Observer } from 'firebase';
+import { HttpRequestProvider } from '../providers/http-request/http-request';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,12 +17,15 @@ export class LocationsApp {
   userName: string;
   imageSrc: string;
   email: string;
+  lname: string;
+  accountType: 0;
   phoneNumber: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, fauth:AuthProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, fauth:AuthProvider, public http: HttpRequestProvider) {
     this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
-    this.userName = "Pedro Pérez";
+    this.userName = "Pedro";
+    this.lname = "Pérez"
     this.email = "pedrop@gmail.com";
-    this.phoneNumber = "+1 (809)-000-0000";
+    this.phoneNumber = "809-000-0000";
     fauth.getUser().subscribe(user =>{
       this.email = user.email;
     })
@@ -37,6 +41,10 @@ export class LocationsApp {
 
   takePicture(){
     console.log("still working");
+  }
+
+  eraseAccount(){
+    this.http.sendPostRequest({email: this.email},'delete.php');
   }
 
   openGallery (): void {
@@ -64,10 +72,10 @@ export class LocationsApp {
   }
   
   changeMail(){
-    var currentMail = document.getElementById("mail");
-    var input = document.getElementById("mailInput");
-    currentMail.style.display = "none";
-    input.style.display="inherit";
+    // var currentMail = document.getElementById("mail");
+    // var input = document.getElementById("mailInput");
+    // currentMail.style.display = "none";
+    // input.style.display="inherit";
   }
 
   changePhoneNumber(){
@@ -104,6 +112,9 @@ export class LocationsApp {
     editIcon.style.display="none";
     editIcon1.style.display="none";
     editIcon2.style.display="none";
+
+    this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
+      foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
 
   enableEdit(){

@@ -225,6 +225,7 @@ export class GoogleMapsProvider {
         content: contentString
       });
       image = this.setMarkerIcon(charger);
+      console.log(charger);
 
       let marker = new google.maps.Marker({
         position: {lat: +charger.Latitud, lng: +charger.Longitud},
@@ -333,17 +334,15 @@ export class GoogleMapsProvider {
           '<div id="siteNotice">'+
           '</div>'+
           '<h6 id="firstHeading" class="firstHeading">'+charger.Nombre +'</h6>'+
-          '<div id="bodyContent">'+
-          '<p><b>'+ charger.TipoCargador+'<br/ >'+ state +'</b><br/><b> Horario: </b>'+ charger.DiaInicial + ' a ' + charger.DiaFinal + '</br>'+ 
-          charger.HorarioInicial + '-' + charger.HorarioFinal + '</br>'+
-          '<b>Tipo de cobro: </b>'+ charger.TipoCosto ;
+          '<div id="bodyContent">'+ state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+ 
+          charger.Dia_Inicio_Operaciones + '-' + charger.Dia_Fin_Operaciones + '</br>'+
+          '<b>Tipo de cobro: </b>'+ charger.TipoCostoCarga ;
           
           if (charger.TipoCosto != "Gratis" && charger.TipoCargador != "No afiliado"){
-            contentString += '</br><b>Precio: </b>' + charger.Costo + ' RD$/' + charger.TipoCosto;
+            contentString += '</br><b>Precio: </b>' + charger.CostoCarga + ' RD$/' + charger.TipoCostoCarga;
           } 
         
           contentString += '</br>' +  
-          '<b>Potencia: </b>' + charger.PotenciaCargador + '</br>' + 
           charger.Descripcion + 
           '</div>'+
           '</div>';

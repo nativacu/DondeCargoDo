@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
+import { HttpRequestProvider } from '../../providers/http-request/http-request';
 /**
  * Generated class for the LoginPage page.
  *
@@ -23,7 +24,11 @@ export class LoginPage {
   loginPassword:string;
   signupEmail:string;
   signupPassword:string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, public navParams: NavParams, public fauth:AuthProvider) {
+  fname:string;
+  lname:string;
+  id:string;
+  phone: string;
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider) {
     // platform.ready().then(() => {
     //   // Okay, so the platform is ready and our plugins are available.
     //   // Here you can do any higher level native things you might need.
@@ -52,6 +57,8 @@ export class LoginPage {
   signup(){
     this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
       ()=>{
+        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
+          foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php');
         this.navCtrl.setRoot(MapPage);
       }
     );
