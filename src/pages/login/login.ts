@@ -47,19 +47,18 @@ export class LoginPage {
   login(){
     this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
       ()=>{
-        this.navCtrl.setRoot(MapPage);
+        this.navCtrl.setRoot(MapPage, {user:{cedula: 0, primernombre: "Pedro", segundonombre: 0, primerapellido: "Pérez", segundoapellido: 0, t_usuario: 2,
+          foto: "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png", email: this.loginEmail, telefono: "809-000-0000"}});
       }
     );
-  }
-  logout(){
-    this.fauth.doLogout();
   }
   signup(){
     this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
       ()=>{
         this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
           foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php');
-        this.navCtrl.setRoot(MapPage);
+        this.navCtrl.setRoot(MapPage, {user: {cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
+          foto: 0, email: this.signupEmail, telefono: this.phone}});
       }
     );
   }

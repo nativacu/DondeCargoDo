@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
+import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {MapPage} from '../pages/map/map'
@@ -10,9 +10,11 @@ import { Observer } from 'firebase';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
 })
 export class LocationsApp {
+  @ViewChild('mycontent') nav: NavController;
+  user:any;
   rootPage:any = LoginPage;
   userName: string;
   imageSrc: string;
@@ -21,11 +23,23 @@ export class LocationsApp {
   accountType: 0;
   phoneNumber: string;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, fauth:AuthProvider, public http: HttpRequestProvider) {
-    this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
-    this.userName = "Pedro";
-    this.lname = "Pérez"
-    this.email = "pedrop@gmail.com";
-    this.phoneNumber = "809-000-0000";
+    this.user
+    console.log(this.nav)
+    if(this.user){
+      this.imageSrc = this.user.foto;
+      this.userName = this.user.primernombre;
+      this.lname = this.user.primerapellido;
+      this.email = this.user.email;
+      this.phoneNumber = this.user.telefono;
+    }
+    else
+    {
+      this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
+      this.userName = "Pedro";
+      this.lname = "Pérez"
+      this.email = "pedrop@gmail.com";
+      this.phoneNumber = "809-000-0000";
+    }
     fauth.getUser().subscribe(user =>{
       this.email = user.email;
     })
