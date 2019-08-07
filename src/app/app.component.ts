@@ -6,7 +6,6 @@ import {MapPage} from '../pages/map/map'
 import { Camera } from '@ionic-native/camera/ngx';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
-import { Observer } from 'firebase';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 
 @Component({
@@ -22,24 +21,32 @@ export class LocationsApp {
   lname: string;
   accountType: 0;
   phoneNumber: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, fauth:AuthProvider, public http: HttpRequestProvider) {
-    this.user
-    console.log(this.nav)
-    if(this.user){
-      this.imageSrc = this.user.foto;
-      this.userName = this.user.primernombre;
-      this.lname = this.user.primerapellido;
-      this.email = this.user.email;
-      this.phoneNumber = this.user.telefono;
-    }
-    else
-    {
-      this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
-      this.userName = "Pedro";
-      this.lname = "Pérez"
-      this.email = "pedrop@gmail.com";
-      this.phoneNumber = "809-000-0000";
-    }
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider) {
+   // this.user = fauth;
+   this.fauth.currUser.subscribe((usr)=> {
+     console.log(usr);
+      this.user = usr;
+      if(this.user){
+        this.imageSrc = this.user.Foto;
+        if(this.imageSrc == null || this.imageSrc == "NULL")
+        {
+          this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
+        }
+        this.userName = this.user.PrimerNombre;
+        this.lname = this.user.PrimerApellido;
+        this.phoneNumber = this.user.Telefono;
+      }
+      else
+      {
+        this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
+        this.userName = "Pedro";
+        this.lname = "Pérez"
+        this.email = "pedrop@gmail.com";
+        this.phoneNumber = "809-000-0000";
+      }
+      
+   });
+
     fauth.getUser().subscribe(user =>{
       this.email = user.email;
     })
@@ -153,7 +160,9 @@ export class LocationsApp {
   }
   logout()
   {
-
+    console.log("ok");
+    this.fauth.doLogout();
+    this.nav.setRoot(LoginPage)
   }
 }
 

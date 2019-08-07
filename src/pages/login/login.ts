@@ -6,6 +6,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
+import { BehaviorSubject } from 'rxjs';
 /**
  * Generated class for the LoginPage page.
  *
@@ -29,6 +30,7 @@ export class LoginPage {
   id:string;
   phone: string;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider) {
+
     // platform.ready().then(() => {
     //   // Okay, so the platform is ready and our plugins are available.
     //   // Here you can do any higher level native things you might need.
@@ -47,18 +49,32 @@ export class LoginPage {
   login(){
     this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
       ()=>{
-        this.navCtrl.setRoot(MapPage, {user:{cedula: 0, primernombre: "Pedro", segundonombre: 0, primerapellido: "Pérez", segundoapellido: 0, t_usuario: 2,
-          foto: "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png", email: this.loginEmail, telefono: "809-000-0000"}});
+        this.http.sendPostRequest({email: this.loginEmail}, 'get.php').then((data) =>{
+            this.fauth.currUser.next(data[0]);
+            this.navCtrl.setRoot(MapPage);
+          },
+          (kabum) =>{
+          });
+      },
+      (error) =>{
+        window.alert(error);
       }
     );
   }
   signup(){
     this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
-      ()=>{
+      (user:firebase.User)=>{
         this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
-          foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php');
-        this.navCtrl.setRoot(MapPage, {user: {cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
-          foto: 0, email: this.signupEmail, telefono: this.phone}});
+          foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
+            this.fauth.currUser.next(data);
+            this.navCtrl.setRoot(MapPage);
+          },
+          (kabum) =>{
+            user.delete();
+          });
+      },
+      (error) =>{
+        window.alert(error);
       }
     );
   }

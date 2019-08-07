@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 /*
@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpRequestProvider {
   
-  endpoint = 'http://10.0.0.53/';
+  endpoint = 'http://192.168.43.141/';
   //endpoint = 'https://private-443a5-chargingstation.apiary-mock.com/';
   chargers : any;
   reservations: any;
@@ -66,15 +66,19 @@ export class HttpRequestProvider {
     }); 
   }
 
-  public sendPostRequest(postData, path) {
+  public sendPostRequest(postData: any = {}, path: string) {
     console.log(postData)
     console.log(this.endpoint + path)
-    this.http.post(this.endpoint + path, postData, this.httpOptions)
+    return new Promise((resolve, error) => {
+       this.http.post(this.endpoint + path, postData, this.httpOptions)
       .subscribe(data => {
         console.log(data);
-       }, error => {
+        resolve(data);
+       }, err => {
         console.log(error);
+        error(err);
       });
+    });
   }
 }
 

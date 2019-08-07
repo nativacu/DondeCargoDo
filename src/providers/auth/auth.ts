@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { BehaviorSubject } from 'rxjs';
 /*
   Generated class for the AuthProvider provider.
 
@@ -11,7 +12,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 @Injectable()
 export class AuthProvider {
   email:string;
+  currUser: BehaviorSubject<any>;
   constructor(public http: HttpClient, public afAuth: AngularFireAuth) {
+    this.currUser = new BehaviorSubject(null);
     console.log('Hello AuthProvider Provider');
     this.email = "placeholder";
   }
