@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
@@ -29,7 +29,8 @@ export class LoginPage {
   lname:string;
   id:string;
   phone: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
+    public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController) {
 
     // platform.ready().then(() => {
     //   // Okay, so the platform is ready and our plugins are available.
@@ -77,6 +78,18 @@ export class LoginPage {
         window.alert(error);
       }
     );
+  }
+
+  openRegister(){
+    console.log("i made it");
+    const registerModal = this.modal.create('RegisterPage');
+    registerModal.present();
+  }
+
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+   
   }
 
 }

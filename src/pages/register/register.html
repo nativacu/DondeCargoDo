@@ -1,0 +1,61 @@
+<div id="myModal">
+        <div>
+    
+          <!-- Modal content-->
+          <div class="modal-content" >
+            <div class="modal-header">
+              <h4><span class="glyphicon glyphicon-lock"></span> Crear Cuenta</h4>
+              <!-- <button type="button" class="close">&times;</button> -->
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <ion-avatar>
+                    <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="height: 20%; display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 50%;">
+                  </ion-avatar>
+                </div>
+                  
+                <div class="form-group">
+                    <input type="text" class="form-control" name="email" placeholder="Correo" [(ngModel)]="signupEmail" required/>
+                </div>
+    
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Contraseña" [(ngModel)]="signupPassword" required />
+                </div>
+    
+                <div class="form-group">
+                    <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Primer Nombre" [(ngModel)]="fname" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="text" name="first_name" id="second_name" class="form-control" placeholder="Segundo Nombre" [(ngModel)]="sname" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Primer Apellido" [(ngModel)]="lname" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="text" name="last_name" id="second_lname" class="form-control" placeholder="Segundo Apellido" [(ngModel)]="slname" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="phone" class="form-control" id="phone_number" placeholder="Número de teléfono" [(ngModel)]="phone" required />
+                </div>
+    
+                <div class="form-group">
+                    <input type="text" name="id" id="id" class="form-control" placeholder="Cédula de identidad" [(ngModel)]="id" required>
+                </div>
+    
+                <div class="form-group">
+                    <button type="submit"ion-button small full color="secondary" style="text-transform: none;" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
+                </div>
+                
+              <!-- </form> -->
+            </div>
+          </div>
+        </div>
+      </div> 
+           

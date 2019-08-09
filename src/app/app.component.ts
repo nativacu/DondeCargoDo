@@ -3,7 +3,7 @@ import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {MapPage} from '../pages/map/map'
-import { Camera } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
@@ -69,19 +69,19 @@ export class LocationsApp {
   }
 
   openGallery (): void {
-    // let cameraOptions = {
-    //   sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-    //   destinationType: Camera.DestinationType.FILE_URI,      
-    //   quality: 100,
-    //   targetWidth: 1000,
-    //   targetHeight: 1000,
-    //   encodingType: Camera.EncodingType.JPEG,      
-    //   correctOrientation: true
-    // }
+    let cameraOptions = {
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: Camera.DestinationType.FILE_URI,      
+      quality: 100,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      encodingType: Camera.EncodingType.JPEG,      
+      correctOrientation: true
+    }
   
-    // Camera.getPicture(cameraOptions)
-    //   .then(FILE_URI => this.imageSrc = FILE_URI, 
-    //   err => console.log(err));   
+    Camera.getPicture(cameraOptions)
+      .then(FILE_URI => this.imageSrc = FILE_URI, 
+      err => console.log(err));   
   }
 
 
