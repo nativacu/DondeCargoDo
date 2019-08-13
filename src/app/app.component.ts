@@ -48,7 +48,8 @@ export class LocationsApp {
    });
 
     fauth.getUser().subscribe(user =>{
-      this.email = user.email;
+      if(this.user)
+        this.email = user.email;
     })
     console.log(platform);
 
