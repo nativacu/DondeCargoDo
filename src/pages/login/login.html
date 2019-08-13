@@ -15,10 +15,19 @@
             </div>
             <div class="form-group">
                 <input type="submit" class="btnSubmit" value="Login" (click)="login()"/>
+            </div>
         </div>
-    </div>
-    <div class="col-md-6 login-form-2">
-        <h3>Sign Up</h3>
+        <div class="col-md-6 login-form-2">
+            <h3>Sign Up</h3>
+            <ng-container *ngIf="platform.is('core')">
+                <div class="form-group">
+                  <input type="file" class="form-control" multiple="" #webData (change)="updateWebImg(webData)"/>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="platform.is('mobile')">
+                  <button ion-button color="secondary" (click)="getImage()">Get Image</button>
+                  <img src="{{base64img}}" *ngIf="base64img" alt="Ionic File" width="300" />
+            </ng-container>
             <div class="form-group">
                 <input type="text" class="form-control" name="email" placeholder="Email" [(ngModel)]="signupEmail" required/>
             </div>

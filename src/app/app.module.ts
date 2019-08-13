@@ -5,7 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { Camera } from 'ionic-native';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { LocationsApp } from './app.component';
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
@@ -61,6 +63,9 @@ const firebase = {
     LocationsProvider,
     HttpRequestProvider,
     Camera,
+    File,
+    FileTransfer,
+    FileTransferObject,
     AngularFireDatabase,
     AuthProvider,
     FirebaseProvider
