@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { checkAvailability } from '@ionic-native/core';
+import { AuthProvider } from '../../providers/auth/auth';
 
 
 /**
@@ -27,19 +28,26 @@ export class ReservationPage {
   potency: any;
   chargerType: any;
   showCost: boolean;
-  selectedTimeSlot: any; 
+  initTimeSlot: any;
+  endTimeSlot: any; 
+  dateSlot: any;
+  userId: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider, private auth: AuthProvider) {
     this.charger = navParams.get('charger');
     this.showCost = true;
+
+    this.auth.currUser.subscribe((user)=>{
+      this.userId = user.UserID;
+    });
   }
 
   ionViewDidLoad() {
-    this.displayName = this.charger.charger_name;
-    this.cost = this.charger.cost;
-    this.costType = this.charger.cost_type;
-    this.potency = this.charger.potency;
-    this.chargerType = this.charger.type;
+    this.displayName = this.charger.Nombre;
+    this.cost = this.charger.CostoCarga;
+    this.costType = this.charger.TipoCostoCarga;
+    // this.potency = this.charger.potency;
+    // this.chargerType = this.charger.type;
 
     if(this.costType === "Gratis"){
       this.showCost = false;
@@ -50,8 +58,10 @@ export class ReservationPage {
   reserve(){
     
     let postData = {
-      "charger": this.charger,
-      "time_slot": this.selectedTimeSlot
+      "IOTPlugPlugID": this.charger.id, //TODO this.charger.id contains placeID not plugID 
+      "Fecha": this.dateSlot,
+      "Hora_Inicio": this.initTimeSlot,
+      "Hola_Fin": this.endTimeSlot
     }
     if(checkAvailability){
       this.http.sendPostRequest(postData, 'reservations');

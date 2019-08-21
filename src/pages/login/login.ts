@@ -53,9 +53,9 @@ export class LoginPage {
         this.http.sendPostRequest({email: this.loginEmail}, 'get.php').then((data) =>{
             this.fauth.currUser.next(data[0]);
             this.navCtrl.setRoot(MapPage);
-          },
-          (kabum) =>{
-          });
+           },
+           (kabum) =>{
+        });
       },
       (error) =>{
         window.alert(error);

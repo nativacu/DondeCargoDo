@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpRequestProvider {
   
-  endpoint = 'http://192.168.43.141/';
+   endpoint = 'http://192.168.43.141/';
   //endpoint = 'https://private-443a5-chargingstation.apiary-mock.com/';
   chargers : any;
   reservations: any;
