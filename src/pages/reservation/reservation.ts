@@ -58,6 +58,7 @@ export class ReservationPage {
   reserve(){
     
     let postData = {
+      "UserUserID": this.userId,
       "IOTPlugPlugID": this.charger.id, //TODO this.charger.id contains placeID not plugID 
       "Fecha": this.dateSlot,
       "Hora_Inicio": this.initTimeSlot,
