@@ -74,7 +74,7 @@ export class ReservationPage {
 
     locations.subscribe(data => {
       let index = data.indexOf(this.charger); ; 
-      if(data[this.charger].is_operational){
+      if(data[this.charger]==1){
         return true;
       }
 
