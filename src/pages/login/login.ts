@@ -81,8 +81,9 @@ export class LoginPage {
   }
 
   openRegister(){
-    const registerModal = this.modal.create('RegisterPage');
-    registerModal.present();
+    this.navCtrl.push('RegisterPage');
+    //const registerModal = this.modal.create('RegisterPage');
+    //registerModal.present();
   }
 
   dismiss() {

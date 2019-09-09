@@ -10,7 +10,11 @@ import { MapPage } from '../map/map';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+enum account {
+  placeOwner = '1',
+  consumer = '2',
+  hybrid = '3'
+}
 
 @IonicPage()
 @Component({
@@ -27,9 +31,11 @@ export class RegisterPage {
   slname: string;
   id:string;
   phone: string;
-  accountType: any;
+  accountType: Array<String>;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
+    this.accountType = [account.consumer];
   }
 
   ionViewDidLoad() {
@@ -37,6 +43,14 @@ export class RegisterPage {
   }
 
   signup(){
+    console.log(this.accountType);
+    let type = 0;
+
+    for(let x of this.accountType)
+    {
+      type += +x;
+    }
+    
     this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
       (user:firebase.User)=>{
 
@@ -44,8 +58,8 @@ export class RegisterPage {
           this.slname = '0';
         }
 
-        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, t_usuario: this.accountType,
-          foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
+        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, 
+          t_usuario: type, foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
             this.fauth.currUser.next(data);
             this.navCtrl.setRoot(MapPage);
           },
