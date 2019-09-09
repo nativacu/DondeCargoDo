@@ -52,6 +52,16 @@
                 <div class="form-group">
                     <button type="submit"ion-button small full color="secondary" style="text-transform: none;" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
                 </div>
+
+                <!-- ion-item -->
+                <div class="form-group">
+                  <ion-label>Tipo de cuenta</ion-label>
+                  <ion-select multiple="true" [(ngModel)]="accountType">
+                    <ion-select-option value='0' selected>Dueño de Vehículo</ion-select-option>
+                    <ion-select-option value='1' selected>Dueño de Cargador</ion-select-option>
+                    <ion-select-option value='2' selected>Dueño de Vehículo y Cargador</ion-select-option>
+                  </ion-select>
+                </div>
                 
               <!-- </form> -->
             </div>
