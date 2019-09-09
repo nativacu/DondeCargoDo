@@ -5,8 +5,6 @@ import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
 import { HttpRequestProvider } from '../../providers/http-request/http-request'
 import { ReservationPage } from '../reservation/reservation';
 
-
-
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html' 
@@ -42,7 +40,6 @@ export class MapPage {
     
       chargers.subscribe(data => {
         this.data = data;
-        console.log(data);
         this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, this.navCtrl, this.data);
 
         //Waiting for charger to be pressed to transition to reserve charging station screen

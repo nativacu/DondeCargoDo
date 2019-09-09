@@ -8,6 +8,12 @@ import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 
+enum account {
+  placeOwner = 0,
+  consumer = 1,
+  hybrid = 2
+}
+
 @Component({
   templateUrl: 'app.html',
 })
@@ -19,12 +25,12 @@ export class LocationsApp {
   imageSrc: string;
   email: string;
   lname: string;
-  accountType: 0;
+  accountType: account.consumer;
+  
   phoneNumber: string;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider) {
    // this.user = fauth;
    this.fauth.currUser.subscribe((usr)=> {
-     console.log(usr);
       this.user = usr;
       if(this.user){
         this.imageSrc = this.user.Foto;
@@ -50,7 +56,6 @@ export class LocationsApp {
     fauth.getUser().subscribe(user =>{
       this.email = user.email;
     })
-    console.log(platform);
 
     platform.ready().then(() => {
       // emailObserveray, so the platform is ready and our plugins are available.
@@ -158,9 +163,9 @@ export class LocationsApp {
   {
 
   }
+  
   logout()
   {
-    console.log("ok");
     this.fauth.doLogout();
     this.nav.setRoot(LoginPage)
   }

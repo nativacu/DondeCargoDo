@@ -43,7 +43,6 @@ export class HttpRequestProvider {
 
   public getStations(){
     this.makeStationRequest().subscribe(data => {
-      console.log(data);
       this.chargers = data.next();
       console.log(this.chargers);
       return data;

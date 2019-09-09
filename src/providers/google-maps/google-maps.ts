@@ -225,7 +225,6 @@ export class GoogleMapsProvider {
         content: contentString
       });
       image = this.setMarkerIcon(charger);
-      console.log(charger);
 
       let marker = new google.maps.Marker({
         position: {lat: +charger.Latitud, lng: +charger.Longitud},
