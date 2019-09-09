@@ -1,69 +1,76 @@
 <ion-content>
 
 <div class="container">
-    <p class="h4 mb-4" style="text-align: center; font-size:15pt;">Crear Cuenta</p>
+    <p class="h4 mb-4" style="text-align: center; font-size:15pt; margin-top:1%">Crear Cuenta</p>
     
     <div class="form-group">
         <ion-avatar>
-          <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="height: 20%; display: block;
+          <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="  border: 3px solid #009ad5; height: 20%; border-radius: 50%; display: block;
                     margin-left: auto;
-                    margin-right: auto;
-                    width: 50%;">
+                    margin-right: auto;" >
+                    <button ion-button small color="secondary" style="margin-top: -25px; margin-left: 80px;
+                    /* z-index: 1000; */
+                    ">
+                        <ion-icon name="camera"></ion-icon>
+                      </button>
+                    
         </ion-avatar>
     </div>
 
     <div>
+
+      <ion-item>
+        <ion-label position="floating">Correo <span style="color:red;">*</span></ion-label>
+        <ion-input type="email" id="defaultLoginFormEmail"  [(ngModel)]="signupEmail" required> </ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Contraseña <span style="color:red;">*</span></ion-label>
+        <ion-input type="password" id="defaultLoginFormPassword" [(ngModel)]="signupPassword" required #password></ion-input>
+      </ion-item>
                   
-    <div class="form-group">
-      <input type="text" class="form-control" name="email" placeholder="Correo" [(ngModel)]="signupEmail" required/>
-    </div>
+      <ion-item>
+        <ion-label position="floating">Primer Nombre <span style="color:red;">*</span></ion-label>
+        <ion-input type="text" name="first_name" id="first_name" [(ngModel)]="fname" required> </ion-input>
+      </ion-item> 
     
-    <div class="form-group">
-      <input type="password" class="form-control" placeholder="Contraseña" [(ngModel)]="signupPassword" required />
-    </div>
-    
-    <div class="form-group">
-      <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Primer Nombre" [(ngModel)]="fname" required>
-                </div>
-    
-                <div class="form-group">
-                    <input type="text" name="first_name" id="second_name" class="form-control" placeholder="Segundo Nombre (opcional)" [(ngModel)]="sname">
-                </div>
-    
-                <div class="form-group">
-                    <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Primer Apellido" [(ngModel)]="lname" required>
-                </div>
-    
-                <div class="form-group">
-                    <input type="text" name="last_name" id="second_lname" class="form-control" placeholder="Segundo Apellido (opcional)" [(ngModel)]="slname">
-                </div>
-    
-                <div class="form-group">
-                    <input type="phone" class="form-control" id="phone_number" placeholder="Número de teléfono" [(ngModel)]="phone" required />
-                </div>
-    
-                <div class="form-group">
-                    <input type="text" name="id" id="id" class="form-control" placeholder="Cédula de identidad" [(ngModel)]="id" required>
-                </div>
-    
-                  <!-- ion-item -->
-                  <div class="form-group">
-                      <ion-item>
-                        <ion-label>Tipo de cuenta</ion-label>
-                        <ion-select multiple="true" [(ngModel)]="accountType">
-                          <ion-option value='1'> Usuario Comercial</ion-option>
-                          <ion-option value='2'>Usuario Particular</ion-option>
-                        </ion-select>
-                      </ion-item>
-                  </div>
-                    
+      <ion-item>
+          <ion-label position="floating">Segundo Nombre</ion-label>
+          <ion-input type="text" name="second_name" id="second_name" [(ngModel)]="sname" required> </ion-input>
+      </ion-item> 
 
-                <div class="form-group">
-                    <button type="submit"ion-button small full color="secondary" style="text-transform: none;" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
-                </div>
-              <!-- </form> -->
-            </div>
+      <ion-item>
+          <ion-label position="floating">Primer Apellido <span style="color:red;">*</span></ion-label> 
+          <ion-input type="text" name="last_name" id="last_name" [(ngModel)]="lname" required> </ion-input>
+      </ion-item>
 
+      <ion-item>
+          <ion-label position="floating">Segundo Apellido</ion-label> 
+          <ion-input type="text" name="second_lname" id="second_lname" [(ngModel)]="slname"> </ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="floating">Número de Teléfono <span style="color:red;">*</span></ion-label> 
+          <ion-input type="tel" inputmode="tel" id="phone_number" [(ngModel)]="phone" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="floating">Cédula de identidad <span style="color:red;">*</span></ion-label>
+          <ion-input type="text" name="id" id="id" [(ngModel)]="id" required></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Tipo de cuenta <span style="color:red;">*</span></ion-label>
+        <ion-select multiple="true" [(ngModel)]="accountType">
+            <ion-option value='1'> Usuario Comercial</ion-option>
+            <ion-option value='2'>Usuario Particular</ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item no-lines>
+        <button type="submit"ion-button small full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
+      </ion-item>
+    </div>
 </div>
 </ion-content>
            
