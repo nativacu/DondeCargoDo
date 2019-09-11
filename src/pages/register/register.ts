@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { MapPage } from '../map/map';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { RegisterPlugPage } from '../register-plug/register-plug';
 
 /**
  * Generated class for the RegisterPage page.
@@ -54,7 +55,7 @@ export class RegisterPage {
       type += +x;
     }
     
-    this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
+    /*this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
       (user:firebase.User)=>{
 
         if(this.slname === null){
@@ -63,9 +64,15 @@ export class RegisterPage {
 
         this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, 
           t_usuario: type, foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
-            this.fauth.currUser.next(data);
-            this.navCtrl.setRoot(MapPage);
-          },
+            this.fauth.currUser.next(data);*/
+            if(type == 1 || type == 3)
+            {
+              this.navCtrl.push(RegisterPlugPage);
+            }
+            else{
+              this.navCtrl.setRoot(MapPage);
+            }
+          /*},
           (kabum) =>{
             user.delete();
           });
@@ -73,7 +80,7 @@ export class RegisterPage {
       (error) =>{
         window.alert(error);
       }
-    );
+    );*/
   }
 
   selectPicture(){

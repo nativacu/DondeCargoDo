@@ -21,6 +21,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AuthProvider } from '../providers/auth/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
+import { RegisterPlugPage } from '../pages/register-plug/register-plug';
 const firebase = {
   apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
   authDomain: "friendlychat-b018e.firebaseapp.com",
@@ -35,7 +36,8 @@ const firebase = {
     LocationsApp,
     MapPage,
     LoginPage,
-    ReservationPage
+    ReservationPage,
+    RegisterPlugPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ const firebase = {
     LocationsApp,
     MapPage,
     LoginPage,
-    ReservationPage
+    ReservationPage,
+    RegisterPlugPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
