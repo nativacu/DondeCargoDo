@@ -1,19 +1,16 @@
 <ion-content>
 
 <div class="container">
-    <p class="h4 mb-4" style="text-align: center; font-size:15pt; margin-top:1%">Crear Cuenta</p>
+    <p class="h4 mb-4" style="text-align: center; font-size:18pt; margin-top:1%;">Crear Cuenta</p>
     
     <div class="form-group">
         <ion-avatar>
-          <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="  border: 3px solid #009ad5; height: 20%; border-radius: 50%; display: block;
+          <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="border: 3px solid; color: #16a085; height: 20%; border-radius: 50%; display: block;
                     margin-left: auto;
-                    margin-right: auto;" >
-                    <button ion-button small color="secondary" style="margin-top: -25px; margin-left: 80px;
-                    /* z-index: 1000; */
-                    ">
+                    margin-right: auto;" id="profilePic">
+                    <button ion-button small color="danger" (click)="selectPicture()" style="margin-top: -25px; margin-left: 80px;">
                         <ion-icon name="camera"></ion-icon>
-                      </button>
-                    
+                    </button>
         </ion-avatar>
     </div>
 
@@ -26,7 +23,7 @@
     
       <ion-item>
         <ion-label position="floating">Contraseña <span style="color:red;">*</span></ion-label>
-        <ion-input type="password" id="defaultLoginFormPassword" [(ngModel)]="signupPassword" required #password></ion-input>
+        <ion-input type="password" id="defaultLoginFormPassword" [(ngModel)]="signupPassword" required></ion-input>
       </ion-item>
                   
       <ion-item>
@@ -36,7 +33,7 @@
     
       <ion-item>
           <ion-label position="floating">Segundo Nombre</ion-label>
-          <ion-input type="text" name="second_name" id="second_name" [(ngModel)]="sname" required> </ion-input>
+          <ion-input type="text" name="second_name" id="second_name" [(ngModel)]="sname"> </ion-input>
       </ion-item> 
 
       <ion-item>
@@ -68,7 +65,7 @@
       </ion-item>
       
       <ion-item no-lines>
-        <button type="submit"ion-button small full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
+        <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrarse</button> 
       </ion-item>
     </div>
 </div>

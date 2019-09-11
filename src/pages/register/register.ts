@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { MapPage } from '../map/map';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 /**
  * Generated class for the RegisterPage page.
@@ -32,9 +33,11 @@ export class RegisterPage {
   id:string;
   phone: string;
   accountType: Array<String>;
+  imageSrc: any;
+  picture: HTMLImageElement;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
+  constructor(public navCtrl: NavController, private camera: Camera,private plt: Platform, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
     this.accountType = [account.consumer];
   }
 
@@ -73,5 +76,35 @@ export class RegisterPage {
     );
   }
 
+  selectPicture(){
+    this.picture = document.getElementById('profilePic') as HTMLImageElement;
+
+    console.log(this.picture.src);
+
+    // if(this.plt.platforms[0] != 'browser'){
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      
+      this.camera.getPicture(options).then((imageData) => {
+       // imageData is either a base64 encoded string or a file URI
+       // If it's base64 (DATA_URL):
+       this.picture.src = 'data:image/jpeg;base64,' + imageData;
+      }, (err) => {
+       // Handle error
+      });
+    // }
+
+    // else{
+
+    // }
+  
+
+    
+    
+  }
 
 }
