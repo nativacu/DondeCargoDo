@@ -37,7 +37,7 @@ export class RegisterPage {
   picture: HTMLImageElement;
 
 
-  constructor(public navCtrl: NavController, private camera: Camera,private plt: Platform, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
+  constructor(public navCtrl: NavController, private plt: Platform, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
     this.accountType = [account.consumer];
   }
 
@@ -82,20 +82,19 @@ export class RegisterPage {
     console.log(this.picture.src);
 
     // if(this.plt.platforms[0] != 'browser'){
-      const options: CameraOptions = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
-      }
-      
-      this.camera.getPicture(options).then((imageData) => {
-       // imageData is either a base64 encoded string or a file URI
-       // If it's base64 (DATA_URL):
-       this.picture.src = 'data:image/jpeg;base64,' + imageData;
-      }, (err) => {
-       // Handle error
-      });
+      //   let cameraOptions = {
+      //   sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      //   destinationType: Camera.DestinationType.FILE_URI,      
+      //   quality: 100,
+      //   targetWidth: 1000,
+      //   targetHeight: 1000,
+      //   encodingType: Camera.EncodingType.JPEG,      
+      //   correctOrientation: true
+      // }
+    
+      // Camera.getPicture(cameraOptions)
+      //   .then(file_uri => this.picture = file_uri,
+      //   err => console.log(err));  
     // }
 
     // else{
