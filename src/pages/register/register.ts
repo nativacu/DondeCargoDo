@@ -5,6 +5,7 @@ import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { MapPage } from '../map/map';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { RegisterPlugPage } from '../register-plug/register-plug';
+import { PlacePlugPage } from '../place-plug/place-plug';
 
 /**
  * Generated class for the RegisterPage page.
@@ -67,7 +68,7 @@ export class RegisterPage {
             this.fauth.currUser.next(data);*/
             if(type == 1 || type == 3)
             {
-              this.navCtrl.push(RegisterPlugPage);
+              this.navCtrl.push(PlacePlugPage);
             }
             else{
               this.navCtrl.setRoot(MapPage);

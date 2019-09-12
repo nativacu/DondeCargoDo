@@ -121,6 +121,7 @@ export class GoogleMapsProvider {
         }
 
         this.map = new google.maps.Map(this.mapElement, mapOptions);
+        console.log(this.map.center);
         this.disableDefaultLocations();
         this.addCurrentLocationMarker(position.coords.latitude, position.coords.longitude);
         this.addMarkers();
@@ -182,6 +183,22 @@ export class GoogleMapsProvider {
 
     }, false);
 
+  }
+
+  public addMarker(latLng: any){
+    let scaledSize = new google.maps.Size(45, 45);
+    let url =  '../../assets/imgs/active-plug.svg';
+    
+    let image = {
+      url,
+      scaledSize
+    }
+    
+    new google.maps.Marker({
+      map: this.map,  
+      position: latLng,
+      icon: image
+    });
   }
 
   addCurrentLocationMarker(lat: number, lng: number): void {
@@ -335,6 +352,12 @@ export class GoogleMapsProvider {
            
 
     return contentString;
+  }
+
+  getMapCenter(){
+    
+
+    //return this.map.center;
   }
 
 

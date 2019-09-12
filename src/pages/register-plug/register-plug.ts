@@ -16,14 +16,23 @@ import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
 })
 export class RegisterPlugPage {
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('pleaseConnect') pleaseConnect: ElementRef; 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public maps: GoogleMapsProvider) {
+  @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
+  placeLocation: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.placeLocation = this.navParams.get('location');
+    
+    console.log(this.placeLocation.lng());
+
   }
 
   ionViewDidLoad() {
-    this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, this.navCtrl, []);
+   
     console.log('ionViewDidLoad RegisterPlugPage');
   }
 
+  setPicker(){
+    
+  }
 
 }

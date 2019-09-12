@@ -22,6 +22,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AuthProvider } from '../providers/auth/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
 import { RegisterPlugPage } from '../pages/register-plug/register-plug';
+import { PlacePlugPage } from '../pages/place-plug/place-plug';
+
 const firebase = {
   apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
   authDomain: "friendlychat-b018e.firebaseapp.com",
@@ -37,7 +39,8 @@ const firebase = {
     MapPage,
     LoginPage,
     ReservationPage,
-    RegisterPlugPage
+    RegisterPlugPage,
+    PlacePlugPage
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ const firebase = {
     MapPage,
     LoginPage,
     ReservationPage,
+    PlacePlugPage,
     RegisterPlugPage
   ],
   providers: [
