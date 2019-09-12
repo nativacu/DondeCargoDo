@@ -39,27 +39,27 @@
 
     <ion-item>
         <ion-label>Día de Inicio</ion-label>
-        <ion-select interface="popover">
-          <ion-option value="mon">Lunes</ion-option>
-          <ion-option value="tue">Martes</ion-option>
-          <ion-option value="wed">Miercoles</ion-option>
-          <ion-option value="thu">Jueves</ion-option>
-          <ion-option value="fri">Viernes</ion-option>
-          <ion-option value="sat">Sábado</ion-option>
-          <ion-option value="sun">Domingo</ion-option>
+        <ion-select interface="popover" [(ngModel)]="dateInit">
+          <ion-option value="0">Lunes</ion-option>
+          <ion-option value="1">Martes</ion-option>
+          <ion-option value="2">Miercoles</ion-option>
+          <ion-option value="3">Jueves</ion-option>
+          <ion-option value="4">Viernes</ion-option>
+          <ion-option value="5">Sábado</ion-option>
+          <ion-option value="6">Domingo</ion-option>
         </ion-select>
     </ion-item>
 
     <ion-item>
         <ion-label>Día de Fin</ion-label>
-        <ion-select interface="popover">
-          <ion-option value="mon">Lunes</ion-option>
-          <ion-option value="tue">Martes</ion-option>
-          <ion-option value="wed">Miercoles</ion-option>
-          <ion-option value="thu">Jueves</ion-option>
-          <ion-option value="fri">Viernes</ion-option>
-          <ion-option value="sat">Sábado</ion-option>
-          <ion-option value="sun">Domingo</ion-option>
+        <ion-select interface="popover" [(ngModel)]="dateEnd">
+          <ion-option value="0">Lunes</ion-option>
+          <ion-option value="1">Martes</ion-option>
+          <ion-option value="2">Miercoles</ion-option>
+          <ion-option value="3">Jueves</ion-option>
+          <ion-option value="4">Viernes</ion-option>
+          <ion-option value="5">Sábado</ion-option>
+          <ion-option value="6">Domingo</ion-option>
         </ion-select>
     </ion-item>
 

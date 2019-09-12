@@ -18,7 +18,9 @@ export class RegisterPlugPage {
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
   placeLocation: any;
-
+  daysArray:Array<String> = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
+  dateInit:any
+  dateEnd:any
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.placeLocation = this.navParams.get('location');
     
@@ -33,6 +35,14 @@ export class RegisterPlugPage {
 
   setPicker(){
     
+  }
+
+  uploadData(){
+    let startDate = (this.dateInit < this.dateEnd? this.dateInit:this.dateEnd);
+    let endDate = (this.dateInit > this.dateEnd? this.dateInit:this.dateEnd);
+    /*to upload the date would be:
+      daysArray[+startDate] and daysArray[+endDate]
+    */
   }
 
 }
