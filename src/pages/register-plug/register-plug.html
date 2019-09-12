@@ -10,7 +10,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
 
   <ion-item>
     <ion-label>Nombre</ion-label>
@@ -21,6 +21,11 @@
     <ion-label>Dirección</ion-label>
     <ion-input type='text'></ion-input>
   </ion-item>
+
+  <ion-item>
+      <ion-label>Descripción</ion-label>
+      <ion-input type='text'></ion-input>
+    </ion-item>
   
   <ion-item>
     <ion-label>Horario de Inicio</ion-label>
@@ -32,10 +37,40 @@
     <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="endTimeSlot"></ion-datetime>
   </ion-item>
 
-  <ion-item>
-      <ion-label>Día de Inicio</ion-label>
-      <!-- <ion-picker></ion-picker> -->
+    <ion-item>
+        <ion-label>Día de Inicio</ion-label>
+        <ion-select interface="popover">
+          <ion-option value="mon">Lunes</ion-option>
+          <ion-option value="tue">Martes</ion-option>
+          <ion-option value="wed">Miercoles</ion-option>
+          <ion-option value="thu">Jueves</ion-option>
+          <ion-option value="fri">Viernes</ion-option>
+          <ion-option value="sat">Sábado</ion-option>
+          <ion-option value="sun">Domingo</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Día de Fin</ion-label>
+        <ion-select interface="popover">
+          <ion-option value="mon">Lunes</ion-option>
+          <ion-option value="tue">Martes</ion-option>
+          <ion-option value="wed">Miercoles</ion-option>
+          <ion-option value="thu">Jueves</ion-option>
+          <ion-option value="fri">Viernes</ion-option>
+          <ion-option value="sat">Sábado</ion-option>
+          <ion-option value="sun">Domingo</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Tipo de Costo de Carga</ion-label>
+        <ion-input type='text' #type></ion-input>
     </ion-item>
     
-  
+    <ion-item>
+        <ion-label>Costo (RD$)</ion-label>
+        <ion-input type="number" [(ngModel)]="number" required="true" min="1"></ion-input>
+    </ion-item>
+
 </ion-content>
