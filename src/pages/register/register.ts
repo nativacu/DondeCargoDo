@@ -56,16 +56,16 @@ export class RegisterPage {
       type += +x;
     }
     
-    /*this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
-      (user:firebase.User)=>{
+  //   this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
+  //     (user:firebase.User)=>{
 
-        if(this.slname === null){
-          this.slname = '0';
-        }
+  //       if(this.slname === null){
+  //         this.slname = '0';
+  //       }
 
-        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, 
-          t_usuario: type, foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
-            this.fauth.currUser.next(data);*/
+  //       this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, 
+  //         t_usuario: type, foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
+  //           this.fauth.currUser.next(data);
             if(type == 1 || type == 3)
             {
               this.navCtrl.push(PlacePlugPage);
@@ -73,15 +73,15 @@ export class RegisterPage {
             else{
               this.navCtrl.setRoot(MapPage);
             }
-          /*},
-          (kabum) =>{
-            user.delete();
-          });
-      },
-      (error) =>{
-        window.alert(error);
-      }
-    );*/
+  //         },
+  //         (kabum) =>{
+  //           user.delete();
+  //         });
+  //     },
+  //     (error) =>{
+  //       window.alert(error);
+  //     }
+  //   );
   }
 
   selectPicture(){
