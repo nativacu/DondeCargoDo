@@ -21,6 +21,12 @@ export class RegisterPlugPage {
   daysArray:Array<String> = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
   dateInit:any
   dateEnd:any
+  stationName:any;
+  stationDir:any;
+  stationDesc:any;
+  number:any;
+  initTimeSlot:any;
+  endTimeSlot:any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.placeLocation = this.navParams.get('location');
     
@@ -43,6 +49,12 @@ export class RegisterPlugPage {
     /*to upload the date would be:
       daysArray[+startDate] and daysArray[+endDate]
     */
+   let data =
+    {Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
+    Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: startDate,
+    Dia_Fin_Operaciones: endDate, lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
+    Desc: this.stationDesc};
+    console.log(data);
   }
 
 }

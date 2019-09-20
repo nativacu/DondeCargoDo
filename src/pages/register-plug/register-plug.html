@@ -14,17 +14,17 @@
 
   <ion-item>
     <ion-label>Nombre</ion-label>
-    <ion-input type='text'></ion-input>
+    <ion-input type='text' [(ngModel)]="stationName"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label>Dirección</ion-label>
-    <ion-input type='text'></ion-input>
+    <ion-input type='text' [(ngModel)]="stationDir"></ion-input>
   </ion-item>
 
   <ion-item>
       <ion-label>Descripción</ion-label>
-      <ion-input type='text'></ion-input>
+      <ion-input type='text' [(ngModel)]="stationDesc"></ion-input>
     </ion-item>
   
   <ion-item>
@@ -71,6 +71,9 @@
     <ion-item>
         <ion-label>Costo (RD$)</ion-label>
         <ion-input type="number" [(ngModel)]="number" required="true" min="1"></ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="uploadData()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
     </ion-item>
 
 </ion-content>
