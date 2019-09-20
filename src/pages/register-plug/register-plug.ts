@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
+import { HttpRequestProvider } from '../../providers/http-request/http-request';
+import { MapPage } from '../map/map';
 
 /**
  * Generated class for the RegisterPlugPage page.
@@ -28,7 +30,7 @@ export class RegisterPlugPage {
   initTimeSlot:any;
   endTimeSlot:any;
   userid:any
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider) {
     this.placeLocation = this.navParams.get('location');
     this.userid = this.navParams.get('userid');    
     console.log(this.placeLocation.lng());
@@ -56,6 +58,13 @@ export class RegisterPlugPage {
     Dia_Fin_Operaciones: endDate, lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
     Desc: this.stationDesc};
     console.log(data);
+    this.https.sendPostRequest(data, 'createLugar.php').then((data) =>{
+      console.log(data);
+      this.navCtrl.setRoot(MapPage);
+    },(error) =>{
+      window.alert(error);
+      console.log(error);
+    })
   }
 
 }
