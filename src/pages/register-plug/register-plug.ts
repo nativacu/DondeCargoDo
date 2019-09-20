@@ -58,8 +58,8 @@ export class RegisterPlugPage {
     Dia_Fin_Operaciones: endDate, lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
     Desc: this.stationDesc};
     console.log(data);
-    this.https.sendPostRequest(data, 'createLugar.php').then((data) =>{
-      console.log(data);
+    this.https.sendPostRequest(data, 'createLugar.php').then((ok) =>{
+      console.log(ok);
       this.navCtrl.setRoot(MapPage);
     },(error) =>{
       window.alert(error);
