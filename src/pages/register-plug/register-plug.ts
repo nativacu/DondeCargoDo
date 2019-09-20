@@ -27,9 +27,10 @@ export class RegisterPlugPage {
   number:any;
   initTimeSlot:any;
   endTimeSlot:any;
+  userid:any
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.placeLocation = this.navParams.get('location');
-    
+    this.userid = this.navParams.get('userid');    
     console.log(this.placeLocation.lng());
 
   }
@@ -50,7 +51,7 @@ export class RegisterPlugPage {
       daysArray[+startDate] and daysArray[+endDate]
     */
    let data =
-    {Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
+    {UserUserId: this.userid, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
     Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: startDate,
     Dia_Fin_Operaciones: endDate, lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
     Desc: this.stationDesc};
