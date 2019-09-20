@@ -1,4 +1,4 @@
-<ion-menu [content]="mycontent">
+<ion-menu *ngIf="loggedIn" [content]="mycontent">
     <ion-content id="user">
         <div id="picture">
             <img [src]="imageSrc" height= "25%" (click)="openGallery()"/>  
