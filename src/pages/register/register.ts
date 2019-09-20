@@ -66,16 +66,19 @@ export class RegisterPage {
         this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, 
           t_usuario: type, foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data:any) =>{
             this.fauth.currUser.next(data);
+            console.log(data)
             if(type == 1 || type == 3)
             {
-              this.navCtrl.push(PlacePlugPage, {id: data.UserID});
+              this.navCtrl.push(PlacePlugPage, {id: data});
             }
             else{
               this.navCtrl.setRoot(MapPage);
             }
           },
           (kabum) =>{
-            user.delete();
+            console.log(kabum)
+            if(user)
+              user.delete();
           });
       },
       (error) =>{

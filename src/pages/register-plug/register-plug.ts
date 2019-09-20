@@ -29,7 +29,8 @@ export class RegisterPlugPage {
   number:any;
   initTimeSlot:any;
   endTimeSlot:any;
-  userid:any
+  userid:any;
+  tipo:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider) {
     this.placeLocation = this.navParams.get('location');
     this.userid = this.navParams.get('userid');    
@@ -53,10 +54,10 @@ export class RegisterPlugPage {
       daysArray[+startDate] and daysArray[+endDate]
     */
    let data =
-    {UserUserId: this.userid, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
-    Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: startDate,
-    Dia_Fin_Operaciones: endDate, lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
-    Desc: this.stationDesc};
+    {UserUserId: this.userid, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
+    Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[startDate],
+    Dia_Fin_Operaciones: this.daysArray[endDate], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
+    Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
     console.log(data);
     this.https.sendPostRequest(data, 'createLugar.php').then((ok) =>{
       console.log(ok);
