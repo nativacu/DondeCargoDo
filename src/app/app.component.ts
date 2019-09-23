@@ -26,6 +26,7 @@ export class LocationsApp {
   email: string;
   lname: string;
   accountType: account.consumer;
+  loggedIn: boolean = false;
   
   phoneNumber: string;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider) {
@@ -33,6 +34,7 @@ export class LocationsApp {
    this.fauth.currUser.subscribe((usr)=> {
       this.user = usr;
       if(this.user){
+        this.loggedIn = true;
         this.imageSrc = this.user.Foto;
         if(this.imageSrc == null || this.imageSrc == "NULL")
         {
