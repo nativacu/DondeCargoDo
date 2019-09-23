@@ -40,8 +40,14 @@ export class RegisterPage {
       sname: [''],
       lname: ['', Validators.required],
       slname: [''],
-      telNumber: ['', Validators.required],
-      uniqueId: ['', Validators.required],
+      telNumber: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{10}')
+      ])],
+      uniqueId: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{11}')
+      ])],
       accountType: ['', Validators.required]
     });
   }
