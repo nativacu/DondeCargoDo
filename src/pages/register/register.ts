@@ -42,7 +42,7 @@ export class RegisterPage {
       slname: [''],
       telNumber: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('[0-9]{10}')
+        Validators.pattern("(809|829|849)[0-9]{7}")
       ])],
       uniqueId: ['', Validators.compose([
         Validators.required,
