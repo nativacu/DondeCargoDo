@@ -6,6 +6,7 @@ import { MapPage } from '../map/map';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { RegisterPlugPage } from '../register-plug/register-plug';
 import { PlacePlugPage } from '../place-plug/place-plug';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
  * Generated class for the RegisterPage page.
@@ -26,21 +27,23 @@ enum account {
 })
 export class RegisterPage {
 
-  signupEmail:string;
-  signupPassword:string;
-  fname:string;
-  sname: string;
-  lname:string;
-  slname: string;
-  id:string;
-  phone: string;
-  accountType: Array<String>;
+  
   imageSrc: any;
   picture: HTMLImageElement;
+  registerForm:FormGroup;
 
-
-  constructor(public navCtrl: NavController, private plt: Platform, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
-    this.accountType = [account.consumer];
+  constructor(public navCtrl: NavController, private plt: Platform, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder) {
+    this.registerForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+      fname: ['', Validators.required],
+      sname: [''],
+      lname: ['', Validators.required],
+      slname: [''],
+      telNumber: ['', Validators.required],
+      uniqueId: ['', Validators.required],
+      accountType: ['', Validators.required]
+    });
   }
 
   ionViewDidLoad() {
@@ -48,23 +51,27 @@ export class RegisterPage {
   }
 
   signup(){
-    console.log(this.accountType);
+    console.log(this.registerForm.controls['accountType']);
     let type = 0;
 
-    for(let x of this.accountType)
+    for(let x of this.registerForm.controls['accountType'].value)
     {
       type += +x;
     }
-    
-    this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
+    console.log(type)
+    this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
       (user:firebase.User)=>{
-
-        if(this.slname === null){
-          this.slname = '0';
+        var slname = this.registerForm.controls['slname'].value
+        var sname = this.registerForm.controls['sname'].value
+        if(sname === null){
+          sname = '0';
+        }
+        if(slname === null){
+          slname = '0';
         }
 
-        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: this.sname, primerapellido: this.lname, segundoapellido: this.slname, 
-          t_usuario: type, foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data:any) =>{
+        this.http.sendPostRequest({cedula: this.registerForm.controls['uniqueId'].value, primernombre: this.registerForm.controls['fname'].value, segundonombre: sname, primerapellido: this.registerForm.controls['lname'].value, segundoapellido: slname, 
+          t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}, 'post.php').then((data:any) =>{
             this.fauth.currUser.next(data);
             console.log(data)
             if(type == 1 || type == 3)
