@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { MapPage } from '../map/map';
+import { AddPlugPage } from '../add-plug/add-plug';
 
 /**
  * Generated class for the RegisterPlugPage page.
@@ -46,8 +47,10 @@ export class RegisterPlugPage {
   setPicker(){
     
   }
-
+  
   uploadData(){
+    let startDate = (this.dateInit < this.dateEnd? this.dateInit:this.dateEnd);
+    let endDate = (this.dateInit > this.dateEnd? this.dateInit:this.dateEnd)
     this.https.sendPostRequest({email: this.userEmail}, 'get.php').then((user:any) =>{
       let data =
        {UserUserId: user.id, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
@@ -55,9 +58,9 @@ export class RegisterPlugPage {
        Dia_Fin_Operaciones: this.daysArray[endDate], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
        Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
        console.log(data);
-       this.https.sendPostRequest(data, 'createLugar.php').then((ok) =>{
+       this.https.sendPostRequest(data, 'createLugar.php').then((ok:any) =>{
          console.log(ok);
-         this.navCtrl.setRoot(MapPage);
+         this.navCtrl.setRoot(AddPlugPage, {lugarid: ok.LugarID});
        },(error) =>{
          window.alert(error);
          console.log(error);
@@ -65,11 +68,6 @@ export class RegisterPlugPage {
      },
      (kabum) =>{
     });
-    let startDate = (this.dateInit < this.dateEnd? this.dateInit:this.dateEnd);
-    let endDate = (this.dateInit > this.dateEnd? this.dateInit:this.dateEnd);
-    /*to upload the date would be:
-      daysArray[+startDate] and daysArray[+endDate]
-    */
   }
 
 }

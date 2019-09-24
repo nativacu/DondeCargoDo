@@ -7,11 +7,12 @@ import { Camera } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
+import { PlacePlugPage } from '../pages/place-plug/place-plug';
 
 enum account {
-  placeOwner = 0,
-  consumer = 1,
-  hybrid = 2
+  placeOwner = 1,
+  consumer = 2,
+  hybrid = 3
 }
 
 @Component({
@@ -36,6 +37,7 @@ export class LocationsApp {
       if(this.user){
         this.loggedIn = true;
         this.imageSrc = this.user.Foto;
+        this.accountType = +this.user.TipoUsuario;
         if(this.imageSrc == null || this.imageSrc == "NULL")
         {
           this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
@@ -51,6 +53,7 @@ export class LocationsApp {
         this.lname = "Pérez"
         this.email = "pedrop@gmail.com";
         this.phoneNumber = "809-000-0000";
+        this.accountType = 1;
       }
       
    });
@@ -170,6 +173,10 @@ export class LocationsApp {
   {
     this.fauth.doLogout();
     this.nav.setRoot(LoginPage)
+  }
+  addNewStation()
+  {
+    this.nav.push(PlacePlugPage, {email: this.email});
   }
 }
 

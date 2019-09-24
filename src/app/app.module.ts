@@ -23,6 +23,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
 import { RegisterPlugPage } from '../pages/register-plug/register-plug';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
+import { AddPlugPage } from '../pages/add-plug/add-plug';
 
 const firebase = {
   apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
@@ -40,7 +41,8 @@ const firebase = {
     LoginPage,
     ReservationPage,
     RegisterPlugPage,
-    PlacePlugPage
+    PlacePlugPage,
+    AddPlugPage,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,8 @@ const firebase = {
     LoginPage,
     ReservationPage,
     PlacePlugPage,
-    RegisterPlugPage
+    RegisterPlugPage,
+    AddPlugPage,
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
