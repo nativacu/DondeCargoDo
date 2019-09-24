@@ -90,7 +90,8 @@ export class RegisterPage {
           },
           (kabum) =>{
             console.log(kabum)
-            if(user)
+            console.log(user)
+            if(user.email)
               user.delete();
           });
       },
