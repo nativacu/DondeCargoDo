@@ -22,7 +22,7 @@ export class PlacePlugPage {
   @ViewChild('pleaseConnect') pleaseConnect: ElementRef; 
   user:any
   constructor(public navCtrl: NavController, public navParams: NavParams, public maps: GoogleMapsProvider) {
-    this.user = this.navParams.get('id');   
+    this.user = this.navParams.get('email');   
   }
 
   ionViewDidLoad() {this
@@ -34,6 +34,6 @@ export class PlacePlugPage {
   toRegisterPlug(){
     var center = this.maps.map.center;
     //this.maps.addMarker(center);
-    this.navCtrl.push(RegisterPlugPage, {location: center, userid: this.user});
+    this.navCtrl.push(RegisterPlugPage, {location: center, email: this.user});
   }
 }

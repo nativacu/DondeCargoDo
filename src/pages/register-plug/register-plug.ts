@@ -29,11 +29,11 @@ export class RegisterPlugPage {
   number:any;
   initTimeSlot:any;
   endTimeSlot:any;
-  userid:any;
+  userEmail:any;
   tipo:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider) {
     this.placeLocation = this.navParams.get('location');
-    this.userid = this.navParams.get('userid');    
+    this.userEmail = this.navParams.get('email');    
     console.log(this.placeLocation.lng());
 
   }
@@ -48,24 +48,28 @@ export class RegisterPlugPage {
   }
 
   uploadData(){
+    this.https.sendPostRequest({email: this.userEmail}, 'get.php').then((user:any) =>{
+      let data =
+       {UserUserId: user.id, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
+       Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[startDate],
+       Dia_Fin_Operaciones: this.daysArray[endDate], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
+       Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
+       console.log(data);
+       this.https.sendPostRequest(data, 'createLugar.php').then((ok) =>{
+         console.log(ok);
+         this.navCtrl.setRoot(MapPage);
+       },(error) =>{
+         window.alert(error);
+         console.log(error);
+       })
+     },
+     (kabum) =>{
+    });
     let startDate = (this.dateInit < this.dateEnd? this.dateInit:this.dateEnd);
     let endDate = (this.dateInit > this.dateEnd? this.dateInit:this.dateEnd);
     /*to upload the date would be:
       daysArray[+startDate] and daysArray[+endDate]
     */
-   let data =
-    {UserUserId: this.userid, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
-    Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[startDate],
-    Dia_Fin_Operaciones: this.daysArray[endDate], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
-    Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
-    console.log(data);
-    this.https.sendPostRequest(data, 'createLugar.php').then((ok) =>{
-      console.log(ok);
-      this.navCtrl.setRoot(MapPage);
-    },(error) =>{
-      window.alert(error);
-      console.log(error);
-    })
   }
 
 }

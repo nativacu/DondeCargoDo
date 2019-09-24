@@ -82,7 +82,7 @@ export class RegisterPage {
             console.log(data)
             if(type == 1 || type == 3)
             {
-              this.navCtrl.push(PlacePlugPage, {id: data});
+              this.navCtrl.push(PlacePlugPage, {email: this.registerForm.controls['email'].value});
             }
             else{
               this.navCtrl.setRoot(MapPage);
