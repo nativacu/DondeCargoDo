@@ -31,7 +31,7 @@ export class AddPlugPage {
   }
   upload(act)
   {
-    this.http.sendPostRequest({LugarLugarID: this.lugarid,PlugID:this.serialForm.controls['serial'].value}, 'crearPlug.php').then((data) =>{
+    this.http.sendPostRequest({LugarLugarID: this.lugarid,PlugID:this.serialForm.controls['serial'].value}, 'createPlug.php').then((data) =>{
       console.log(data);
       if(act == 1)
       {

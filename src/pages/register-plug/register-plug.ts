@@ -53,15 +53,13 @@ export class RegisterPlugPage {
     let endDate = (this.dateInit > this.dateEnd? this.dateInit:this.dateEnd);
     console.log(this.tipo)
     this.https.sendPostRequest({email: this.userEmail}, 'get.php').then((user:any) =>{
+      console.log(user);
       let data =
-       {UserUserId: user.id, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
+       {UserUserId: user[0].UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
        Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[startDate],
        Dia_Fin_Operaciones: this.daysArray[endDate], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
        Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
        console.log(data);
-
-       let a = 5;
-         this.navCtrl.setRoot(AddPlugPage, {lugarid: a});
        
        this.https.sendPostRequest(data, 'createLugar.php').then((ok:any) =>{
          console.log(ok);

@@ -72,7 +72,7 @@ export class RegisterPage {
       type += +x;
     }
     console.log(type)
-    /*this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
+    this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
       (user:firebase.User)=>{
         var slname = this.registerForm.controls['slname'].value
         var sname = this.registerForm.controls['sname'].value
@@ -87,7 +87,7 @@ export class RegisterPage {
           t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}, 'post.php').then((data:any) =>{
             this.fauth.currUser.next(data);
             console.log(data)
-            */
+            
             if(type == 1 || type == 3)
             {
               this.navCtrl.push(PlacePlugPage, {email: this.registerForm.controls['email'].value});
@@ -95,7 +95,7 @@ export class RegisterPage {
             else{
               this.navCtrl.setRoot(MapPage);
             }
-            /*
+            
           },
           (kabum) =>{
             console.log(kabum)
@@ -108,7 +108,7 @@ export class RegisterPage {
         window.alert(error);
       }
     );
-    */
+    
   }
 
   selectPicture(){
