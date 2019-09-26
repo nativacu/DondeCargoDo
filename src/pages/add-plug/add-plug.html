@@ -17,10 +17,8 @@
       <ion-input type='text' [formControl] = "serialForm.controls['serial']"></ion-input>
     </ion-item>
     <ion-item no-lines>
-        <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" [disabled] = "!serialForm.valid" (click)="upload(1)"><span class="glyphicon glyphicon-off"></span>Registrar y completar creacion</button> 
-    </ion-item>
-    <ion-item no-lines>
-        <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" [disabled] = "!serialForm.valid" (click)="upload(2)"><span class="glyphicon glyphicon-off"></span>Registrar y agregar otro serial</button> 
+        <button type="submit" ion-button default color="secondary" style="text-transform: none; margin-left: 10px;" [disabled] = "!serialForm.valid" (click)="upload(1)"><span class="glyphicon glyphicon-off"></span>Registrar y completar creacion</button> 
+        <button type="submit" ion-button float-right default color="secondary" style="text-transform: none; margin-left: 10px;" [disabled] = "!serialForm.valid" (click)="upload(2)"><span class="glyphicon glyphicon-off"></span>Registrar y agregar otro serial</button> 
     </ion-item>
   </form>
 </ion-content>
