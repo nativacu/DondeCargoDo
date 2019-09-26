@@ -64,14 +64,19 @@
     </ion-item>
 
     <ion-item>
-        <ion-label>Tipo de Costo de Carga</ion-label>
-        <ion-input type='text' #type [(ngModel)]="tipo"></ion-input>
+      <ion-label>Tipo de Costo de Carga</ion-label>
+      <ion-select multiple="false" [(ngModel)]="tipo">
+          <ion-option value='1'>Kw/h</ion-option>
+          <ion-option value='2'>Minuto</ion-option>
+      </ion-select>
     </ion-item>
     
     <ion-item>
         <ion-label>Costo (RD$)</ion-label>
         <ion-input type="number" [(ngModel)]="number" required="true" min="1"></ion-input>
     </ion-item>
+
+    
     <ion-item no-lines>
       <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="uploadData()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
     </ion-item>
