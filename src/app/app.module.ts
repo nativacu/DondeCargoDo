@@ -11,7 +11,7 @@ import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
 import { LocationsProvider } from '../providers/locations/locations';
 import { MapPage } from '../pages/map/map';
-import {LoginPage} from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpRequestProvider } from '../providers/http-request/http-request'; 
 import { ReservationPage } from '../pages/reservation/reservation';

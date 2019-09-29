@@ -16,9 +16,9 @@ import { regexValidators } from '../validators/validators';
  * Ionic pages and navigation.
  */
 enum account {
-  placeOwner = '1',
-  consumer = '2',
-  hybrid = '3'
+  placeOwner = 1,
+  consumer = 2,
+  hybrid = 3
 }
 
 @IonicPage()
