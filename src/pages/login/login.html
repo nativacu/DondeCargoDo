@@ -1,7 +1,23 @@
+<div *ngIf="this.platform.checkPlatform(); then mobile else web">
+    
+</div>
 
-<div class="container" style="margin-top: 15%">
-    <p class="h4 mb-4" style="text-align: center; font-size:15pt;">Iniciar Sesión</p>
+<ng-template #mobile style="margin-bottom: 15%">
+    <ion-header>
+        <ion-navbar>
+             <ion-title >Iniciar Sesión</ion-title>
+        </ion-navbar>
+    </ion-header>
+</ng-template>
+
+<ng-template #web>
+    <div class="container" style="margin-top: 15%">
+        <p class="h4 mb-4" style="text-align: center; font-size:15pt;">Iniciar Sesión</p>
+    </div>
+</ng-template>
+   
     <!-- Email -->
+<div class="container">
     <ion-item>
         <ion-label position="floating">Correo</ion-label>
         <ion-input type="email" id="defaultLoginFormEmail"  [(ngModel)]="loginEmail" required #email> </ion-input>

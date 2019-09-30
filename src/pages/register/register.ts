@@ -8,6 +8,7 @@ import { RegisterPlugPage } from '../register-plug/register-plug';
 import { PlacePlugPage } from '../place-plug/place-plug';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { regexValidators } from '../validators/validators';
+import { PlatformProvider } from '../../providers/platform/platform';
 
 /**
  * Generated class for the RegisterPage page.
@@ -33,7 +34,7 @@ export class RegisterPage {
   picture: HTMLImageElement;
   registerForm:FormGroup;
 
-  constructor(public navCtrl: NavController, private plt: Platform, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder) {
+  constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder) {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -116,9 +117,9 @@ export class RegisterPage {
 
     console.log(this.picture.src);
 
-    // if(this.plt.platforms[0] != 'browser'){
+    if(this.plt.isMobile){
       //   let cameraOptions = {
-      //   sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      //   sourceType: Camera.Picti.PHOTOLIBRARY,
       //   destinationType: Camera.DestinationType.FILE_URI,      
       //   quality: 100,
       //   targetWidth: 1000,
@@ -130,11 +131,11 @@ export class RegisterPage {
       // Camera.getPicture(cameraOptions)
       //   .then(file_uri => this.picture = file_uri,
       //   err => console.log(err));  
-    // }
+    }
 
-    // else{
+    else{
 
-    // }
+    }
   
 
     

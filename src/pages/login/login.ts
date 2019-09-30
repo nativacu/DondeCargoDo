@@ -7,6 +7,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { BehaviorSubject } from 'rxjs';
+import { PlatformProvider } from '../../providers/platform/platform';
 /**
  * Generated class for the LoginPage page.
  *
@@ -29,7 +30,7 @@ export class LoginPage {
   lname:string;
   id:string;
   phone: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
+  constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
     public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController) {
 
     // platform.ready().then(() => {

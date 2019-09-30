@@ -24,6 +24,7 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
 import { RegisterPlugPage } from '../pages/register-plug/register-plug';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { AddPlugPage } from '../pages/add-plug/add-plug';
+import { PlatformProvider } from '../providers/platform/platform';
 
 const firebase = {
   apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
@@ -73,7 +74,8 @@ const firebase = {
     Camera,
     AngularFireDatabase,
     AuthProvider,
-    FirebaseProvider
+    FirebaseProvider,
+    PlatformProvider
   ]
 })
 export class AppModule {}
