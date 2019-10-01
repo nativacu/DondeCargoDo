@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 /**
  * Generated class for the ValidatorsPage page.
@@ -31,6 +32,42 @@ export const regexValidators = {
 @Component({
   selector: 'page-validators',
 })
+
+export class uniqueIdValidator
+{
+  static uniqueID(control: AbstractControl): ValidationErrors | null {
+    let ced:string = control.value;
+    if(ced.length != 11)
+    {
+      return { isAnId:false };
+    }
+    let ver:any = 0;
+    let dig:any = 0;
+    let digver:any = +ced.charAt(10);
+    let even:any = 0, odd:any = 0;
+    for(let x:any = 9; x >=0; x--)
+    {
+      dig = +ced.charAt(x);
+      if(x&1)
+      {
+        odd+= (2*dig)%10 + +(((2*dig)/10) >= 1);
+      }
+      else
+      {
+        even+= dig;
+      }
+    }
+    console.log(even)
+    console.log(odd)
+    ver = 10 - (even + odd)%10;
+    console.log(ver)
+    if((ver == 10 && digver == 0) || ver == digver)
+    {
+      return null;
+    }
+    return { isAnId:false };
+  }
+}
 
 export class ValidatorsPage {
 

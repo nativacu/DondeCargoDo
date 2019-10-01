@@ -63,7 +63,7 @@ export class RegisterPlugPage {
        
        this.https.sendPostRequest(data, 'createLugar.php').then((ok:any) =>{
          console.log(ok);
-         this.navCtrl.setRoot(AddPlugPage, {lugarid: ok.LugarID});
+         this.navCtrl.setRoot(MapPage);
        },(error) =>{
          window.alert(error);
          console.log(error);

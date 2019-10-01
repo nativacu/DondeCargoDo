@@ -7,7 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { RegisterPlugPage } from '../register-plug/register-plug';
 import { PlacePlugPage } from '../place-plug/place-plug';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { regexValidators } from '../validators/validators';
+import { regexValidators, uniqueIdValidator } from '../validators/validators';
 import { PlatformProvider } from '../../providers/platform/platform';
 
 /**
@@ -33,7 +33,6 @@ export class RegisterPage {
   imageSrc: any;
   picture: HTMLImageElement;
   registerForm:FormGroup;
-
   constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder) {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -54,7 +53,8 @@ export class RegisterPage {
       ])],
       uniqueId: ['', Validators.compose([
         Validators.required,
-        Validators.pattern(regexValidators.id)
+        Validators.pattern(regexValidators.id),
+        uniqueIdValidator.uniqueID
       ])],
       accountType: ['', Validators.required]
     });
@@ -88,15 +88,7 @@ export class RegisterPage {
           t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}, 'post.php').then((data:any) =>{
             this.fauth.currUser.next(data);
             console.log(data)
-            
-            if(type == 1 || type == 3)
-            {
-              this.navCtrl.push(PlacePlugPage, {email: this.registerForm.controls['email'].value});
-            }
-            else{
-              this.navCtrl.setRoot(MapPage);
-            }
-            
+            this.navCtrl.setRoot(MapPage);
           },
           (kabum) =>{
             console.log(kabum)
