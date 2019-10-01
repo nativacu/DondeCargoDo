@@ -21,7 +21,7 @@ enum account {
 export class LocationsApp {
   @ViewChild('mycontent') nav: NavController;
   user:any;
-  rootPage:any = MapPage;
+  rootPage:any = LoginPage;
   userName: string;
   imageSrc: string;
   email: string;
