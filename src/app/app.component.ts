@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
 import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {MapPage} from '../pages/map/map'
+import { MapPage } from '../pages/map/map'
 import { Camera } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
@@ -21,7 +21,7 @@ enum account {
 export class LocationsApp {
   @ViewChild('mycontent') nav: NavController;
   user:any;
-  rootPage:any = LoginPage;
+  rootPage:any = MapPage;
   userName: string;
   imageSrc: string;
   email: string;
@@ -162,11 +162,6 @@ export class LocationsApp {
     editIcon2.style.display="inline";
     editButton.style.display="none";
     //editButton.style.visibility = "hidden";
-  }
-  
-  login()
-  {
-
   }
   
   logout()
