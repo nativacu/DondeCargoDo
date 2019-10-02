@@ -41,7 +41,6 @@ export class GoogleMapsProvider {
     this.infoWindow = new BehaviorSubject(null);
     
     this.apiKey = "AIzaSyBUv92FvZgKWpQKeTc9KBZy7JzexjMElNw";
-
     return this.loadGoogleMaps();
 
   }
@@ -333,11 +332,16 @@ export class GoogleMapsProvider {
       state = "Inactivo";
     }
 
+    const isOpen = this.checkWorkingHours(charger);
+    let open: string;
+
+    open = isOpen ? "Abrierto ahora": "Cerrado";
+
     var contentString = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
           '<h6 id="firstHeading" class="firstHeading">'+charger.Nombre +'</h6>'+
-          '<div id="bodyContent">'+ state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+ 
+          '<div id="bodyContent">'+ '<p>'+ isOpen + '</p>' + state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+ 
           charger.Dia_Inicio_Operaciones + '-' + charger.Dia_Fin_Operaciones + '</br>'+
           '<b>Tipo de cobro: </b>'+ charger.TipoCostoCarga ;
           
@@ -352,6 +356,67 @@ export class GoogleMapsProvider {
            
 
     return contentString;
+  }
+
+  checkWorkingHours(charger: any): boolean{
+    const currentDate = new Date();
+    const weekDate = currentDate.getDay();
+    const time = currentDate.getHours() + (currentDate.getMinutes()/60);
+
+    const chargerWeekStart = this.getWeekDayByNumber(charger.Dia_Inicio_Operaciones);
+    const chargerWeekEnd = this.getWeekDayByNumber(charger.Fin_Operaciones);
+    let isOpen = false;
+
+    console.log("Date " + weekDate + " time" + time);
+    if(weekDate >= chargerWeekStart && weekDate <= chargerWeekEnd){
+      //revisar si eso es string
+      if(time >= charger.Hora_Inicio_Operaciones && time < charger.Hora_Fin_Operaciones){
+        isOpen = true;
+      }
+
+    }
+
+    return isOpen;
+
+  }
+
+  getWeekDayByNumber(weekDay: string): number{
+    let numValue: number;
+    switch(weekDay){
+      case "Domingo": {
+        numValue = 0; 
+        break;
+      }
+      case "Lunes":{
+        numValue = 1; 
+        break;
+      }
+      case "Martes":{
+        numValue = 2; 
+        break;
+      }
+      case "Miercoles":{
+        numValue = 3; 
+        break;
+      }
+      case "Jueves":{
+        numValue = 4; 
+        break;
+      }
+      case "Viernes":{
+        numValue = 5; 
+        break;
+      }
+      case "Sabado":{
+        numValue = 6;
+        break;
+      }
+      default: {
+        numValue = -1;
+      }
+    }
+
+    return numValue
   }
 
   getMapCenter(){

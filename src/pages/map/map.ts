@@ -47,6 +47,7 @@ export class MapPage {
       
       var chargers = this.http.makeStationRequest();
     
+      this.maps.checkWorkingHours("hola");
       chargers.subscribe(data => {
         this.data = data;
         this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, this.navCtrl, this.data);

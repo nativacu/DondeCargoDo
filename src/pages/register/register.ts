@@ -72,35 +72,35 @@ export class RegisterPage {
     {
       type += +x;
     }
-    console.log(type)
-    this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
-      (user:firebase.User)=>{
-        var slname = this.registerForm.controls['slname'].value
-        var sname = this.registerForm.controls['sname'].value
-        if(sname === null){
-          sname = '0';
-        }
-        if(slname === null){
-          slname = '0';
-        }
+  //   console.log(type)
+  //   this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
+  //     (user:firebase.User)=>{
+  //       var slname = this.registerForm.controls['slname'].value
+  //       var sname = this.registerForm.controls['sname'].value
+  //       if(sname === null){
+  //         sname = '0';
+  //       }
+  //       if(slname === null){
+  //         slname = '0';
+  //       }
 
-        this.http.sendPostRequest({cedula: this.registerForm.controls['uniqueId'].value, primernombre: this.registerForm.controls['fname'].value, segundonombre: sname, primerapellido: this.registerForm.controls['lname'].value, segundoapellido: slname, 
-          t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}, 'post.php').then((data:any) =>{
-            this.fauth.currUser.next(data);
-            console.log(data)
-            this.navCtrl.setRoot(MapPage);
-          },
-          (kabum) =>{
-            console.log(kabum)
-            console.log(user)
-            if(user.email)
-              user.delete();
-          });
-      },
-      (error) =>{
-        window.alert(error);
-      }
-    );
+  //       this.http.sendPostRequest({cedula: this.registerForm.controls['uniqueId'].value, primernombre: this.registerForm.controls['fname'].value, segundonombre: sname, primerapellido: this.registerForm.controls['lname'].value, segundoapellido: slname, 
+  //         t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}, 'post.php').then((data:any) =>{
+  //           this.fauth.currUser.next(data);
+  //           console.log(data)
+             this.navCtrl.setRoot(MapPage);
+  //         },
+  //         (kabum) =>{
+  //           console.log(kabum)
+  //           console.log(user)
+  //           if(user.email)
+  //             user.delete();
+  //         });
+  //     },
+  //     (error) =>{
+  //       window.alert(error);
+  //     }
+  //   );
     
   }
 
