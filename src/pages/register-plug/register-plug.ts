@@ -35,7 +35,6 @@ export class RegisterPlugPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider) {
     this.placeLocation = this.navParams.get('location');
     this.userEmail = this.navParams.get('email');    
-    console.log(this.placeLocation.lng());
 
   }
 
@@ -49,15 +48,13 @@ export class RegisterPlugPage {
   }
   
   uploadData(){
-    let startDate = (this.dateInit < this.dateEnd? this.dateInit:this.dateEnd);
-    let endDate = (this.dateInit > this.dateEnd? this.dateInit:this.dateEnd);
     console.log(this.tipo)
     this.https.sendPostRequest({email: this.userEmail}, 'get.php').then((user:any) =>{
       console.log(user);
       let data =
        {UserUserId: user[0].UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
-       Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[startDate],
-       Dia_Fin_Operaciones: this.daysArray[endDate], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
+       Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit],
+       Dia_Fin_Operaciones: this.daysArray[this.dateEnd], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
        Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
        console.log(data);
        

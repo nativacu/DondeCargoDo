@@ -362,15 +362,19 @@ export class GoogleMapsProvider {
     const currentDate = new Date();
     const weekDate = currentDate.getDay();
     const time = currentDate.getHours() + (currentDate.getMinutes()/60);
-
+    let str:string = charger.Hora_Inicio_Operaciones
+    let startHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
+    str = charger.Hora_Fin_Operaciones
+    let endHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
     const chargerWeekStart = this.getWeekDayByNumber(charger.Dia_Inicio_Operaciones);
-    const chargerWeekEnd = this.getWeekDayByNumber(charger.Fin_Operaciones);
+    const chargerWeekEnd = this.getWeekDayByNumber(charger.Dia_Fin_Operaciones);
     let isOpen = false;
 
     console.log("Date " + weekDate + " time" + time);
-    if(weekDate >= chargerWeekStart && weekDate <= chargerWeekEnd){
+    if((weekDate >= chargerWeekStart && weekDate <= chargerWeekEnd && chargerWeekStart <= chargerWeekEnd) ||
+    ((weekDate <= chargerWeekEnd || weekDate >= chargerWeekStart) && chargerWeekStart > chargerWeekEnd)){
       //revisar si eso es string
-      if(time >= charger.Hora_Inicio_Operaciones && time < charger.Hora_Fin_Operaciones){
+      if(time >= startHour && time < endHour){
         isOpen = true;
       }
 
