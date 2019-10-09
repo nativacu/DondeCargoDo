@@ -335,13 +335,13 @@ export class GoogleMapsProvider {
     const isOpen = this.checkWorkingHours(charger);
     let open: string;
 
-    open = isOpen ? "Abrierto ahora": "Cerrado";
+    open = (isOpen ? "Abrierto ahora": "Cerrado");
 
     var contentString = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
           '<h6 id="firstHeading" class="firstHeading">'+charger.Nombre +'</h6>'+
-          '<div id="bodyContent">'+ '<p>'+ isOpen + '</p>' + state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+ 
+          '<div id="bodyContent">'+ '<p>'+ open + '</p>' + state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+ 
           charger.Dia_Inicio_Operaciones + '-' + charger.Dia_Fin_Operaciones + '</br>'+
           '<b>Tipo de cobro: </b>'+ charger.TipoCostoCarga ;
           
@@ -362,15 +362,23 @@ export class GoogleMapsProvider {
     const currentDate = new Date();
     const weekDate = currentDate.getDay();
     const time = currentDate.getHours() + (currentDate.getMinutes()/60);
+    if(charger.Hora_Inicio_Operaciones == undefined)
+    {
+      return;
+    }
+    console.log(charger)
     let str:string = charger.Hora_Inicio_Operaciones
-    let startHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
+    let startHour = 0;
+    console.log(str);
+    startHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
     str = charger.Hora_Fin_Operaciones
-    let endHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
+    let endHour = 0;
+    endHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
     const chargerWeekStart = this.getWeekDayByNumber(charger.Dia_Inicio_Operaciones);
     const chargerWeekEnd = this.getWeekDayByNumber(charger.Dia_Fin_Operaciones);
     let isOpen = false;
 
-    console.log("Date " + weekDate + " time" + time);
+    //console.log("Date " + weekDate + " time" + time);
     if((weekDate >= chargerWeekStart && weekDate <= chargerWeekEnd && chargerWeekStart <= chargerWeekEnd) ||
     ((weekDate <= chargerWeekEnd || weekDate >= chargerWeekStart) && chargerWeekStart > chargerWeekEnd)){
       //revisar si eso es string
