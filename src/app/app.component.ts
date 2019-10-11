@@ -8,6 +8,7 @@ import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
+import { WebsocketProvider } from '../providers/websocket/websocket';
 
 enum account {
   placeOwner = 1,
@@ -30,8 +31,11 @@ export class LocationsApp {
   loggedIn: boolean = false;
   
   phoneNumber: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider, public socket:WebsocketProvider) {
    // this.user = fauth;
+   socket.getMessages().subscribe((data) => {
+
+   })
    this.fauth.currUser.subscribe((usr)=> {
       this.user = usr;
       if(this.user){
@@ -167,7 +171,8 @@ export class LocationsApp {
   logout()
   {
     this.fauth.doLogout();
-    this.nav.setRoot(LoginPage)
+    this.socket.disconnect();
+    this.nav.setRoot(LoginPage); 
   }
   addNewStation()
   {
