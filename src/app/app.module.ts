@@ -27,6 +27,7 @@ import { AddPlugPage } from '../pages/add-plug/add-plug';
 import { PlatformProvider } from '../providers/platform/platform';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { WebsocketProvider } from '../providers/websocket/websocket';
+import { Push } from '@ionic-native/push/ngx';
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 const firebase = {
@@ -80,7 +81,8 @@ const firebase = {
     AuthProvider,
     FirebaseProvider,
     PlatformProvider,
-    WebsocketProvider
+    WebsocketProvider,
+    Push
   ]
 })
 export class AppModule {}

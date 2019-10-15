@@ -9,6 +9,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
+import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 
 enum account {
   placeOwner = 1,
@@ -17,7 +18,7 @@ enum account {
 }
 
 @Component({
-  templateUrl: 'app.html',
+  templateUrl: 'app.html'
 })
 export class LocationsApp {
   @ViewChild('mycontent') nav: NavController;
@@ -31,11 +32,29 @@ export class LocationsApp {
   loggedIn: boolean = false;
   
   phoneNumber: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider, public socket:WebsocketProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, 
+    public http: HttpRequestProvider, public socket:WebsocketProvider, private push: Push) {
    // this.user = fauth;
-   socket.getMessages().subscribe((data) => {
 
-   })
+   socket.getMessages().subscribe((data) => {
+     
+   });
+   
+
+   
+
+  //  this.push.hasPermission()
+  // .then((res: any) => {
+
+  //   if (res.isEnabled) {
+  //     console.log('We have permission to send push notifications');
+  //   } else {
+  //     console.log('We do not have permission to send push notifications');
+  //   }
+
+  // });
+
+
    this.fauth.currUser.subscribe((usr)=> {
       this.user = usr;
       if(this.user){
@@ -71,8 +90,23 @@ export class LocationsApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
+      const options: PushOptions = {
+        android: {},
+        ios: {
+            alert: 'true',
+            badge: true,
+            sound: 'false'
+        },
+      };
+      const pushObject: PushObject = push.init(options);
+      pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+      pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+      pushObject.on('error').subscribe(error => console.log('Error with Push plugin', error));
     });
   }
+
+
 
   takePicture(){
     console.log("still working");
