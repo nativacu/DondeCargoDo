@@ -9,7 +9,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
-import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 enum account {
   placeOwner = 1,
@@ -98,11 +98,15 @@ export class LocationsApp {
             badge: true,
             sound: 'false'
         },
+        windows: {},
+        browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+        }
       };
-      const pushObject: PushObject = push.init(options);
+      const pushObject: PushObject = this.push.init(options);
       pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
       pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-      pushObject.on('error').subscribe(error => console.log('Error with Push plugin', error));
+      pushObject.on('error').subscribe((error) => console.log('Error with Push plugin', error));
     });
   }
 
