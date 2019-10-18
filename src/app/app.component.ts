@@ -10,7 +10,7 @@ import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+//import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 enum account {
   placeOwner = 1,
@@ -34,18 +34,18 @@ export class LocationsApp {
   
   phoneNumber: string;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, 
-    public http: HttpRequestProvider, public socket:WebsocketProvider, private push: Push, private localNotifications: LocalNotifications,
-     alertCtrl: AlertController) {
+    public http: HttpRequestProvider, public socket:WebsocketProvider, private push: Push, alertCtrl: AlertController,
+    /*private localNotifications: LocalNotifications*/) {
    // this.user = fauth;
 
    socket.getMessages().subscribe((data) => {
-    this.localNotifications.schedule({
+    /*this.localNotifications.schedule({
       id: 1,
       title: 'Proceso de carga',
       text: 'Confirmacion de inicio carga',
       data: { mydata: 'Desea iniciar la carga?' },
       trigger: {at: new Date(new Date().getTime() + 5 * 1000)}
-    });
+    });*/
    });
 
   //  this.push.hasPermission()
@@ -112,7 +112,7 @@ export class LocationsApp {
       pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
       pushObject.on('error').subscribe((error) => console.log('Error with Push plugin', error));
 
-      this.localNotifications.on('click').subscribe( (notification) => {
+      /*this.localNotifications.on('click').subscribe( (notification) => {
         let json = JSON.parse(notification.data);
    
         let alert = alertCtrl.create({
@@ -120,7 +120,7 @@ export class LocationsApp {
           subTitle: json.mydata
         });
         alert.present();
-      });
+      });*/
     });
   }
 
