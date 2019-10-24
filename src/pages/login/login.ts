@@ -8,6 +8,7 @@ import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { BehaviorSubject } from 'rxjs';
 import { PlatformProvider } from '../../providers/platform/platform';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
 /**
  * Generated class for the LoginPage page.
  *
@@ -31,7 +32,8 @@ export class LoginPage {
   id:string;
   phone: string;
   constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
-    public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController) {
+    public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
+    public socket:WebsocketProvider) {
 
     // platform.ready().then(() => {
     //   // Okay, so the platform is ready and our plugins are available.
@@ -42,7 +44,16 @@ export class LoginPage {
     //     Auth0Cordova.onRedirectUri(url);
     //   }
     // });
- 
+    this.socket.getMessages().subscribe((data:any) => {
+      switch(data)
+      {
+        case "ConexionCreated":
+            this.fauth.currUser.next(data[0]);
+            this.navCtrl.setRoot(MapPage);
+        default:
+          break;
+      }
+    })
   }
   ionViewDidLoad() {
 
@@ -51,29 +62,7 @@ export class LoginPage {
   login(){
     this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
       ()=>{
-        this.http.sendPostRequest({email: this.loginEmail}, 'get.php').then((data) =>{
-            this.fauth.currUser.next(data[0]);
-            this.navCtrl.setRoot(MapPage);
-           },
-           (kabum) =>{
-        });
-      },
-      (error) =>{
-        window.alert(error);
-      }
-    );
-  }
-  signup(){
-    this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
-      (user:firebase.User)=>{
-        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
-          foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
-            this.fauth.currUser.next(data);
-            this.navCtrl.setRoot(MapPage);
-          },
-          (kabum) =>{
-            user.delete();
-          });
+        this.socket.sendMessage({Command:"CrearConexion", email: this.loginEmail});
       },
       (error) =>{
         window.alert(error);

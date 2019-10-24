@@ -4,6 +4,8 @@ import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { MapPage } from '../map/map';
 import { AddPlugPage } from '../add-plug/add-plug';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the RegisterPlugPage page.
@@ -32,10 +34,22 @@ export class RegisterPlugPage {
   endTimeSlot:any;
   userEmail:any;
   tipo:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider) {
+  user:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider, public socket:WebsocketProvider, public auth:AuthProvider) {
     this.placeLocation = this.navParams.get('location');
     this.userEmail = this.navParams.get('email');    
-
+    this.auth.currUser.subscribe((usr) =>{
+      this.user = usr;
+    })
+    this.socket.getMessages().subscribe((data:any) =>{
+      switch(data.command)
+      {
+        case 'LugarCreado':
+          this.navCtrl.setRoot(MapPage);
+          break;
+        default:
+      }
+    })
   }
 
   ionViewDidLoad() {
@@ -48,26 +62,13 @@ export class RegisterPlugPage {
   }
   
   uploadData(){
-    console.log(this.tipo)
-    this.https.sendPostRequest({email: this.userEmail}, 'get.php').then((user:any) =>{
-      console.log(user);
       let data =
-       {UserUserId: user[0].UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
+       {Commnad: 'CrearLugar', UserUserId: this.user.UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
        Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit],
        Dia_Fin_Operaciones: this.daysArray[this.dateEnd], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
        Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
        console.log(data);
-       
-       this.https.sendPostRequest(data, 'createLugar.php').then((ok:any) =>{
-         console.log(ok);
-         this.navCtrl.setRoot(MapPage);
-       },(error) =>{
-         window.alert(error);
-         console.log(error);
-       })
-     },
-     (kabum) =>{
-    });
+       this.socket.sendMessage(data)
   }
 
 }

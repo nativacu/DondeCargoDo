@@ -25,11 +25,10 @@ import { RegisterPlugPage } from '../pages/register-plug/register-plug';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { AddPlugPage } from '../pages/add-plug/add-plug';
 import { PlatformProvider } from '../providers/platform/platform';
-import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { WebsocketProvider } from '../providers/websocket/websocket';
 import { Push } from '@ionic-native/push';
+import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
 
-const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 const firebase = {
   apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
@@ -49,6 +48,7 @@ const firebase = {
     RegisterPlugPage,
     PlacePlugPage,
     AddPlugPage,
+    ChargeConfirmationPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +57,6 @@ const firebase = {
     AngularFireAuthModule,
     IonicModule.forRoot(LocationsApp),
     IonicStorageModule.forRoot(),
-    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -68,6 +67,7 @@ const firebase = {
     PlacePlugPage,
     RegisterPlugPage,
     AddPlugPage,
+    ChargeConfirmationPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

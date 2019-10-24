@@ -45,7 +45,7 @@ export class MapPage {
    
 
     this.platform.ready().then(() => {
-      
+      //TODO change all this logic of stationrequest
       var chargers = this.http.makeStationRequest();
     
       this.maps.checkWorkingHours("hola");

@@ -10,6 +10,7 @@ import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
 //import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 enum account {
@@ -38,7 +39,7 @@ export class LocationsApp {
     /*private localNotifications: LocalNotifications*/) {
    // this.user = fauth;
 
-   socket.getMessages().subscribe((data) => {
+   socket.getMessages().subscribe((data:any) => {
     /*this.localNotifications.schedule({
       id: 1,
       title: 'Proceso de carga',
@@ -46,6 +47,21 @@ export class LocationsApp {
       data: { mydata: 'Desea iniciar la carga?' },
       trigger: {at: new Date(new Date().getTime() + 5 * 1000)}
     });*/
+    switch(data.command)
+    {
+      case 'ChargeInitRequest':
+        //iniciar carga
+        this.nav.push(ChargeConfirmationPage, {data:data});
+        break;
+      case 'ChargeInitSecured':
+        //carga iniciada
+        break;
+      case 'ChargeEndSecured':
+        //fin de la carga
+        break;
+      default:
+
+    }
    });
 
   //  this.push.hasPermission()
@@ -131,6 +147,7 @@ export class LocationsApp {
   }
 
   eraseAccount(){
+    //TODO change http for socket send
     this.http.sendPostRequest({email: this.email},'delete.php');
   }
 
@@ -199,7 +216,7 @@ export class LocationsApp {
     editIcon.style.display="none";
     editIcon1.style.display="none";
     editIcon2.style.display="none";
-
+    //TODO change http for socket send
     this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
       foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
@@ -223,6 +240,7 @@ export class LocationsApp {
   logout()
   {
     this.fauth.doLogout();
+    this.socket.sendMessage({Command:'LogOut'})
     this.socket.disconnect();
     this.nav.setRoot(LoginPage); 
   }

@@ -9,6 +9,7 @@ import { PlacePlugPage } from '../place-plug/place-plug';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { regexValidators, uniqueIdValidator } from '../validators/validators';
 import { PlatformProvider } from '../../providers/platform/platform';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
 
 /**
  * Generated class for the RegisterPage page.
@@ -28,12 +29,11 @@ enum account {
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-
-  
   imageSrc: any;
   picture: HTMLImageElement;
   registerForm:FormGroup;
-  constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder) {
+  constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
+    public socket:WebsocketProvider) {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -58,6 +58,18 @@ export class RegisterPage {
       ])],
       accountType: ['', Validators.required]
     });
+    this.socket.getMessages().subscribe((data:any) =>{
+      switch(data.command)
+      {
+        case 'UserCreationSuccess':
+          this.fauth.currUser.next(data);
+          this.navCtrl.setRoot(MapPage);
+        case 'UserCreationFailure':
+          this.fauth.afAuth.auth.currentUser.delete();
+        default:
+          break;
+      }
+    })
   }
 
   ionViewDidLoad() {
@@ -65,42 +77,29 @@ export class RegisterPage {
   }
 
   signup(){
-    console.log(this.registerForm.controls['accountType']);
     let type = 0;
-
     for(let x of this.registerForm.controls['accountType'].value)
     {
       type += +x;
     }
-  //   console.log(type)
-  //   this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
-  //     (user:firebase.User)=>{
-  //       var slname = this.registerForm.controls['slname'].value
-  //       var sname = this.registerForm.controls['sname'].value
-  //       if(sname === null){
-  //         sname = '0';
-  //       }
-  //       if(slname === null){
-  //         slname = '0';
-  //       }
-
-  //       this.http.sendPostRequest({cedula: this.registerForm.controls['uniqueId'].value, primernombre: this.registerForm.controls['fname'].value, segundonombre: sname, primerapellido: this.registerForm.controls['lname'].value, segundoapellido: slname, 
-  //         t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}, 'post.php').then((data:any) =>{
-  //           this.fauth.currUser.next(data);
-  //           console.log(data)
-             this.navCtrl.setRoot(MapPage);
-  //         },
-  //         (kabum) =>{
-  //           console.log(kabum)
-  //           console.log(user)
-  //           if(user.email)
-  //             user.delete();
-  //         });
-  //     },
-  //     (error) =>{
-  //       window.alert(error);
-  //     }
-  //   );
+    this.fauth.doRegister({"email": this.registerForm.controls['email'].value, "password":this.registerForm.controls['password'].value}).then(
+      (user:firebase.User)=>{
+        var slname = this.registerForm.controls['slname'].value
+        var sname = this.registerForm.controls['sname'].value
+        if(sname === null){
+          sname = '0';
+        }
+        if(slname === null){
+          slname = '0';
+        }
+        let dataToSend = {Command: 'CrearUser',cedula: this.registerForm.controls['uniqueId'].value, primernombre: this.registerForm.controls['fname'].value, segundonombre: sname, primerapellido: this.registerForm.controls['lname'].value, segundoapellido: slname, 
+        t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}
+        this.socket.sendMessage(dataToSend);
+      },
+      (error) =>{
+        window.alert(error);
+      }
+    );
     
   }
 

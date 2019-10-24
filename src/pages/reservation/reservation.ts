@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { checkAvailability } from '@ionic-native/core';
 import { AuthProvider } from '../../providers/auth/auth';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
 
 
 /**
@@ -33,13 +34,21 @@ export class ReservationPage {
   dateSlot: any;
   userId: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider, private auth: AuthProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider, private auth: AuthProvider, public socket:WebsocketProvider) {
     this.charger = navParams.get('charger');
     this.showCost = true;
 
     this.auth.currUser.subscribe((user)=>{
       this.userId = user.UserID;
     });
+    this.socket.getMessages().subscribe((data:any) => {
+      switch(data.command)
+      {
+        case '':
+          break;
+        default:
+      }
+    })
   }
 
   ionViewDidLoad() {

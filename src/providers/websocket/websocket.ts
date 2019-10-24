@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs'
 import { AuthProvider } from '../auth/auth';
 /*
@@ -12,33 +11,27 @@ import { AuthProvider } from '../auth/auth';
 @Injectable()
 export class WebsocketProvider {
 
-  constructor(public http: HttpClient, public socket:Socket, public afs:AuthProvider) {
-    console.log('Hello WebsocketProvider Provider');
-  }
+  socket:WebSocket;
 
-  connectToSocket()
-  {
-    this.socket.connect();
-    this.afs.currUser.subscribe((usr) =>{
-      if(usr)
-        this.sendMessage(usr.UserID);
-    })
+  constructor(public http: HttpClient, public afs:AuthProvider) {
+    console.log('Hello WebsocketProvider Provider');
+    this.socket = new WebSocket('ws://localhost:8080');
   }
-  sendMessage(response) {
-    this.socket.emit('add', { data:response });
+  sendMessage(data) {
+    this.socket.send(data);
   }
 
   getMessages() {
     let observable = new Observable(observer => {
-      this.socket.on('message', (data) => {
+      this.socket.onmessage = function(data) {
         observer.next(data);
-      });
-    })
+      };
+    });
     return observable;
   }
   disconnect()
   {
-    this.socket.disconnect();
+    this.socket.close();
   }
 
 }
