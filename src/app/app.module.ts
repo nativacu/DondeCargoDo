@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { Camera } from 'ionic-native';
+import { LocalNotifications, LocalNotificationsOriginal } from '@ionic-native/local-notifications';
 import { LocationsApp } from './app.component';
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
@@ -26,7 +27,6 @@ import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { AddPlugPage } from '../pages/add-plug/add-plug';
 import { PlatformProvider } from '../providers/platform/platform';
 import { WebsocketProvider } from '../providers/websocket/websocket';
-import { Push } from '@ionic-native/push';
 import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
 
 
@@ -83,7 +83,7 @@ const firebase = {
     FirebaseProvider,
     PlatformProvider,
     WebsocketProvider,
-    Push,
+    LocalNotificationsOriginal
   ]
 })
 export class AppModule {}

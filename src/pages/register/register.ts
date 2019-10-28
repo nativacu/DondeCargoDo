@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { MapPage } from '../map/map';
@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { regexValidators, uniqueIdValidator } from '../validators/validators';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { LocalNotifications, LocalNotificationsOriginal } from '@ionic-native/local-notifications';
 
 /**
  * Generated class for the RegisterPage page.
@@ -32,7 +33,7 @@ export class RegisterPage {
   imageSrc: any;
   picture: HTMLImageElement;
   registerForm:FormGroup;
-  constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController, private localNotifications:LocalNotificationsOriginal, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
     public socket:WebsocketProvider) {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -70,10 +71,24 @@ export class RegisterPage {
           break;
       }
     })
+
+
+    this.plt.plt.ready().then(()=>{
+      this.localNotifications.on('click');
+      // this.localNotifications.on('click'), (notification) => {
+      //   let json = JSON.parse(notification.data);
+      //   let alert = this.alertCtrl.create({
+      //     title: notification.title,
+      //     subTitle: json.secret
+      //   });
+      // });
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
+
+    
   }
 
   signup(){
@@ -103,12 +118,25 @@ export class RegisterPage {
     
   }
 
+  notify(){
+  
+      this.localNotifications.schedule({
+        id: 1,
+        text: 'Single ILocalNotification',
+        data: { secret: "key" }
+        
+      });
+       
+  }
+
   selectPicture(){
     this.picture = document.getElementById('profilePic') as HTMLImageElement;
 
     console.log(this.picture.src);
 
     if(this.plt.isMobile){
+
+      
       //   let cameraOptions = {
       //   sourceType: Camera.Picti.PHOTOLIBRARY,
       //   destinationType: Camera.DestinationType.FILE_URI,      

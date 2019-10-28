@@ -12,8 +12,8 @@ import { Platform } from 'ionic-angular';
 export class PlatformProvider {
 
   isMobile: boolean;
-
-  constructor(public http: HttpClient, private plt: Platform) {
+  
+  constructor(public http: HttpClient, public plt: Platform) {
     // this.isMobile = this.checkPlatform();
     this.isMobile = false;
   }
