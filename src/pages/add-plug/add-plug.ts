@@ -27,7 +27,7 @@ export class AddPlugPage {
     })
     this.lugarid = this.navParams.get('lugarid');
     this.socket.getMessages().subscribe((data:any) =>{
-      switch(data.command)
+      switch(data.Command)
       {
         //TODO need the command
         case '':
@@ -49,7 +49,8 @@ export class AddPlugPage {
   {
     this.act = act;
     //TODO needs command
-    this.socket.sendMessage({Command: '', LugarLugarID: this.lugarid,PlugID:this.serialForm.controls['serial'].value})
+    this.socket.sendMessage({Command: 'CrearPlug', LugarLugarID: this.lugarid,PlugID:this.serialForm.controls['serial'].value})
+    this.navCtrl.setRoot(MapPage);
   }
 
 }

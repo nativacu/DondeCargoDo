@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "5.2.11",
     "@auth0/cordova": "^0.3.0",
     "@ionic-native/camera": "^5.14.0",
-    "@ionic-native/core": "^5.15.0",
+    "@ionic-native/core": "^4.20.0",
     "@ionic-native/geolocation": "^5.11.0",
     "@ionic-native/local-notifications": "^5.15.0",
     "@ionic-native/network": "^5.2.0",

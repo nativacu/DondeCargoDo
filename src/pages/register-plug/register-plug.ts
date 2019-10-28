@@ -42,7 +42,7 @@ export class RegisterPlugPage {
       this.user = usr;
     })
     this.socket.getMessages().subscribe((data:any) =>{
-      switch(data.command)
+      switch(data.Command)
       {
         case 'LugarCreado':
           this.navCtrl.setRoot(MapPage);
@@ -63,10 +63,10 @@ export class RegisterPlugPage {
   
   uploadData(){
       let data =
-       {Commnad: 'CrearLugar', UserUserId: this.user.UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot,
-       Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit],
-       Dia_Fin_Operaciones: this.daysArray[this.dateEnd], lat:this.placeLocation.lat(), lng:this.placeLocation.lng(), 
-       Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
+       '{"Command": "CrearLugar", "UserUserId":"'+ this.user.UserID+', "Nombre":"'+ this.stationName+'", "Direccion":"'+ this.stationDir+'", "Horario_Inicio_Operaciones":"'+ this.initTimeSlot+
+       '","Horario_Fin_Operaciones":"'+ this.endTimeSlot+'", "Dia_Inicio_Operaciones":"'+ this.daysArray[this.dateInit]+
+       '","Dia_Fin_Operaciones":"'+ this.daysArray[this.dateEnd]+'", "lat":"'+this.placeLocation.lat()+'", "lng":"'+this.placeLocation.lng()+ 
+       '","Desc":"'+ this.stationDesc+'", "Tipo":"'+ this.tipo+'", "Costo":"'+ this.number+'"}';
        console.log(data);
        this.socket.sendMessage(data)
   }

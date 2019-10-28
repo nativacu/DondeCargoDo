@@ -59,7 +59,7 @@ export class RegisterPage {
       accountType: ['', Validators.required]
     });
     this.socket.getMessages().subscribe((data:any) =>{
-      switch(data.command)
+      switch(data.Command)
       {
         case 'UserCreationSuccess':
           this.fauth.currUser.next(data);
@@ -92,8 +92,9 @@ export class RegisterPage {
         if(slname === null){
           slname = '0';
         }
-        let dataToSend = {Command: 'CrearUser',cedula: this.registerForm.controls['uniqueId'].value, primernombre: this.registerForm.controls['fname'].value, segundonombre: sname, primerapellido: this.registerForm.controls['lname'].value, segundoapellido: slname, 
-        t_usuario: type, foto: 0, email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}
+        //TODO: needs to check about t_usuario
+        let dataToSend = '{"Command": "CrearUser","Cedula":"' + this.registerForm.controls['uniqueId'].value + '", "PrimerNombre":"' + this.registerForm.controls['fname'].value + '", "SegundoNombre":"' + sname+'", "PrimerApellido":"'+ this.registerForm.controls['lname'].value+'", "SegundoApellido":"'+ slname+ 
+        '","t_usuario":"'+ type+'", "Foto":"'+ 0+'", "Email":"'+ this.registerForm.controls['email'].value+'", "telefono":"'+ this.registerForm.controls['telNumber'].value+'"}'
         this.socket.sendMessage(dataToSend);
       },
       (error) =>{

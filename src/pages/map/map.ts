@@ -6,6 +6,8 @@ import { HttpRequestProvider } from '../../providers/http-request/http-request'
 import { ReservationPage } from '../reservation/reservation';
 import { AddPlugPage } from '../add-plug/add-plug';
 import { AuthProvider } from '../../providers/auth/auth';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
 
 @Component({
   selector: 'page-map',
@@ -30,82 +32,92 @@ export class MapPage {
     public platform: Platform, 
     public locations: LocationsProvider, 
     public menu: MenuController,
-    public fauth:AuthProvider) {
+    public fauth:AuthProvider,
+    public socket:WebsocketProvider) {
       this.fauth.currUser.subscribe((usr)=> {
         if(usr)
           this.userId = usr.UserID;
       });
+      this.socket.getMessages().subscribe((data:any)=>{
+        switch(data.Command)
+        {
+          case 'LugaresRetreived':
+            this.chargersInit(data.Lugares);
+            break;
+          case 'ChargeInitRequest':
+            this.navCtrl.push(ChargeConfirmationPage, {data:data});
+            break;
+          default:
+            break;
+        }
+      })
       this.adminButton = false;
 
   }
 
   
-
   ionViewDidLoad(){
-   
-
+    
+    
     this.platform.ready().then(() => {
       //TODO change all this logic of stationrequest
-      var chargers = this.http.makeStationRequest();
-    
-      this.maps.checkWorkingHours("hola");
-      chargers.subscribe(data => {
-        this.data = data;
-        this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, this.navCtrl, this.data);
-
-        //Waiting for charger to be pressed to transition to reserve charging station screen
-        let chargerObserver = this.maps.chargerObserver;
-      
-        chargerObserver.subscribe(currentCharger => {
-          if(currentCharger != null){
-            this.currentCharger = currentCharger;
-            this.adminButton = (this.userId == currentCharger.UserUserID)
-            //Reducing map to show button
-            var map = document.getElementById("map");
-            var button = document.getElementById("reserveButton");
-            var buttonadd = document.getElementById("addPlugButton");
-            var buttonconf = document.getElementById("ConfigurePlugButton");
-            map.style.height = (!this.adminButton?"93%":"77%");
-            button.hidden = false;
-            button.style.color = "white";
-            console.log(currentCharger.type);
-            if(this.adminButton)
-            {
-              buttonadd.hidden= false;
-              buttonconf.hidden= false;
-            }
-            else
-            {
-              buttonadd.hidden= true;
-              buttonconf.hidden= true;
-            }
-            if(!currentCharger.is_operational || currentCharger.type === "No afiliado"){
-              button.setAttribute("disabled","disabled");
-            }
-            else{
-              if(button.hasAttribute("disabled")){
-                button.removeAttribute("disabled");
-              }
-            }
-          }
-        });
-
-      }, (err) =>{ console.log(err); }); 
-      
+      this.socket.sendMessage('{"Command":"GetLugares"}');
     });
 
   }
-
+  
   toReserve(){
-      this.navCtrl.push(ReservationPage, {
-        charger: this.currentCharger
+    this.navCtrl.push(ReservationPage, {
+      charger: this.currentCharger
       });
-  }
+    }
   addPlug(){
     this.navCtrl.push(AddPlugPage, {lugarid: this.currentCharger.LugarID});
   }
   configurePlug(){
 
   }
+  chargersInit(data){
+    this.data = data;
+    this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, this.navCtrl, this.data);
 
+    //Waiting for charger to be pressed to transition to reserve charging station screen
+    let chargerObserver = this.maps.chargerObserver;
+      
+    chargerObserver.subscribe(currentCharger => {
+      if(currentCharger != null){
+        this.currentCharger = currentCharger;
+        this.adminButton = (this.userId == currentCharger.UserUserID)
+        //Reducing map to show button
+        var map = document.getElementById("map");
+        var button = document.getElementById("reserveButton");
+        var buttonadd = document.getElementById("addPlugButton");
+        var buttonconf = document.getElementById("ConfigurePlugButton");
+        map.style.height = (!this.adminButton?"93%":"77%");
+        button.hidden = false;
+        button.style.color = "white";
+        console.log(currentCharger.type);
+        if(this.adminButton)
+        {
+          buttonadd.hidden= false;
+          buttonconf.hidden= false;
+        }
+        else
+        {
+          buttonadd.hidden= true;
+          buttonconf.hidden= true;
+        }
+        if(!currentCharger.is_operational || currentCharger.type === "No afiliado"){
+          button.setAttribute("disabled","disabled");
+        }
+        else{
+          if(button.hasAttribute("disabled")){
+            button.removeAttribute("disabled");
+          }
+        }
+      }
+    })
+      
+  }
+  
 } 

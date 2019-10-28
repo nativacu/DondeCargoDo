@@ -40,14 +40,7 @@ export class LocationsApp {
    // this.user = fauth;
 
    socket.getMessages().subscribe((data:any) => {
-    /*this.localNotifications.schedule({
-      id: 1,
-      title: 'Proceso de carga',
-      text: 'Confirmacion de inicio carga',
-      data: { mydata: 'Desea iniciar la carga?' },
-      trigger: {at: new Date(new Date().getTime() + 5 * 1000)}
-    });*/
-    switch(data.command)
+    switch(data.Command)
     {
       case 'ChargeInitRequest':
         //iniciar carga
@@ -60,7 +53,6 @@ export class LocationsApp {
         //fin de la carga
         break;
       default:
-
     }
    });
 
@@ -241,7 +233,6 @@ export class LocationsApp {
   {
     this.fauth.doLogout();
     this.socket.sendMessage({Command:'LogOut'})
-    this.socket.disconnect();
     this.nav.setRoot(LoginPage); 
   }
   addNewStation()

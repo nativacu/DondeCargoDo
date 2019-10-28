@@ -42,9 +42,10 @@ export class ReservationPage {
       this.userId = user.UserID;
     });
     this.socket.getMessages().subscribe((data:any) => {
-      switch(data.command)
+      switch(data.Command)
       {
-        case '':
+        case 'LugaresRetreived':
+          this.checkCharger(data)
           break;
         default:
       }
@@ -78,20 +79,19 @@ export class ReservationPage {
     }
   }
 
+  checkCharger(data){
+    let index = data.indexOf(this.charger); ; 
+    if(data[this.charger]==1){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   checkAvailability(){
-    let locations = this.http.makeStationRequest();
-
-    locations.subscribe(data => {
-      let index = data.indexOf(this.charger); ; 
-      if(data[this.charger]==1){
-        return true;
-      }
-
-      else{
-        return false;
-      }
-
-    });
+    //let locations = this.http.makeStationRequest();
+    this.socket.sendMessage('{"Command":"GetLugares"}')
     
   }
 

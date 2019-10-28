@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -21,7 +21,7 @@ import { WebsocketProvider } from '../../providers/websocket/websocket';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class LoginPage {
+export class LoginPage implements OnInit{
 
   loginEmail:string;
   loginPassword:string;
@@ -44,8 +44,13 @@ export class LoginPage {
     //     Auth0Cordova.onRedirectUri(url);
     //   }
     // });
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
     this.socket.getMessages().subscribe((data:any) => {
-      switch(data)
+      console.log(data)
+      switch(data.Command)
       {
         case "ConexionCreated":
             this.fauth.currUser.next(data[0]);
@@ -62,7 +67,7 @@ export class LoginPage {
   login(){
     this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
       ()=>{
-        this.socket.sendMessage({Command:"CrearConexion", email: this.loginEmail});
+        this.socket.sendMessage('{"Command":"CrearConexion","Email":' + '\"' + this.loginEmail + '\"' + '}');
       },
       (error) =>{
         window.alert(error);

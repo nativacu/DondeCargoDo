@@ -12,22 +12,23 @@ import { AuthProvider } from '../auth/auth';
 export class WebsocketProvider {
 
   socket:WebSocket;
-
+  observable:Observable<any>;
   constructor(public http: HttpClient, public afs:AuthProvider) {
     console.log('Hello WebsocketProvider Provider');
-    this.socket = new WebSocket('ws://localhost:8080');
+    this.socket = new WebSocket('ws://192.168.43.2:8080');
+    this.observable = new Observable(observer => {
+      this.socket.onmessage = function(data) {
+        console.log(data)
+        observer.next(JSON.parse(data.data));
+      };
+    });
   }
   sendMessage(data) {
     this.socket.send(data);
   }
 
   getMessages() {
-    let observable = new Observable(observer => {
-      this.socket.onmessage = function(data) {
-        observer.next(data);
-      };
-    });
-    return observable;
+    return this.observable;
   }
   disconnect()
   {
