@@ -1,13 +1,17 @@
 import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {MapPage} from '../pages/map/map'
+import { MapPage } from '../pages/map/map'
 import { Camera } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
+import { WebsocketProvider } from '../providers/websocket/websocket';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
+//import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 enum account {
   placeOwner = 1,
@@ -16,7 +20,7 @@ enum account {
 }
 
 @Component({
-  templateUrl: 'app.html',
+  templateUrl: 'app.html'
 })
 export class LocationsApp {
   @ViewChild('mycontent') nav: NavController;
@@ -30,8 +34,47 @@ export class LocationsApp {
   loggedIn: boolean = false;
   
   phoneNumber: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, public http: HttpRequestProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, 
+    public http: HttpRequestProvider, public socket:WebsocketProvider, private push: Push, alertCtrl: AlertController,
+    /*private localNotifications: LocalNotifications*/) {
    // this.user = fauth;
+
+   socket.getMessages().subscribe((data:any) => {
+    /*this.localNotifications.schedule({
+      id: 1,
+      title: 'Proceso de carga',
+      text: 'Confirmacion de inicio carga',
+      data: { mydata: 'Desea iniciar la carga?' },
+      trigger: {at: new Date(new Date().getTime() + 5 * 1000)}
+    });*/
+    switch(data.command)
+    {
+      case 'ChargeInitRequest':
+        //iniciar carga
+        this.nav.push(ChargeConfirmationPage, {data:data});
+        break;
+      case 'ChargeInitSecured':
+        //carga iniciada
+        break;
+      case 'ChargeEndSecured':
+        //fin de la carga
+        break;
+      default:
+
+    }
+   });
+
+  //  this.push.hasPermission()
+  // .then((res: any) => {
+
+  //   if (res.isEnabled) {
+  //     console.log('We have permission to send push notifications');
+  //   } else {
+  //     console.log('We do not have permission to send push notifications');
+  //   }
+
+  // });
+
    this.fauth.currUser.subscribe((usr)=> {
       this.user = usr;
       if(this.user){
@@ -68,17 +111,43 @@ export class LocationsApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      
-     
+      const options: PushOptions = {
+        android: {},
+        ios: {
+            alert: 'true',
+            badge: true,
+            sound: 'false'
+        },
+        windows: {},
+        browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+        }
+      };
+      const pushObject: PushObject = this.push.init(options);
+      pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+      pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+      pushObject.on('error').subscribe((error) => console.log('Error with Push plugin', error));
+
+      /*this.localNotifications.on('click').subscribe( (notification) => {
+        let json = JSON.parse(notification.data);
+   
+        let alert = alertCtrl.create({
+          title: notification.title,
+          subTitle: json.mydata
+        });
+        alert.present();
+      });*/
     });
   }
 
-  takePicture(){
 
+
+  takePicture(){
     console.log("still working");
   }
 
   eraseAccount(){
+    //TODO change http for socket send
     this.http.sendPostRequest({email: this.email},'delete.php');
   }
 
@@ -93,9 +162,9 @@ export class LocationsApp {
       correctOrientation: true
     }
   
-    // Camera.getPicture(cameraOptions)
-    //   .then(FILE_URI => this.imageSrc = FILE_URI, 
-    //   err => console.log(err));   
+    Camera.getPicture(cameraOptions)
+      .then(FILE_URI => this.imageSrc = FILE_URI, 
+      err => console.log(err));   
   }
 
 
@@ -147,7 +216,7 @@ export class LocationsApp {
     editIcon.style.display="none";
     editIcon1.style.display="none";
     editIcon2.style.display="none";
-
+    //TODO change http for socket send
     this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
       foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
@@ -168,15 +237,12 @@ export class LocationsApp {
     //editButton.style.visibility = "hidden";
   }
   
-  login()
-  {
-
-  }
-  
   logout()
   {
     this.fauth.doLogout();
-    this.nav.setRoot(LoginPage)
+    this.socket.sendMessage({Command:'LogOut'})
+    this.socket.disconnect();
+    this.nav.setRoot(LoginPage); 
   }
   addNewStation()
   {

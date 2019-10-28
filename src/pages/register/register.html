@@ -3,25 +3,26 @@
 </div>
 
 <ng-template #mobile>
-    <div class="container" style="margin-top:2%">  
     <ion-header>
         <ion-navbar>
             <ion-title >Crear Cuenta</ion-title>
         </ion-navbar>
       </ion-header>
-      <ion-content>  
-              
+      <ion-content>          
+        <ion-item>
+            <ion-avatar>
+              <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="border: 3px solid; color: #16a085; height: 20%; border-radius: 50%; display: block;
+                        margin-left: auto;
+                        margin-right: auto;" id="profilePic">
+                        <button ion-button small color="danger" (click)="selectPicture()" style="margin-top: -25px; margin-left: 80px;">
+                            <ion-icon name="camera"></ion-icon>
+                        </button>
+            </ion-avatar>
+          </ion-item>
+
            <!-- Desde aquí está copiado -->
-          <ion-item>
-              <ion-avatar>
-                <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="border: 3px solid; color: #16a085; height: 20%; border-radius: 50%; display: block;
-                          margin-left: auto;
-                          margin-right: auto;" id="profilePic">
-                          <button ion-button small color="danger" (click)="selectPicture()" style="margin-top: -25px; margin-left: 80px;">
-                              <ion-icon name="camera"></ion-icon>
-                          </button>
-              </ion-avatar>
-            </ion-item>
+
+          <div class="container">
             <form [formGroup] = "registerForm">
               <div>
                 <ion-item>
@@ -74,13 +75,13 @@
                 
                 <ion-item no-lines>
                   <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" [disabled] = "!registerForm.valid" (click)="signup()"><span class="glyphicon glyphicon-off"></span> Registrarse</button> 
-                  <button ion-button (click)="notify()">Notify!</button>
                 </ion-item>
               </div>
             </form>
-        
+          </div>
+          
       </ion-content>
-    </div>
+
 </ng-template>
 
 <ng-template #web>
