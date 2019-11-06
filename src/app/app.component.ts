@@ -11,6 +11,9 @@ import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
+import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
+import { isCordovaAvailable } from '../common/is-cordova-available';
+import { oneSignalAppId, sender_id } from '../config';
 //import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 enum account {
@@ -34,31 +37,19 @@ export class LocationsApp {
   loggedIn: boolean = false;
   
   phoneNumber: string;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public fauth:AuthProvider, 
-    public http: HttpRequestProvider, public socket:WebsocketProvider, private push: Push, alertCtrl: AlertController,
-    /*private localNotifications: LocalNotifications*/) {
-   // this.user = fauth;
-
-   socket.getMessages().subscribe((data:any) => {
-    switch(data.Command)
-    {
-      case 'ChargeInitRequest':
-        //iniciar carga
-        this.nav.push(ChargeConfirmationPage, {data:data});
-        break;
-      case 'ChargeInitSecured':
-        //carga iniciada
-        break;
-      case 'ChargeEndSecured':
-        //fin de la carga
-        break;
-      default:
-    }
-   });
-
-  //  this.push.hasPermission()
+  constructor(platform: Platform,
+    statusBar: StatusBar,
+    splashScreen: SplashScreen,
+    public fauth:AuthProvider, 
+    public http: HttpRequestProvider,
+    public socket:WebsocketProvider,
+    private push: Push,
+    alertCtrl: AlertController,
+    private oneSignal: OneSignal) {
+   
+   //  this.push.hasPermission()
   // .then((res: any) => {
-
+    
   //   if (res.isEnabled) {
   //     console.log('We have permission to send push notifications');
   //   } else {
@@ -67,10 +58,10 @@ export class LocationsApp {
 
   // });
 
-   this.fauth.currUser.subscribe((usr)=> {
-      this.user = usr;
-      if(this.user){
-        this.loggedIn = true;
+  this.fauth.currUser.subscribe((usr)=> {
+    this.user = usr;
+    if(this.user){
+      this.loggedIn = true;
         this.imageSrc = this.user.Foto;
         this.accountType = +this.user.TipoUsuario;
         if(this.imageSrc == null || this.imageSrc == "NULL")
@@ -92,7 +83,7 @@ export class LocationsApp {
       }
       
    });
-
+   
     fauth.getUser().subscribe(user =>{
       this.email = user.email;
     })
@@ -102,33 +93,30 @@ export class LocationsApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      if (isCordovaAvailable()){
+        this.oneSignal.startInit(oneSignalAppId, sender_id);
+        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+        this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
+        this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
+        this.oneSignal.endInit();
+      }
+      socket.getMessages().subscribe((data:any) => {
+       switch(data.Command)
+       {
+         case 'ChargeInitRequest':
+           //iniciar carga
+           this.nav.push(ChargeConfirmationPage, {data:data});
+           break;
+         case 'ChargeInitSecured':
+           //carga iniciada
+           break;
+         case 'ChargeEndSecured':
+           //fin de la carga
+           break;
+         default:
+       }
+      });
 
-      const options: PushOptions = {
-        android: {},
-        ios: {
-            alert: 'true',
-            badge: true,
-            sound: 'false'
-        },
-        windows: {},
-        browser: {
-          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-        }
-      };
-      const pushObject: PushObject = this.push.init(options);
-      pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
-      pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-      pushObject.on('error').subscribe((error) => console.log('Error with Push plugin', error));
-
-      /*this.localNotifications.on('click').subscribe( (notification) => {
-        let json = JSON.parse(notification.data);
-   
-        let alert = alertCtrl.create({
-          title: notification.title,
-          subTitle: json.mydata
-        });
-        alert.present();
-      });*/
     });
   }
 
@@ -238,6 +226,13 @@ export class LocationsApp {
   addNewStation()
   {
     this.nav.push(PlacePlugPage, {email: this.email});
+  }
+  private onPushReceived(payload: OSNotificationPayload) {
+    alert('Push recevied:' + payload.body);
+  }
+  
+  private onPushOpened(payload: OSNotificationPayload) {
+    alert('Push opened: ' + payload.body);
   }
 }
 

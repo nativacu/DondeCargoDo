@@ -28,16 +28,8 @@ import { PlatformProvider } from '../providers/platform/platform';
 import { WebsocketProvider } from '../providers/websocket/websocket';
 import { Push } from '@ionic-native/push';
 import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
-
-
-const firebase = {
-  apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
-  authDomain: "friendlychat-b018e.firebaseapp.com",
-  databaseURL: "https://friendlychat-b018e.firebaseio.com",
-  projectId: "friendlychat-b018e",
-  storageBucket: "friendlychat-b018e.appspot.com",
-  messagingSenderId: "1032475507428",
-}
+import { OneSignal } from '@ionic-native/onesignal';
+import { firebase } from '../config'
 
 @NgModule({
   declarations: [
@@ -84,6 +76,7 @@ const firebase = {
     PlatformProvider,
     WebsocketProvider,
     Push,
+    OneSignal,
   ]
 })
 export class AppModule {}
