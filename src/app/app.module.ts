@@ -30,6 +30,7 @@ import { Push } from '@ionic-native/push';
 import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
 import { OneSignal } from '@ionic-native/onesignal';
 import { firebase } from '../config'
+import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { firebase } from '../config'
     RegisterPlugPage,
     PlacePlugPage,
     AddPlugPage,
-    ChargeConfirmationPage
+    ChargeConfirmationPage,
+    ChargingMenuPage,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ import { firebase } from '../config'
     PlacePlugPage,
     RegisterPlugPage,
     AddPlugPage,
-    ChargeConfirmationPage
+    ChargeConfirmationPage,
+    ChargingMenuPage,
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

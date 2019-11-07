@@ -8,6 +8,7 @@ import { AddPlugPage } from '../add-plug/add-plug';
 import { AuthProvider } from '../../providers/auth/auth';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
+import { ChargingMenuPage } from '../charging-menu/charging-menu';
 
 @Component({
   selector: 'page-map',
@@ -44,9 +45,18 @@ export class MapPage {
           case 'LugaresRetreived':
             this.chargersInit(data.Lugares);
             break;
-          /*case 'ChargeInitRequest':
+          case 'ChargeInitRequest':
             this.navCtrl.push(ChargeConfirmationPage, {data:data});
-            break;*/
+            break;
+          case 'ChargeInitSecured':
+           //carga iniciada
+           this.navCtrl.push(ChargingMenuPage, {Date:new Date()});
+           break;
+          case 'ChargeEndSecured':
+            //fin de la carga
+            console.log(data.Monto)
+            this.navCtrl.popToRoot();
+           break;
           default:
             break;
         }
