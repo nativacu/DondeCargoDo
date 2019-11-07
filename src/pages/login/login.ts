@@ -9,6 +9,7 @@ import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { BehaviorSubject } from 'rxjs';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { ChargingMenuPage } from '../charging-menu/charging-menu';
 /**
  * Generated class for the LoginPage page.
  *
@@ -67,7 +68,7 @@ export class LoginPage implements OnInit{
   login(){
     this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
       ()=>{
-        this.socket.sendMessage('{"Command":"CrearConexion","Email":' + '\"' + this.loginEmail + '\"' + '}');
+        this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail}));
       },
       (error) =>{
         window.alert(error);
@@ -85,6 +86,10 @@ export class LoginPage implements OnInit{
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
    
+  }
+  
+  test(){
+    this.navCtrl.push('ChargingMenuPage', {Date : new Date()});
   }
 
 }

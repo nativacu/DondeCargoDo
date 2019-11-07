@@ -63,11 +63,11 @@ export class RegisterPlugPage {
   
   uploadData(){
       let data =
-       '{"Command": "CrearLugar", "UserUserId":"'+ this.user.UserID+', "Nombre":"'+ this.stationName+'", "Direccion":"'+ this.stationDir+'", "Horario_Inicio_Operaciones":"'+ this.initTimeSlot+
-       '","Horario_Fin_Operaciones":"'+ this.endTimeSlot+'", "Dia_Inicio_Operaciones":"'+ this.daysArray[this.dateInit]+
-       '","Dia_Fin_Operaciones":"'+ this.daysArray[this.dateEnd]+'", "lat":"'+this.placeLocation.lat()+'", "lng":"'+this.placeLocation.lng()+ 
-       '","Desc":"'+ this.stationDesc+'", "Tipo":"'+ this.tipo+'", "Costo":"'+ this.number+'"}';
-       console.log(data);
+       {Command: "CrearLugar", UserUserId: this.user.UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot
+       ,Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit]
+       , Dia_Fin_Operaciones: this.daysArray[this.dateEnd], lat: this.placeLocation.lat(), lng: this.placeLocation.lng() 
+       , Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
+       console.log(JSON.stringify(data));
        this.socket.sendMessage(data)
   }
 

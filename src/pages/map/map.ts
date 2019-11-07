@@ -44,9 +44,9 @@ export class MapPage {
           case 'LugaresRetreived':
             this.chargersInit(data.Lugares);
             break;
-          case 'ChargeInitRequest':
+          /*case 'ChargeInitRequest':
             this.navCtrl.push(ChargeConfirmationPage, {data:data});
-            break;
+            break;*/
           default:
             break;
         }
@@ -61,7 +61,7 @@ export class MapPage {
     
     this.platform.ready().then(() => {
       //TODO change all this logic of stationrequest
-      this.socket.sendMessage('{"Command":"GetLugares"}');
+      this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
     });
 
   }

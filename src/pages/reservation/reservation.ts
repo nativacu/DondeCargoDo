@@ -91,7 +91,7 @@ export class ReservationPage {
 
   checkAvailability(){
     //let locations = this.http.makeStationRequest();
-    this.socket.sendMessage('{"Command":"GetLugares"}')
+    this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}))
     
   }
 

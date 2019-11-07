@@ -93,9 +93,9 @@ export class RegisterPage {
           slname = '0';
         }
         //TODO: needs to check about t_usuario
-        let dataToSend = '{"Command": "CrearUser","Cedula":"' + this.registerForm.controls['uniqueId'].value + '", "PrimerNombre":"' + this.registerForm.controls['fname'].value + '", "SegundoNombre":"' + sname+'", "PrimerApellido":"'+ this.registerForm.controls['lname'].value+'", "SegundoApellido":"'+ slname+ 
-        '","t_usuario":"'+ type+'", "Foto":"'+ 0+'", "Email":"'+ this.registerForm.controls['email'].value+'", "telefono":"'+ this.registerForm.controls['telNumber'].value+'"}'
-        this.socket.sendMessage(dataToSend);
+        let dataToSend = {Command: "CrearUser", Cedula: this.registerForm.controls['uniqueId'].value , PrimerNombre: this.registerForm.controls['fname'].value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls['lname'].value, SegundoApellido: slname 
+        , t_usuario: type, Foto: 0, Email: this.registerForm.controls['email'].value, telefono: this.registerForm.controls['telNumber'].value}
+        this.socket.sendMessage(JSON.stringify(dataToSend));
       },
       (error) =>{
         window.alert(error);
