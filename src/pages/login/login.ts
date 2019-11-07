@@ -89,7 +89,7 @@ export class LoginPage implements OnInit{
   }
   
   test(){
-    this.navCtrl.push('ChargingMenuPage', {Date : new Date()});
+    this.navCtrl.push(ChargingMenuPage, {Date : new Date()});
   }
 
 }
