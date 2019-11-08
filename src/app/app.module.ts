@@ -31,6 +31,7 @@ import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-conf
 import { OneSignal } from '@ionic-native/onesignal';
 import { firebase } from '../config'
 import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
     AngularFireAuthModule,
     IonicModule.forRoot(LocationsApp),
     IonicStorageModule.forRoot(),
+    RoundProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

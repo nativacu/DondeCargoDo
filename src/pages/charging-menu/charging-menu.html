@@ -11,9 +11,28 @@
 </ion-header>
 
 <ion-content padding>
+   
+
   <div class="chronometer">
-    <h1>{{time}}</h1>
+      
+    <round-progress
+      [current]="max"
+      [max]="max"
+      [color]="'#45ccce'"
+      [background]="background"
+      [radius]="125"
+      [stroke]="20"
+      [semicircle]="true"
+      [rounded]="false"
+      [clockwise]="true"
+      [responsive]="false"
+      [duration]="duration"
+      [animation]="'easeOutQuart'"
+      [animationDelay]="0"></round-progress>
+      <div class="max" [ngStyle]="getOverlayStyle()">{{ time }}/{{ max }}</div>
     <br>
     <button ion-button default type="button" class="btn btn-danger btn-lg" (click)="cancelCharge()">Cancelar Carga</button>
   </div>
+
+  
 </ion-content>

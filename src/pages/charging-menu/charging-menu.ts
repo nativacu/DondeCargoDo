@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, IonicPageModule } from 'ionic-angular';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { AuthProvider } from '../../providers/auth/auth';
-
+import {NgModule} from '@angular/core';
+import {RoundProgressModule} from 'angular-svg-round-progressbar';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 /**
  * Generated class for the ChargingMenuPage page.
  *
@@ -15,11 +17,19 @@ import { AuthProvider } from '../../providers/auth/auth';
   selector: 'page-charging-menu',
   templateUrl: 'charging-menu.html',
 })
+@NgModule({
+  imports: [RoundProgressModule]
+})
 export class ChargingMenuPage {
 
   time:String;
   startTime:any;
   user:any;
+  current = 25;
+  max = 30;
+  duration = 0; //0 si el usuario no puso maximo 
+  background = '#45ccce'; //#eaeaea si el usuario puso maximo 
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private socket:WebsocketProvider,
     private afauth:AuthProvider) {
@@ -48,6 +58,21 @@ export class ChargingMenuPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChargingMenuPage');
+  }
+
+  getOverlayStyle() {
+    let isSemi = true;
+    let transform = (isSemi ? '' : 'translateY(-10%) ') + 'translateX(0%)';
+
+    return {
+      'top': isSemi ? 'auto' : '50%',
+      'bottom': isSemi ? '10%' : 'auto',
+      'left': '50%',
+      'transform': transform,
+      '-moz-transform': transform,
+      '-webkit-transform': transform,
+      'font-size': 125 / 3.5 + 'px'
+    };
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, PlatformRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
@@ -34,6 +34,7 @@ export class RegisterPage {
   registerForm:FormGroup;
   constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
     public socket:WebsocketProvider) {
+
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
