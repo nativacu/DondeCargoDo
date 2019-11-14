@@ -62,16 +62,16 @@ export class ChargingMenuPage {
 
   getOverlayStyle() {
     let isSemi = true;
-    let transform = (isSemi ? '' : 'translateY(-10%) ') + 'translateX(0%)';
+    let transform = (isSemi ? '' : 'translateY(-50%) ') + 'translateX(-50%)';
 
     return {
-      'top': isSemi ? 'auto' : '50%',
+      'top': isSemi ? '44%' : '50%',
       'bottom': isSemi ? '10%' : 'auto',
       'left': '50%',
       'transform': transform,
       '-moz-transform': transform,
       '-webkit-transform': transform,
-      'font-size': 125 / 3.5 + 'px'
+      'font-size':125 / 3.5 + 'px'
     };
   }
 
