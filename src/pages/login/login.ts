@@ -11,6 +11,7 @@ import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
 import { ReceiptPage } from '../receipt/receipt';
+import { OneSignal } from '@ionic-native/onesignal';
 /**
  * Generated class for the LoginPage page.
  *
@@ -35,17 +36,7 @@ export class LoginPage implements OnInit{
   phone: string;
   constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
     public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
-    public socket:WebsocketProvider) {
-
-    // platform.ready().then(() => {
-    //   // Okay, so the platform is ready and our plugins are available.
-    //   // Here you can do any higher level native things you might need.
-    //   statusBar.styleDefault();
-    //   splashScreen.hide();
-    //   (window as any).handleOpenURL = (url: string) => {
-    //     Auth0Cordova.onRedirectUri(url);
-    //   }
-    // });
+    public socket:WebsocketProvider, public onesignal:OneSignal) {
   }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -69,7 +60,15 @@ export class LoginPage implements OnInit{
   login(){
     this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
       ()=>{
-        this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail}));
+        if(this.platform.checkPlatform()){
+          this.onesignal.getIds().then((idData) =>{
+            this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: idData.userId}));
+          })
+        }
+        else
+        {
+          this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: 0}));
+        }
       },
       (error) =>{
         window.alert(error);

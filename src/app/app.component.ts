@@ -240,6 +240,7 @@ export class LocationsApp {
   }
   
   private onPushOpened(payload: OSNotificationPayload) {
+    //this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
     alert('Push opened: ' + payload.body);
   }
 }
