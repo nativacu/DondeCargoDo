@@ -32,6 +32,7 @@ import { OneSignal } from '@ionic-native/onesignal';
 import { firebase } from '../config'
 import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import { ReceiptPage } from '../pages/receipt/receipt';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
     AddPlugPage,
     ChargeConfirmationPage,
     ChargingMenuPage,
+    ReceiptPage,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +67,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
     AddPlugPage,
     ChargeConfirmationPage,
     ChargingMenuPage,
+    ReceiptPage,
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

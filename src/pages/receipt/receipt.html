@@ -1,0 +1,48 @@
+<!--
+  Generated template for the ReceiptPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>receipt</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        Tiempo de inicio:
+      </div>
+      <div class="col-6">
+        {{startTime.getHours()}}:{{startTime.getMinutes()}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        Tiempo de fin:
+      </div>
+      <div class="col-6">
+          {{endTime.getHours()}}:{{endTime.getMinutes()}}
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+          Tiempo de carga:
+        </div>
+        <div class="col-6">
+          {{endTime.getHours() - startTime.getHours()}}:{{endTime.getMinutes() - startTime.getMinutes()}}
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-6">
+        Total a pagar:
+      </div>
+      <div class="col-6">
+        {{monto}}
+      </div>
+    </div>
+  </div>
+</ion-content>

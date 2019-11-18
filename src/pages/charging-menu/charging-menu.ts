@@ -5,6 +5,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import {NgModule} from '@angular/core';
 import {RoundProgressModule} from 'angular-svg-round-progressbar';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ReceiptPage } from '../receipt/receipt';
 /**
  * Generated class for the ChargingMenuPage page.
  *
@@ -38,6 +39,14 @@ export class ChargingMenuPage {
     setInterval(this.counter.bind(this), 1000)
     afauth.getUser().subscribe((usr) =>{
       this.user = usr.email;
+    })
+    this.socket.getMessages().subscribe((data)=>{
+      switch(data.Command)
+      {
+        case "ChargeEndSecured":
+          this.navCtrl.setRoot(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date()})
+          break;
+      }
     })
   }
 

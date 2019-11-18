@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
+import { ReceiptPage } from '../receipt/receipt';
 /**
  * Generated class for the LoginPage page.
  *
@@ -89,7 +90,7 @@ export class LoginPage implements OnInit{
   }
   
   test(){
-    this.navCtrl.push(ChargingMenuPage, {Date : new Date()});
+    this.navCtrl.push(ReceiptPage, {monto: 0, startTime: new Date(), endTime: new Date()});
   }
 
 }

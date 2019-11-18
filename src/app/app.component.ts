@@ -103,26 +103,26 @@ export class LocationsApp {
       }
       socket.getMessages().subscribe((data:any) => {
         console.log(data)
-       switch(data.Command)
-       {
-         case 'ChargeInitRequest':
+        switch(data.Command)
+        {
+          case 'ChargeInitRequest':
            //iniciar carga
-           this.nav.push(ChargeConfirmationPage, {data:data});
-           break;
-         case 'ChargeInitSecured':
-           //carga iniciada
-           this.nav.push(ChargingMenuPage, {Date:new Date()});
-           break;
-         case 'ChargeEndSecured':
-           //fin de la carga
-           this.nav.popToRoot();
-           break;
-           case "ConexionCreated":
-              this.fauth.currUser.next(data[0]);
-              this.nav.setRoot(MapPage);
-              break;
-         default:
-       }
+            this.nav.push(ChargeConfirmationPage, {data:data});
+            break;
+          case 'ChargeInitSecured':
+            //carga iniciada
+            this.nav.push(ChargingMenuPage, {Date:new Date()});
+            break;
+          case 'ChargeEndSecured':
+            //fin de la carga
+            this.nav.popToRoot();
+            break;
+          case "ConexionCreated":
+            this.fauth.currUser.next(data[0]);
+            this.nav.setRoot(MapPage);
+            break;
+          default:
+        }
       });
 
     });
