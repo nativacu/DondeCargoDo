@@ -89,7 +89,7 @@ export class LoginPage implements OnInit{
   }
   
   test(){
-    this.navCtrl.push(ReceiptPage, {monto: 0, startTime: new Date(), endTime: new Date()});
+    this.navCtrl.push(ChargingMenuPage, {monto: 0, startTime: new Date(), endTime: new Date()});
   }
 
 }

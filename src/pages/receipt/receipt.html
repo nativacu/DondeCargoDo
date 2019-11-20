@@ -6,43 +6,39 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>receipt</ion-title>
+    <ion-title>Cargo Final</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding color="primary">
   <div class="container">
-    <div class="row">
-      <div class="col-6">
-        Tiempo de inicio:
+
+      <div class="card border-info mb-3" >
+          <div class="card-header text-info">Tiempo de Inicio:</div>
+          <div class="card-body text-info">
+            <h5 class="card-title"> {{startTime.getHours()}}:{{startTime.getMinutes()}}</h5>
+          </div>
       </div>
-      <div class="col-6">
-        {{startTime.getHours()}}:{{startTime.getMinutes()}}
+
+      <div class="card border-info mb-3" >
+          <div class="card-header text-info">Tiempo de Fin:</div>
+          <div class="card-body text-info">
+            <h5 class="card-title"> {{startTime.getHours()}}:{{startTime.getMinutes()}}</h5>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        Tiempo de fin:
+
+      <div class="card border-info mb-3" >
+          <div class="card-header text-info">Tiempo de Carga:</div>
+          <div class="card-body text-info">
+            <h5 class="card-title"> {{endTime.getHours() - startTime.getHours()}}:{{endTime.getMinutes() - startTime.getMinutes()}}</h5>
+          </div>
       </div>
-      <div class="col-6">
-          {{endTime.getHours()}}:{{endTime.getMinutes()}}
+
+      <div class="card border-info mb-3" >
+          <div class="card-header text-info">Total a Pagar:</div>
+          <div class="card-body text-info">
+            <h5 class="card-title"> {{monto}}</h5>
+          </div>
       </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-          Tiempo de carga:
-        </div>
-        <div class="col-6">
-          {{endTime.getHours() - startTime.getHours()}}:{{endTime.getMinutes() - startTime.getMinutes()}}
-        </div>
-      </div>
-    <div class="row">
-      <div class="col-6">
-        Total a pagar:
-      </div>
-      <div class="col-6">
-        {{monto}}
-      </div>
-    </div>
   </div>
 </ion-content>

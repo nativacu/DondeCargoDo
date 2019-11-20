@@ -45,7 +45,7 @@ export class LocationsApp {
     public http: HttpRequestProvider,
     public socket:WebsocketProvider,
     private push: Push,
-    alertCtrl: AlertController,
+    private alertCtrl: AlertController,
     private oneSignal: OneSignal) {
    
    //  this.push.hasPermission()
@@ -240,8 +240,28 @@ export class LocationsApp {
   }
   
   private onPushOpened(payload: OSNotificationPayload) {
-    //this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
-    alert('Push opened: ' + payload.body);
-  }
+      let alert = this.alertCtrl.create({
+        title: 'Carga Recibida',
+        message: 'Se ha detectado una conexión para cargar su vehículo. ¿Desea iniciar la carga?',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel',
+            handler: () => {
+              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "N" , PlugID: + payload.additionalData}));
+            }
+          },
+          {
+            text: 'Sí',
+            handler: () => {
+              this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
+              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "Y" , PlugID: + payload.additionalData}));
+            }
+          }
+        ]
+      });
+      alert.present();
+    }
+
 }
 

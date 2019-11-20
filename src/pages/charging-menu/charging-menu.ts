@@ -6,6 +6,7 @@ import {NgModule} from '@angular/core';
 import {RoundProgressModule} from 'angular-svg-round-progressbar';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReceiptPage } from '../receipt/receipt';
+import { AlertController } from 'ionic-angular';
 /**
  * Generated class for the ChargingMenuPage page.
  *
@@ -24,19 +25,24 @@ import { ReceiptPage } from '../receipt/receipt';
 export class ChargingMenuPage {
 
   time:String;
+  timeElapsed: Date;
   startTime:any;
   user:any;
-  current = 25;
-  max = 30;
-  duration = 0; //0 si el usuario no puso maximo 
-  background = '#45ccce'; //#eaeaea si el usuario puso maximo 
+  current = 1;
+  max = 100;
+  duration = 20; //0 si el usuario no puso maximo 
+  background = '#eaeaea'; //#eaeaea si el usuario puso maximo 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private socket:WebsocketProvider,
-    private afauth:AuthProvider) {
+    private afauth:AuthProvider,
+    private alertCtrl: AlertController) {
     this.startTime = (navParams.get("Date"))?navParams.get("Date"):new Date();
     //this.startTime = new Date();
-    setInterval(this.counter.bind(this), 1000)
+    setInterval(this.counter.bind(this), 1000);
+
+    setInterval(this.progress.bind(this), 50);
+
     afauth.getUser().subscribe((usr) =>{
       this.user = usr.email;
     })
@@ -53,16 +59,10 @@ export class ChargingMenuPage {
   counter()
   {
     let currentTime:any = new Date();
-    let timeElapsed:any = new Date(currentTime - this.startTime);
-    this.time = timeElapsed.getUTCHours() + ':' +
-                timeElapsed.getUTCMinutes() + ':' +
-                timeElapsed.getUTCSeconds();
-  }
-
-  cancelCharge()
-  {
-    console.log(JSON.stringify({Command:"ChargingCancellation", Email: this.user}));
-    this.socket.sendMessage(JSON.stringify({Command:"ChargingCancellation", email: this.user}))
+    this.timeElapsed = new Date(currentTime - this.startTime);
+    this.time = this.timeElapsed.getUTCHours() + ':' +
+                this.timeElapsed.getUTCMinutes() + ':' +
+                this.timeElapsed.getUTCSeconds();
   }
 
   ionViewDidLoad() {
@@ -83,5 +83,41 @@ export class ChargingMenuPage {
       'font-size':125 / 3.5 + 'px'
     };
   }
+
+
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Detener',
+      message: '¿Desea detener la carga?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log(JSON.stringify({Command:"ChargingCancellation", Email: this.user}));
+            this.socket.sendMessage(JSON.stringify({Command:"ChargingCancellation", email: this.user}))
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  progress() {
+
+    this.current += 0.1;
+
+    if(this.current >= this.max){
+      this.current = 1;
+    }
+    
+  }
+  
 
 }

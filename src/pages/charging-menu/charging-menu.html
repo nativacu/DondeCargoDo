@@ -11,12 +11,10 @@
 </ion-header>
 
 <ion-content padding>
-   
-
   <div class="chronometer" >
-    <div class="current" [ngStyle]="getOverlayStyle()" >{{ time }}</div>
+    <div class="current" [ngStyle]="getOverlayStyle()" >{{timeElapsed | date: 'HH:mm:ss' }}</div>
     <round-progress
-      [current]="max"
+      [current]="current"
       [max]="max"
       [color]="'#45ccce'"
       [background]="background"
@@ -30,10 +28,8 @@
       [animation]="'easeOutQuart'"
       [animationDelay]="0"></round-progress>
 
-      
-      
     <br>
-    <button ion-button default type="button" class="btn btn-danger btn-lg" (click)="cancelCharge()">Cancelar Carga</button>
+    <button ion-button default type="button" class="btn btn-danger btn-lg" (click)="presentConfirm()">Cancelar Carga</button>
   </div>
 
   
