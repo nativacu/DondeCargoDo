@@ -62,6 +62,7 @@ export class LocationsApp {
   // });
 
   this.fauth.currUser.subscribe((usr)=> {
+    console.log(usr)
     this.user = usr;
     if(this.user){
       this.loggedIn = true;
@@ -77,7 +78,7 @@ export class LocationsApp {
       }
       else
       {
-        this.user = true;
+        //this.user = true;
         this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
         this.userName = "Pedro";
         this.lname = "Pérez"
@@ -104,7 +105,7 @@ export class LocationsApp {
         this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
         this.oneSignal.endInit();
       }
-      socket.getMessages().subscribe((data:any) => {
+      /*socket.getMessages().subscribe((data:any) => {
         console.log(data)
         switch(data.Command)
         {
@@ -129,7 +130,7 @@ export class LocationsApp {
             break;
           default:
         }
-      });
+      });*/
 
     });
   }
@@ -217,7 +218,7 @@ export class LocationsApp {
     }
 
     showAllTransactions(){
-        this.socket.sendMessage(JSON.stringify({Command:"InItTransactionRequest", Id: this.user.Id}));
+        this.socket.sendMessage(JSON.stringify({Command:"InitTransactionRequest", Email: this.user.Email}));
     }
 
 }

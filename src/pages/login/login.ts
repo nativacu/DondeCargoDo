@@ -46,7 +46,7 @@ export class LoginPage implements OnInit{
       switch(data.Command)
       {
         case "ConexionCreated":
-            this.fauth.currUser.next(data[0]);
+            this.fauth.currUser.next(data);
             this.navCtrl.setRoot(MapPage);
         default:
           break;

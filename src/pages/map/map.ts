@@ -9,6 +9,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
+import { TransactionListPage } from '../transaction-list/transaction-list';
 
 @Component({
   selector: 'page-map',
@@ -56,7 +57,10 @@ export class MapPage {
             //fin de la carga
             console.log(data.Monto)
             this.navCtrl.popToRoot();
-           break;
+            break;
+          case "TransactionRequest":
+            this.navCtrl.push(TransactionListPage, {data:data})
+            break;
           default:
             break;
         }

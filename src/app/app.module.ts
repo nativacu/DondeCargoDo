@@ -33,6 +33,7 @@ import { firebase } from '../config'
 import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { ReceiptPage } from '../pages/receipt/receipt';
+import { TransactionListPage } from '../pages/transaction-list/transaction-list';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ReceiptPage } from '../pages/receipt/receipt';
     ChargeConfirmationPage,
     ChargingMenuPage,
     ReceiptPage,
+    TransactionListPage,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ import { ReceiptPage } from '../pages/receipt/receipt';
     ChargeConfirmationPage,
     ChargingMenuPage,
     ReceiptPage,
+    TransactionListPage,
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

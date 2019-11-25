@@ -19,7 +19,7 @@ export class TransactionListPage {
   transactionList: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public websocket:WebsocketProvider) {
-    this.transactionList = JSON.parse(this.navParams.get('data'));
+    this.transactionList = this.navParams.get('data').Transactions;
   }
 
   ionViewDidLoad() {
