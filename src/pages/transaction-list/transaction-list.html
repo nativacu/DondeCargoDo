@@ -1,0 +1,23 @@
+<!--
+  Generated template for the TransactionListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Transacciones Anteriores</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+      <ion-content>
+        <ion-item *ngFor="let transaction of transactionList">
+            <ion-label>Día: {{transaction.FechaFin}}</ion-label>
+            <ion-label>Tiempo Total: {{transaction.Hora_Fin - transaction.Hora_Inicio}}</ion-label>
+            <ion-label>Monto: RD${{transaction.Monto}}</ion-label>
+        </ion-item>
+      </ion-content>
+      </ion-list>
+</ion-content>

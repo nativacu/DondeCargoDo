@@ -11,6 +11,7 @@ import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
+import { TransactionListPage } from '../pages/transaction-list/transaction-list';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
 import { isCordovaAvailable } from '../common/is-cordova-available';
 import { oneSignalAppId, sender_id } from '../config';
@@ -36,6 +37,7 @@ export class LocationsApp {
   lname: string;
   accountType: account.consumer;
   loggedIn: boolean = false;
+  editing: boolean = false;
   
   phoneNumber: string;
   constructor(platform: Platform,
@@ -75,6 +77,7 @@ export class LocationsApp {
       }
       else
       {
+        this.user = true;
         this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
         this.userName = "Pedro";
         this.lname = "Pérez"
@@ -121,13 +124,15 @@ export class LocationsApp {
             this.fauth.currUser.next(data[0]);
             this.nav.setRoot(MapPage);
             break;
+          case "TransactionRequest":
+            this.nav.push(TransactionListPage, {data:data})
+            break;
           default:
         }
       });
 
     });
   }
-
 
 
   takePicture(){
@@ -150,79 +155,27 @@ export class LocationsApp {
       correctOrientation: true
     }
   
-    Camera.getPicture(cameraOptions)
-      .then(FILE_URI => this.imageSrc = FILE_URI, 
-      err => console.log(err));   
-  }
-
-
-  changeName(){
-    var currentName = document.getElementById("name");
-    var input = document.getElementById("input");
-    currentName.style.display = "none";
-    input.style.display="inherit";
+    // Camera.getPicture(cameraOptions)
+    //   .then(FILE_URI => this.imageSrc = FILE_URI, 
+    //   err => console.log(err));   
   }
   
-  changeMail(){
-    // var currentMail = document.getElementById("mail");
-    // var input = document.getElementById("mailInput");
-    // currentMail.style.display = "none";
-    // input.style.display="inherit";
-  }
 
   changePhoneNumber(){
     var currentNo = document.getElementById("phoneNumber");
     var input = document.getElementById("phoneInput");
-    currentNo.style.display = "none";
-    input.style.display="inherit";
+    //currentNo.style.display = "none";
+    //input.style.display="inherit";
   }
 
   showInfo(){
-    var currentName = document.getElementById("name");
-    var input = document.getElementById("input");
-    var currentMail = document.getElementById("mail");
-    var mailInput = document.getElementById("mailInput");
-    var currentNo = document.getElementById("phoneNumber");
-    var phoneInput = document.getElementById("phoneInput");
-    var saveButton = document.getElementById("saveButton");
-    var editIcon = document.getElementById("editIcon");
-    var editIcon1 = document.getElementById("editIcon1");
-    var editIcon2 = document.getElementById("editIcon2");
-    var editButton = document.getElementById("editButton");
-
-    editButton.style.display = "inline";
-    //editButton.style.visibility = "visible"
-    currentName.style.display = "inherit";
-    currentMail.style.display = "inherit";
-    currentNo.style.display = "inherit";
-
-    input.style.display="none";
-    mailInput.style.display="none";
-    phoneInput.style.display="none";
-    saveButton.style.display="none";
-    //saveButton.style.visibility="hidden";
-    editIcon.style.display="none";
-    editIcon1.style.display="none";
-    editIcon2.style.display="none";
-    //TODO change http for socket send
+    this.editing = false;
     this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
       foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
 
   enableEdit(){
-    var saveButton = document.getElementById("saveButton");
-    var editIcon = document.getElementById("editIcon");
-    var editIcon1 = document.getElementById("editIcon1");
-    var editIcon2 = document.getElementById("editIcon2");
-    var editButton = document.getElementById("editButton");
-
-    //saveButton.style.visibility="visible";
-    saveButton.style.display="inline";
-    editIcon.style.display="inline";
-    editIcon1.style.display="inline";
-    editIcon2.style.display="inline";
-    editButton.style.display="none";
-    //editButton.style.visibility = "hidden";
+    this.editing = true;
   }
   
   logout()
@@ -261,6 +214,10 @@ export class LocationsApp {
         ]
       });
       alert.present();
+    }
+
+    showAllTransactions(){
+        this.socket.sendMessage(JSON.stringify({Command:"InItTransactionRequest", Id: this.user.Id}));
     }
 
 }
