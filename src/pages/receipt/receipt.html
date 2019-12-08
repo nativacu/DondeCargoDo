@@ -6,39 +6,36 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Cargo Final</ion-title>
+    <ion-title>Información Final</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding color="primary">
-  <div class="container">
 
-      <div class="card border-info mb-3" >
-          <div class="card-header text-info">Tiempo de Inicio:</div>
-          <div class="card-body text-info">
-            <h5 class="card-title"> {{startTime}}</h5>
-          </div>
-      </div>
 
-      <div class="card border-info mb-3" >
-          <div class="card-header text-info">Tiempo de Fin:</div>
-          <div class="card-body text-info">
-            <h5 class="card-title"> {{endTime}}</h5>
-          </div>
-      </div>
+<ion-content color="primary">
 
-      <div class="card border-info mb-3" >
-          <div class="card-header text-info">Tiempo de Carga:</div>
-          <div class="card-body text-info">
-            <h5 class="card-title"> {{elapseTime}}</h5>
-          </div>
-      </div>
-
-      <div class="card border-info mb-3" >
-          <div class="card-header text-info">Total a Pagar:</div>
-          <div class="card-body text-info">
-            <h5 class="card-title"> {{monto}}</h5>
-          </div>
-      </div>
+  <div class="wrap">
+        <div>
+        <img src="../../assets/imgs/background_receipt.png"  height="35%" width="100%">
+        <h1 class="text_over_image">Duración Total de la Carga <span><br>{{elapseTime}} </span> </h1>
+        </div>
   </div>
+
+
+  <div class="container">
+      <ion-list class="text-center mb-5" >
+          <ion-item>
+            <ion-label><span slot="start"><ion-icon style="font-size: 1.5em;  margin-right: 15%; color: #16a085" name="cash"></ion-icon></span>Total a Pagar: RD${{monto}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><ion-icon style="font-size: 1.5em;  margin-right: 15%; color: #14b451" name="timer"></ion-icon>Tiempo de Inicio: {{startTime}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><ion-icon style="font-size: 1.5em;  margin-right: 15%; color: #c71414" name="timer"></ion-icon>Tiempo de Fin: {{endTime}}</ion-label>
+          </ion-item>
+        </ion-list>
+
+        <button  ion-button default full color="secondary" >Proceder al Pago</button>
+  </div>
+  
 </ion-content>

@@ -10,20 +10,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding> 
+  <ion-content>
     <ion-list>
-      <ion-content>
-        <div *ngFor="let transaction of transactionList">
-          <ion-item>
-            <ion-label>Día: {{transaction.Fecha_Inicio}}</ion-label>
+          <ion-item *ngFor="let transaction of transactionList">
+            <ion-label>
+              <h2>Día: {{transaction.Fecha_Inicio}} 
+                <br>Tiempo Total: {{transaction.Hora_Fin - transaction.Hora_Inicio}} 
+                <br>Monto: RD${{transaction.Monto}}
+                <br>Lugar: </h2>
+            </ion-label>
           </ion-item>
-          <ion-item>
-            <ion-label>Tiempo Total: {{transaction.Hora_Fin - transaction.Hora_Inicio}}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>Monto: RD${{transaction.Monto}}</ion-label>
-          </ion-item>
-      </div>
-      </ion-content>
-      </ion-list>
+    </ion-list>
+  </ion-content>
+      
 </ion-content>
