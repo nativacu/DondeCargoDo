@@ -16,7 +16,7 @@
           <ion-item *ngFor="let transaction of transactionList">
             <ion-label>
               <h2>Día: {{transaction.Fecha_Inicio}} 
-                <br>Tiempo Total: {{transaction.Hora_Fin - transaction.Hora_Inicio}} 
+                <br>Tiempo Total: {{transaction.Date.getUTCHours() - transaction.Date.getUTCHours()}} 
                 <br>Monto: RD${{transaction.Monto}}
                 <br>Lugar: </h2>
             </ion-label>

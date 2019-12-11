@@ -39,6 +39,7 @@ export class ChargingMenuPage {
     private alertCtrl: AlertController) {
     this.startTime = (navParams.get("Date"))?navParams.get("Date"):new Date();
     //this.startTime = new Date();
+    console.log(Date())
     setInterval(this.counter.bind(this), 1000);
 
     setInterval(this.progress.bind(this), 50);
@@ -50,7 +51,11 @@ export class ChargingMenuPage {
       switch(data.Command)
       {
         case "ChargeEndSecured":
-          this.navCtrl.setRoot(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date()})
+          let dateEnd:String = data.Fecha_Fin;
+          let datePar = dateEnd.split('-')
+          let hourEnd:String = data.Hora_Fin
+          let hourPar = hourEnd.split(':')
+          this.navCtrl.setRoot(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])})
           break;
       }
     })

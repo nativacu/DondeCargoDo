@@ -51,7 +51,13 @@ export class MapPage {
             break;
           case 'ChargeInitSecured':
            //carga iniciada
-           this.navCtrl.push(ChargingMenuPage, {Date:new Date()});
+           let dateInit:String = data.Fecha_Inicio;
+           let datePar = dateInit.split('-')
+           let hourInit:String = data.Hora_Inicio
+           let hourPar = hourInit.split(':')
+           let startDate =  new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1]);
+           console.log(startDate);
+           this.navCtrl.push(ChargingMenuPage, {Date: startDate});
            break;
           case 'ChargeEndSecured':
             //fin de la carga
@@ -59,6 +65,22 @@ export class MapPage {
             this.navCtrl.popToRoot();
             break;
           case "TransactionRequest":
+            for(let ok of data.Transactions)
+            {
+              if(ok.Monto)
+              {
+                let dateEnd:String = ok.Fecha_Inicio;
+                let datePar = dateEnd.split('-')
+                let hourEnd:String = ok.Hora_Inicio;
+                let hourPar = hourEnd.split(':')
+                ok.Date = new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])
+              }
+              else
+              {
+                ok.Date = new Date()
+              }
+            }
+            console.log(data.Transactions.Date)
             this.navCtrl.push(TransactionListPage, {data:data})
             break;
           default:
