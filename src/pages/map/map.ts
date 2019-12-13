@@ -51,13 +51,7 @@ export class MapPage {
             break;
           case 'ChargeInitSecured':
            //carga iniciada
-           let dateInit:String = data.Fecha_Inicio;
-           let datePar = dateInit.split('-')
-           let hourInit:String = data.Hora_Inicio
-           let hourPar = hourInit.split(':')
-           let startDate =  new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1]);
-           console.log(startDate);
-           this.navCtrl.push(ChargingMenuPage, {Date: startDate});
+           this.navCtrl.push(ChargingMenuPage, {Date: this.chargeInitSecuredLogic(data)});
            break;
           case 'ChargeEndSecured':
             //fin de la carga
@@ -65,25 +59,7 @@ export class MapPage {
             this.navCtrl.popToRoot();
             break;
           case "TransactionRequest":
-            for(let ok of data.Transactions)
-            {
-              if(ok.Monto)
-              {
-                let dateInit:Array<String> = ok.Fecha_Inicio.split('-');
-                let hourInit:Array<String> = ok.Hora_Inicio.split(':');
-                let initDate:any = new Date(+dateInit[0], +dateInit[1] - 1, +dateInit[2], +hourInit[0], +hourInit[1])
-                let dateEnd:Array<String> = ok.Fecha_Fin.split('-');
-                let hourEnd:Array<String> = ok.Hora_Fin.split(':');
-                let endDate:any = new Date(+dateEnd[0], +dateEnd[1] - 1, +dateEnd[2], +hourEnd[0], +hourEnd[1])
-                ok.Date = new Date(endDate - initDate)
-              }
-              else
-              {
-                ok.Date = new Date()
-              }
-            }
-            console.log(data.Transactions.Date)
-            this.navCtrl.push(TransactionListPage, {data:data})
+            this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)})
             break;
           default:
             break;
@@ -158,4 +134,34 @@ export class MapPage {
       
   }
   
+  private chargeInitSecuredLogic(data:any){
+    let dateInit:String = data.Fecha_Inicio;
+    let datePar = dateInit.split('-')
+    let hourInit:String = data.Hora_Inicio
+    let hourPar = hourInit.split(':')
+    let startDate =  new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1]);
+    return startDate
+  }
+
+  private transactionRequestLogic(data:any){
+    for(let ok of data.Transactions)
+    {
+      if(ok.Monto)
+      {
+        let dateInit:Array<String> = ok.Fecha_Inicio.split('-');
+        let hourInit:Array<String> = ok.Hora_Inicio.split(':');
+        let initDate:any = new Date(+dateInit[0], +dateInit[1] - 1, +dateInit[2], +hourInit[0], +hourInit[1])
+        let dateEnd:Array<String> = ok.Fecha_Fin.split('-');
+        let hourEnd:Array<String> = ok.Hora_Fin.split(':');
+        let endDate:any = new Date(+dateEnd[0], +dateEnd[1] - 1, +dateEnd[2], +hourEnd[0], +hourEnd[1])
+        ok.Date = new Date(endDate - initDate)
+      }
+      else
+      {
+        ok.Date = new Date()
+        }
+      }
+      return data;
+    }
+
 } 
