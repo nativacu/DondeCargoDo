@@ -69,12 +69,13 @@ export class MapPage {
             {
               if(ok.Monto)
               {
-                //needs to be completed
-                let dateEnd:String = ok.Fecha_Inicio;
-                let datePar = dateEnd.split('-')
-                let hourEnd:String = ok.Hora_Inicio;
-                let hourPar = hourEnd.split(':')
-                ok.Date = new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])
+                let dateInit:Array<String> = ok.Fecha_Inicio.split('-');
+                let hourInit:Array<String> = ok.Hora_Inicio.split(':');
+                let initDate:any = new Date(+dateInit[0], +dateInit[1] - 1, +dateInit[2], +hourInit[0], +hourInit[1])
+                let dateEnd:Array<String> = ok.Fecha_Fin.split('-');
+                let hourEnd:Array<String> = ok.Hora_Fin.split(':');
+                let endDate:any = new Date(+dateEnd[0], +dateEnd[1] - 1, +dateEnd[2], +hourEnd[0], +hourEnd[1])
+                ok.Date = new Date(endDate - initDate)
               }
               else
               {
