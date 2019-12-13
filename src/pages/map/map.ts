@@ -69,6 +69,7 @@ export class MapPage {
             {
               if(ok.Monto)
               {
+                //needs to be completed
                 let dateEnd:String = ok.Fecha_Inicio;
                 let datePar = dateEnd.split('-')
                 let hourEnd:String = ok.Hora_Inicio;

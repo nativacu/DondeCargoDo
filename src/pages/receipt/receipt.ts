@@ -22,18 +22,21 @@ export class ReceiptPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     var startTime:any;
     var endTime:any;
-    var elapseTime:any;
+    var elapseTime:Date;
+    var elapseHour:number;
+    var elapseMinute:number;
     this.monto = (navParams.get("monto") != undefined)?navParams.get("monto"):0;
     startTime = (navParams.get("startTime") != undefined)?navParams.get("startTime"):new Date();
     endTime = (navParams.get("endTime") != undefined)?navParams.get("endTime"):new Date();
     elapseTime = new Date(endTime - startTime);
-
+    elapseMinute = (elapseTime.getTime()/60000)%60;
+    elapseHour = elapseTime.getTime()/3600000;
     this.startTime =  (startTime.getHours() < 10?'0':'') + startTime.getHours() + ':' +
                       (startTime.getMinutes() < 10?'0':'') + startTime.getMinutes();
     this.endTime =    (endTime.getHours() < 10?'0':'') + endTime.getHours() + ':' +
                       (endTime.getMinutes() < 10?'0':'')+ endTime.getMinutes();
-    this.elapseTime = (elapseTime.getUTCHours() < 10?'0':'') + elapseTime.getUTCHours() + ':' +
-                      (elapseTime.getUTCMinutes() < 10?'0':'') + elapseTime.getUTCMinutes();
+    this.elapseTime = (elapseHour < 10?'0':'') + Math.floor(elapseHour) + ':' +
+                      (elapseMinute < 10?'0':'') + Math.floor(elapseMinute);
 
   }
 
