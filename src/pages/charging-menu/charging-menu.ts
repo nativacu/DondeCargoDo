@@ -65,9 +65,12 @@ export class ChargingMenuPage {
   {
     let currentTime:any = new Date();
     this.timeElapsed = new Date(currentTime - this.startTime);
-    this.time = this.timeElapsed.getUTCHours() + ':' +
-                this.timeElapsed.getUTCMinutes() + ':' +
-                this.timeElapsed.getUTCSeconds();
+    let elapseHour:number = Math.floor(this.timeElapsed.getTime()/3600000);
+    let elapseMinute:number = Math.floor((this.timeElapsed.getTime()/60000)%60);
+    let elapseSecond:number = Math.floor((this.timeElapsed.getTime()/1000)%60);
+    this.time = (elapseHour < 10?'0':'') + elapseHour + ':' +
+                (elapseMinute < 10?'0':'') + elapseMinute + ':' +
+                (elapseSecond < 10?'0':'') + elapseSecond
   }
 
   ionViewDidLoad() {
