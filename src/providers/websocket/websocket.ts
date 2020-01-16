@@ -15,13 +15,26 @@ export class WebsocketProvider {
   observable:Observable<any>;
   constructor(public http: HttpClient, public afs:AuthProvider) {
     console.log('Hello WebsocketProvider Provider');
-    this.socket = new WebSocket('ws://192.168.1.147:8080');//10.60.16.209 server ip
+    //this.startConnection("10.60.16.74");
+  }
+
+  startConnection(ipAddress:String){
+    return new Promise<any>( (resolve, reject) =>{
+    this.socket = new WebSocket('ws://' + ipAddress +':8080');
     this.observable = new Observable(observer => {
       this.socket.onmessage = function(data) {
         console.log(data)
         observer.next(JSON.parse(data.data));
       };
     });
+    this.socket.onopen = (event) =>{
+      resolve();
+    }
+    this.socket.onerror = (event) =>{
+      console.log("connection failed")
+      reject("Connection Failed");
+    }
+  })
   }
   sendMessage(data) {
     this.socket.send(data);

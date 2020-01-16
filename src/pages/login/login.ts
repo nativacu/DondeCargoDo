@@ -28,6 +28,7 @@ export class LoginPage implements OnInit{
 
   loginEmail:string;
   loginPassword:string;
+  loginIp:string;
   signupEmail:string;
   signupPassword:string;
   fname:string;
@@ -41,39 +42,36 @@ export class LoginPage implements OnInit{
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.socket.getMessages().subscribe((data:any) => {
-      console.log(data)
-      switch(data.Command)
-      {
-        case "ConexionCreated":
-            this.fauth.currUser.next(data);
-            this.navCtrl.setRoot(MapPage);
-        default:
-          break;
-      }
-    })
+    
+    //this.getSocketMessages();
   }
   ionViewDidLoad() {
 
     console.log('ionViewDidLoad LoginPage');
   }
   login(){
-    this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
-      ()=>{
-        if(this.platform.checkPlatform()){
-          this.onesignal.getIds().then((idData) =>{
-            this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: idData.userId}));
-          })
+    
+    this.socket.startConnection(this.loginIp).then(() =>{
+      this.getSocketMessages();
+      this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
+        ()=>{
+          if(this.platform.checkPlatform()){
+            this.onesignal.getIds().then((idData) =>{
+              this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: idData.userId}));
+            })
+          }
+          else
+          {
+            this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: 0}));
+          }
+        },
+        (error) =>{
+          window.alert(error);
         }
-        else
-        {
-          this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: 0}));
-        }
-      },
-      (error) =>{
-        window.alert(error);
-      }
-    );
+      );
+    }, (error) =>{
+      window.alert(error);
+    })
   }
 
   openRegister(){
@@ -90,6 +88,20 @@ export class LoginPage implements OnInit{
   
   test(){
     this.navCtrl.push(ChargingMenuPage, {Date: new Date(2019, 11, 13, 0, 38, 6)});
+  }
+
+  getSocketMessages(){
+    this.socket.getMessages().subscribe((data:any) => {
+      console.log(data)
+      switch(data.Command)
+      {
+        case "ConexionCreated":
+            this.fauth.currUser.next(data);
+            this.navCtrl.setRoot(MapPage);
+        default:
+          break;
+      }
+    })
   }
 
 }
