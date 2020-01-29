@@ -17,7 +17,13 @@
         
             <ion-item>
                 <ion-label position="floating">Contraseña</ion-label>
-                <ion-input type="password" id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
+                <ion-input type={{inputType}} id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
+                <button *ngIf="inputType == 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+                    <ion-icon name="eye-off" style="font-size:32px;"></ion-icon>
+                </button>
+                <button *ngIf="inputType != 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+                    <ion-icon name="eye" style="font-size:32px;"></ion-icon>
+                </button>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Ip address</ion-label>
@@ -50,7 +56,13 @@
 
     <ion-item>
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
+        <ion-input type={{inputType}} id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
+        <button *ngIf="inputType == 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+            <ion-icon name="eye-off" style="font-size:32px;"></ion-icon>
+        </button>
+        <button *ngIf="inputType != 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+            <ion-icon name="eye" style="font-size:32px;"></ion-icon>
+        </button>
     </ion-item>
     <ion-item>
         <ion-label position="floating">Ip address</ion-label>

@@ -35,6 +35,7 @@ export class LoginPage implements OnInit{
   lname:string;
   id:string;
   phone: string;
+  inputType:string = "password";
   constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
     public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
     public socket:WebsocketProvider, public onesignal:OneSignal) {
@@ -88,6 +89,11 @@ export class LoginPage implements OnInit{
   
   test(){
     this.navCtrl.push(ChargingMenuPage, {Date: new Date(2019, 11, 13, 0, 38, 6)});
+  }
+
+  showHide()
+  {
+    this.inputType = this.inputType == "text"? "password":"text";
   }
 
   getSocketMessages(){
