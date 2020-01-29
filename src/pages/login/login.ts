@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController, Loading } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
-import { BehaviorSubject } from 'rxjs';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
-import { ReceiptPage } from '../receipt/receipt';
 import { OneSignal } from '@ionic-native/onesignal';
+
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -36,9 +35,10 @@ export class LoginPage implements OnInit{
   id:string;
   phone: string;
   inputType:string = "password";
+  loading:Loading;
   constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
     public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
-    public socket:WebsocketProvider, public onesignal:OneSignal) {
+    public socket:WebsocketProvider, public onesignal:OneSignal, public loadingCtrl:LoadingController) {
   }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -51,7 +51,11 @@ export class LoginPage implements OnInit{
     console.log('ionViewDidLoad LoginPage');
   }
   login(){
-    
+    this.loading = this.loadingCtrl.create({
+      spinner: "circles",
+      content: "Connecting",
+    })
+    this.loading.present();
     this.socket.startConnection(this.loginIp).then(() =>{
       this.getSocketMessages();
       this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
@@ -68,10 +72,12 @@ export class LoginPage implements OnInit{
         },
         (error) =>{
           window.alert(error);
+          this.loading.dismiss();
         }
       );
     }, (error) =>{
       window.alert(error);
+      this.loading.dismiss();
     })
   }
 
@@ -99,6 +105,7 @@ export class LoginPage implements OnInit{
   getSocketMessages(){
     this.socket.getMessages().subscribe((data:any) => {
       console.log(data)
+      this.loading.dismiss();
       switch(data.Command)
       {
         case "ConexionCreated":
