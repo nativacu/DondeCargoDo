@@ -54,6 +54,7 @@ export class LoginPage implements OnInit{
     this.loading = this.loadingCtrl.create({
       spinner: "circles",
       content: "Connecting",
+      duration: 5000,
     })
     this.loading.present();
     this.socket.startConnection(this.loginIp).then(() =>{
@@ -61,8 +62,19 @@ export class LoginPage implements OnInit{
       this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
         ()=>{
           if(this.platform.checkPlatform()){
-            this.onesignal.getIds().then((idData) =>{
+            new Promise<any>((resolve, reject) =>{
+              this.loading.onDidDismiss(() =>{
+                reject("El servicio de notificaciones no esta disponible");
+              })
+
+              this.onesignal.getIds().then((idData) =>{
+                resolve(idData);
+              })
+
+            }).then((idData) =>{
               this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: idData.userId}));
+            }, (error) =>{
+              window.alert(error);
             })
           }
           else
