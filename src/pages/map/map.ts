@@ -65,6 +65,7 @@ export class MapPage {
             break;
         }
       })
+      this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
       this.adminButton = false;
 
   }
@@ -75,7 +76,6 @@ export class MapPage {
     
     this.platform.ready().then(() => {
       //TODO change all this logic of stationrequest
-      this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
     });
 
   }
