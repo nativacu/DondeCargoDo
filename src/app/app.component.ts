@@ -38,21 +38,21 @@ export class LocationsApp {
   accountType: account.consumer;
   loggedIn: boolean = false;
   editing: boolean = false;
-  
+
   phoneNumber: string;
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    public fauth:AuthProvider, 
+    public fauth:AuthProvider,
     public http: HttpRequestProvider,
     public socket:WebsocketProvider,
     private push: Push,
     private alertCtrl: AlertController,
     private oneSignal: OneSignal) {
-   
+
    //  this.push.hasPermission()
   // .then((res: any) => {
-    
+
   //   if (res.isEnabled) {
   //     console.log('We have permission to send push notifications');
   //   } else {
@@ -86,11 +86,11 @@ export class LocationsApp {
         this.phoneNumber = "809-000-0000";
         this.accountType = 1;
       }
-      
+
    });
-   
+
     fauth.getUser().subscribe(user =>{
-      this.email = user.email;
+      //this.email = user.email;
     })
 
     platform.ready().then(() => {
@@ -98,6 +98,7 @@ export class LocationsApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
       if (isCordovaAvailable()){
         this.oneSignal.startInit(oneSignalAppId, sender_id);
         this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
@@ -105,6 +106,7 @@ export class LocationsApp {
         this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
         this.oneSignal.endInit();
       }
+
       /*socket.getMessages().subscribe((data:any) => {
         console.log(data)
         switch(data.Command)
@@ -148,19 +150,19 @@ export class LocationsApp {
   openGallery (): void {
     let cameraOptions = {
       sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: Camera.DestinationType.FILE_URI,      
+      destinationType: Camera.DestinationType.FILE_URI,
       quality: 100,
       targetWidth: 1000,
       targetHeight: 1000,
-      encodingType: Camera.EncodingType.JPEG,      
+      encodingType: Camera.EncodingType.JPEG,
       correctOrientation: true
     }
-  
+
     // Camera.getPicture(cameraOptions)
-    //   .then(FILE_URI => this.imageSrc = FILE_URI, 
-    //   err => console.log(err));   
+    //   .then(FILE_URI => this.imageSrc = FILE_URI,
+    //   err => console.log(err));
   }
-  
+
 
   changePhoneNumber(){
     var currentNo = document.getElementById("phoneNumber");
@@ -178,12 +180,12 @@ export class LocationsApp {
   enableEdit(){
     this.editing = true;
   }
-  
+
   logout()
   {
     this.fauth.doLogout();
     this.socket.sendMessage({Command:'LogOut'})
-    this.nav.setRoot(LoginPage); 
+    this.nav.setRoot(LoginPage);
   }
   addNewStation()
   {
@@ -192,7 +194,7 @@ export class LocationsApp {
   private onPushReceived(payload: OSNotificationPayload) {
     alert('Push recevied:' + payload.body);
   }
-  
+
   private onPushOpened(payload: OSNotificationPayload) {
       let alert = this.alertCtrl.create({
         title: 'Carga Recibida',

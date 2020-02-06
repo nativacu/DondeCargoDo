@@ -1,5 +1,5 @@
 <div *ngIf="this.platform.checkPlatform(); then mobile else web">
-    
+
 </div>
 
 <ng-template #mobile>
@@ -14,7 +14,7 @@
                 <ion-label position="floating">Correo</ion-label>
                 <ion-input type="email" id="defaultLoginFormEmail"  [(ngModel)]="loginEmail" required #email> </ion-input>
             </ion-item>
-        
+
             <ion-item>
                 <ion-label position="floating">Contraseña</ion-label>
                 <ion-input type={{inputType}} id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
@@ -25,15 +25,15 @@
                     <ion-icon name="eye" style="font-size:32px;"></ion-icon>
                 </button>
             </ion-item>
-            <ion-item>
+            <!--<ion-item>
                 <ion-label position="floating">Ip address</ion-label>
                 <ion-input type="text" id="defaultip" [(ngModel)]="loginIp" #ip></ion-input>
-            </ion-item>
-        
+            </ion-item>-->
+
             <ion-item no-lines >
                 <button ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" type="submit" value="Acceder" (click)="login()">Acceder</button>
             </ion-item>
-           
+
             <!-- Register -->
             <ion-item no-lines>
                 <p style="font-size:12pt;">¿No tienes cuenta?
@@ -71,7 +71,7 @@
     <ion-item no-lines >
         <button ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" type="submit" value="Acceder" (click)="login()">Acceder</button>
     </ion-item>
-    
+
     <!-- Register -->
     <ion-item no-lines>
         <p style="font-size:12pt;">¿No tienes cuenta?

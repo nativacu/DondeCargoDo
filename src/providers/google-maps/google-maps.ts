@@ -28,18 +28,17 @@ export class GoogleMapsProvider {
   infoWindow: BehaviorSubject<any>;
 
   constructor(public connectivityService: ConnectivityProvider) {
-    
+
   }
 
   init(mapElement: any, pleaseConnect: any, navCtrl: NavController, chargers: any): Promise<any> {
-   
     this.locations = chargers;
     this.navController = navCtrl;
     this.mapElement = mapElement;
     this.pleaseConnect = pleaseConnect;
     this.chargerObserver  = new BehaviorSubject(null);
     this.infoWindow = new BehaviorSubject(null);
-    
+
     this.apiKey = "AIzaSyBUv92FvZgKWpQKeTc9KBZy7JzexjMElNw";
     return this.loadGoogleMaps();
 
@@ -55,7 +54,7 @@ export class GoogleMapsProvider {
         this.disableMap();
 
         if(this.connectivityService.isOnline()){
-          
+
           window['mapInit'] = () => {
 
             this.initMap().then(() => {
@@ -67,18 +66,19 @@ export class GoogleMapsProvider {
 
           let script = document.createElement("script");
           script.id = "googleMaps";
-          
+
           if(this.apiKey){
+
             script.src = 'http://maps.googleapis.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
-          } 
-          
-          else {
-            script.src = 'http://maps.google.com/maps/api/js?callback=mapInit';       
           }
 
-          document.body.appendChild(script);  
+          else {
+            script.src = 'http://maps.google.com/maps/api/js?callback=mapInit';
+          }
 
-        } 
+          document.body.appendChild(script);
+
+        }
       }
       else {
 
@@ -100,7 +100,7 @@ export class GoogleMapsProvider {
   }
 
   initMap(): Promise<any> {
-
+    window.alert("dasdas");
     this.mapInitialised = true;
 
     return new Promise((resolve) => {
@@ -113,9 +113,9 @@ export class GoogleMapsProvider {
           center: latLng,
           zoom: 18,
           //Uncomment to disable satelite view
-          mapTypeControl: false,  
+          mapTypeControl: false,
           //Uncomment to disable street view
-          streetViewControl: false, 
+          streetViewControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
@@ -161,7 +161,7 @@ export class GoogleMapsProvider {
 
         if(typeof google == "undefined" || typeof google.maps == "undefined"){
           this.loadGoogleMaps().catch();
-        } 
+        }
         else {
           if(!this.mapInitialised){
             this.initMap();
@@ -187,14 +187,14 @@ export class GoogleMapsProvider {
   public addMarker(latLng: any){
     let scaledSize = new google.maps.Size(45, 45);
     let url =  '../../assets/imgs/active-plug.svg';
-    
+
     let image = {
       url,
       scaledSize
     }
-    
+
     new google.maps.Marker({
-      map: this.map,  
+      map: this.map,
       position: latLng,
       icon: image
     });
@@ -210,32 +210,32 @@ export class GoogleMapsProvider {
       fillOpacity: 10,
       strokeOpacity: 0.2,
       scale: 8,
-     
+
     }
-    
+
     let marker = new google.maps.Marker({
-      map: this.map,  
+      map: this.map,
       position: latLng,
       icon: icon
     });
-  
+
 
     this.locationMarker = marker;
 
   }
 
   addMarkers(){
-    
+
     length =  this.locations.length;
-    
+
 
     for (var i=0; i<length; i++) {
 
       var charger =  this.locations[i];
-      var image;  
+      var image;
       var state = "Activo";
 
-      var contentString = this.setContentString(charger);      
+      var contentString = this.setContentString(charger);
 
       let infoWindow = new google.maps.InfoWindow({
         content: contentString
@@ -245,21 +245,21 @@ export class GoogleMapsProvider {
       let marker = new google.maps.Marker({
         position: {lat: +charger.Latitud, lng: +charger.Longitud},
         map: this.map,
-        icon: image     
+        icon: image
       });
-      
+
       let chargerObserver = this.chargerObserver;
       let current = this.infoWindow;
       let markers = this.markers;
       let locations = this.locations;
 
       marker.addListener('click', function() {
-        let index = markers.indexOf(marker); 
-         
+        let index = markers.indexOf(marker);
+
         if(chargerObserver.value != null){
           current.value.close();
         }
-       
+
         current.next(infoWindow);
         infoWindow.open(this.map,marker);
         chargerObserver.next(locations[index]);
@@ -270,13 +270,13 @@ export class GoogleMapsProvider {
           button.hidden = true;
         }
         );
-      }); 
-      this.markers.push(marker);  
-      
+      });
+      this.markers.push(marker);
+
     }
   }
 
-  
+
 
   startTracking(){
     let watch = Geolocation.watchPosition();
@@ -303,7 +303,7 @@ export class GoogleMapsProvider {
       url,
       scaledSize
     }
-    
+
     return image;
   }
 
@@ -341,19 +341,19 @@ export class GoogleMapsProvider {
           '<div id="siteNotice">'+
           '</div>'+
           '<h6 id="firstHeading" class="firstHeading">'+charger.Nombre +'</h6>'+
-          '<div id="bodyContent">'+ '<p>'+ open + '</p>' + state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+ 
+          '<div id="bodyContent">'+ '<p>'+ open + '</p>' + state +'</b><br/><b> Horario: </b>'+ charger.Hora_Inicio_Operaciones + ' a ' + charger.Hora_Fin_Operaciones + '</br>'+
           charger.Dia_Inicio_Operaciones + '-' + charger.Dia_Fin_Operaciones + '</br>'+
           '<b>Tipo de cobro: </b>'+ charger.TipoCostoCarga ;
-          
+
           if (charger.TipoCosto != "Gratis" && charger.TipoCargador != "No afiliado"){
             contentString += '</br><b>Precio: </b>' + charger.CostoCarga + ' RD$/' + charger.TipoCostoCarga;
-          } 
-        
-          contentString += '</br>' +  
-          charger.Descripcion + 
+          }
+
+          contentString += '</br>' +
+          charger.Descripcion +
           '</div>'+
           '</div>';
-           
+
 
     return contentString;
   }
@@ -396,27 +396,27 @@ export class GoogleMapsProvider {
     let numValue: number;
     switch(weekDay){
       case "Domingo": {
-        numValue = 0; 
+        numValue = 0;
         break;
       }
       case "Lunes":{
-        numValue = 1; 
+        numValue = 1;
         break;
       }
       case "Martes":{
-        numValue = 2; 
+        numValue = 2;
         break;
       }
       case "Miercoles":{
-        numValue = 3; 
+        numValue = 3;
         break;
       }
       case "Jueves":{
-        numValue = 4; 
+        numValue = 4;
         break;
       }
       case "Viernes":{
-        numValue = 5; 
+        numValue = 5;
         break;
       }
       case "Sabado":{
@@ -432,7 +432,7 @@ export class GoogleMapsProvider {
   }
 
   getMapCenter(){
-    
+
 
     //return this.map.center;
   }

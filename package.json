@@ -8,7 +8,8 @@
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "android": "ionic cordova run android --live"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -61,7 +62,7 @@
     "ionic-native": "^2.9.0",
     "ionicons": "3.0.0",
     "ng-socket-io": "^0.2.4",
-    "onesignal-cordova-plugin": "^2.7.0",
+    "onesignal-cordova-plugin": "2.8.3",
     "phonegap-plugin-multidex": "^1.0.0",
     "phonegap-plugin-push": "^2.3.0",
     "request-options": "^2.0.0",
@@ -109,8 +110,7 @@
       "onesignal-cordova-plugin": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "ios"
     ]
   }
 }

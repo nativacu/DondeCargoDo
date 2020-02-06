@@ -20,7 +20,8 @@ export class WebsocketProvider {
 
   startConnection(ipAddress:String){
     return new Promise<any>( (resolve, reject) =>{
-    this.socket = new WebSocket('ws://' + ipAddress +':8080');
+    //this.socket = new WebSocket('ws://' + ipAddress +':8080');
+    this.socket = new WebSocket('ws://190.113.73.11:443');
     this.observable = new Observable(observer => {
       this.socket.onmessage = function(data) {
         console.log(data)

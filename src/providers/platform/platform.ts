@@ -14,8 +14,8 @@ export class PlatformProvider {
   isMobile: boolean;
 
   constructor(public http: HttpClient, public plt: Platform) {
-    // this.isMobile = this.checkPlatform();
-    this.isMobile = false;
+     this.isMobile = this.checkPlatform();
+    //this.isMobile = false;
   }
 
   checkPlatform(): boolean{

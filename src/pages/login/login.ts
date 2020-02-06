@@ -36,14 +36,14 @@ export class LoginPage implements OnInit{
   phone: string;
   inputType:string = "password";
   loading:Loading;
-  constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController, 
+  constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController,
     public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
     public socket:WebsocketProvider, public onesignal:OneSignal, public loadingCtrl:LoadingController) {
   }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    
+
     //this.getSocketMessages();
   }
   ionViewDidLoad() {
@@ -54,7 +54,7 @@ export class LoginPage implements OnInit{
     this.loading = this.loadingCtrl.create({
       spinner: "circles",
       content: "Connecting",
-    })
+    });
     this.loading.present();
     this.socket.startConnection(this.loginIp).then(() =>{
       this.getSocketMessages();
@@ -65,7 +65,7 @@ export class LoginPage implements OnInit{
             new Promise<any>((resolve, reject) =>{
               this.loading.onDidDismiss(() =>{
                 reject("El servicio de notificaciones no esta disponible");
-              })
+              });
 
               this.onesignal.getIds().then((idData) =>{
                 resolve(idData);
@@ -101,9 +101,9 @@ export class LoginPage implements OnInit{
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-   
+
   }
-  
+
   test(){
     this.navCtrl.push(ChargingMenuPage, {Date: new Date(2019, 11, 13, 0, 38, 6)});
   }
