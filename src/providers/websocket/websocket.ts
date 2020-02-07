@@ -20,22 +20,22 @@ export class WebsocketProvider {
 
   startConnection(ipAddress:String){
     return new Promise<any>( (resolve, reject) =>{
-    //this.socket = new WebSocket('ws://' + ipAddress +':8080');
-    this.socket = new WebSocket('ws://190.113.73.11:443');
+    this.socket = new WebSocket('ws://' + ipAddress +':443');
+    //this.socket = new WebSocket('ws://190.113.73.11:443');
+
     this.observable = new Observable(observer => {
       this.socket.onmessage = function(data) {
-        console.log(data)
+        console.log(data);
         observer.next(JSON.parse(data.data));
       };
     });
-    this.socket.onopen = (event) =>{
+    this.socket.onopen = ((event) =>{
       resolve();
-    }
-    this.socket.onerror = (event) =>{
-      console.log("connection failed")
+    });
+    this.socket.onerror = ((event) =>{
       reject("Connection Failed");
-    }
-  })
+    });
+  });
   }
   sendMessage(data) {
     this.socket.send(data);
