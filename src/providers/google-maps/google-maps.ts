@@ -100,7 +100,6 @@ export class GoogleMapsProvider {
   }
 
   initMap(): Promise<any> {
-    window.alert("dasdas");
     this.mapInitialised = true;
 
     return new Promise((resolve) => {

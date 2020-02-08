@@ -20,7 +20,8 @@ export class WebsocketProvider {
 
   startConnection(ipAddress:String){
     return new Promise<any>( (resolve, reject) =>{
-    this.socket = new WebSocket('ws://' + ipAddress +':443');
+      ipAddress = ipAddress ? ipAddress : '190.113.73.11';
+    this.socket = new WebSocket('ws://' + ipAddress +':443/');
     //this.socket = new WebSocket('ws://190.113.73.11:443');
 
     this.observable = new Observable(observer => {
@@ -33,7 +34,7 @@ export class WebsocketProvider {
       resolve();
     });
     this.socket.onerror = ((event) =>{
-      reject("Connection Failed");
+      reject("Connection Failed ");
     });
   });
   }
