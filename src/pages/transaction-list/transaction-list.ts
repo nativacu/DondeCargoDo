@@ -26,4 +26,7 @@ export class TransactionListPage {
     console.log('ionViewDidLoad TransactionListPage');
   }
 
+  getPlaceName(IOTPlugPlugID: string): string {
+    return "Lugar";
+  }
 }
