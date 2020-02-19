@@ -25,11 +25,6 @@
                     <ion-icon name="eye" style="font-size:32px;"></ion-icon>
                 </button>
             </ion-item>
-            <ion-item>
-                <ion-label position="floating">Ip address</ion-label>
-                <ion-input type="text" id="defaultip" [(ngModel)]="loginIp" #ip></ion-input>
-            </ion-item>
-
             <ion-item no-lines >
                 <button ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" type="submit" value="Acceder" (click)="login()">Acceder</button>
             </ion-item>
@@ -63,10 +58,6 @@
         <button *ngIf="inputType != 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
             <ion-icon name="eye" style="font-size:32px;"></ion-icon>
         </button>
-    </ion-item>
-    <ion-item>
-        <ion-label position="floating">Ip address</ion-label>
-        <ion-input type="text" id="defaultip" [(ngModel)]="loginIp" #ip></ion-input>
     </ion-item>
     <ion-item no-lines >
         <button ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" type="submit" value="Acceder" (click)="login()">Acceder</button>

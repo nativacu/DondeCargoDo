@@ -20,7 +20,10 @@ export class WebsocketProvider {
 
   startConnection(ipAddress:String){
     return new Promise<any>( (resolve, reject) =>{
-      ipAddress = ipAddress ? ipAddress : '190.113.73.11';
+      ipAddress = '190.113.73.11';
+      if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        resolve();
+      }
     this.socket = new WebSocket('ws://' + ipAddress +':443/');
     //this.socket = new WebSocket('ws://190.113.73.11:443');
 

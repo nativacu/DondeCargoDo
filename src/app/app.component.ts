@@ -192,7 +192,7 @@ export class LocationsApp {
     this.nav.push(PlacePlugPage, {email: this.email});
   }
   private onPushReceived(payload: OSNotificationPayload) {
-    alert('Push recevied:' + payload.body);
+    
   }
 
   private onPushOpened(payload: OSNotificationPayload) {
