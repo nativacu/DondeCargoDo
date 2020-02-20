@@ -24,21 +24,25 @@ export class WebsocketProvider {
       if (this.socket && this.socket.readyState === WebSocket.OPEN) {
         resolve();
       }
-    this.socket = new WebSocket('ws://' + ipAddress +':443/');
-    //this.socket = new WebSocket('ws://190.113.73.11:443');
 
-    this.observable = new Observable(observer => {
-      this.socket.onmessage = function(data) {
-        console.log(data);
-        observer.next(JSON.parse(data.data));
-      };
-    });
-    this.socket.onopen = ((event) =>{
-      resolve();
-    });
-    this.socket.onerror = ((event) =>{
-      reject("Connection Failed ");
-    });
+      else{
+        this.socket = new WebSocket('ws://' + ipAddress +':443/');
+        //this.socket = new WebSocket('ws://190.113.73.11:443');
+
+        this.observable = new Observable(observer => {
+          this.socket.onmessage = function(data) {
+            console.log(data);
+            observer.next(JSON.parse(data.data));
+          };
+        });
+        this.socket.onopen = ((event) =>{
+          resolve();
+        });
+        this.socket.onerror = ((event) =>{
+          reject("Connection Failed ");
+        });
+      }
+
   });
   }
   sendMessage(data) {

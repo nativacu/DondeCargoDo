@@ -78,6 +78,7 @@ export class RegisterPage {
       }
       this.fauth.doRegister({email: this.registerForm.controls.email.value, password: this.registerForm.controls.password.value}).then(
         (user: firebase.User) => {
+          console.log(user);
           let slname = this.registerForm.controls.slname.value;
           let sname = this.registerForm.controls.sname.value;
           if (sname === null) {
@@ -88,8 +89,9 @@ export class RegisterPage {
           }
         // TODO: needs to check about t_usuario
           const dataToSend = {Command: 'CrearUser', Cedula: this.registerForm.controls.uniqueId.value , PrimerNombre: this.registerForm.controls.fname.value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls.lname.value, SegundoApellido: slname
-          , t_usuario: type, Foto: 0, Email: this.registerForm.controls.email.value, telefono: this.registerForm.controls.telNumber.value};
+          , TipoUsuario: type, Foto: 0, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
           this.socket.sendMessage(JSON.stringify(dataToSend));
+          window.alert("Usuario creado exitosamente. Por favor inicie sesión");
         },
         (error) => {
           window.alert(error);
@@ -110,22 +112,22 @@ export class RegisterPage {
     if(this.plt.isMobile){
       //   let cameraOptions = {
       //   sourceType: Camera.Picti.PHOTOLIBRARY,
-      //   destinationType: Camera.DestinationType.FILE_URI,      
+      //   destinationType: Camera.DestinationType.FILE_URI,
       //   quality: 100,
       //   targetWidth: 1000,
       //   targetHeight: 1000,
-      //   encodingType: Camera.EncodingType.JPEG,      
+      //   encodingType: Camera.EncodingType.JPEG,
       //   correctOrientation: true
       // }
-    
+
       // Camera.getPicture(cameraOptions)
       //   .then(file_uri => this.picture = file_uri,
-      //   err => console.log(err));  
+      //   err => console.log(err));
     }
 
     else{
 
-    }    
+    }
   }
 
   getMessages(){

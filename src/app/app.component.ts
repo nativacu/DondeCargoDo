@@ -90,8 +90,9 @@ export class LocationsApp {
    });
 
     fauth.getUser().subscribe(user =>{
+      console.log(user);
       this.email = user.email;
-    })
+    });
 
     platform.ready().then(() => {
       // emailObserveray, so the platform is ready and our plugins are available.

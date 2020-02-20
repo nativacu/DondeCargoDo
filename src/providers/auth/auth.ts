@@ -20,11 +20,12 @@ export class AuthProvider {
   }
   doRegister(value){
    return new Promise<any>((resolve, reject) => {
+     debugger;
      this.afAuth.auth.createUserWithEmailAndPassword(value.email, value.password)
      .then(
        res => resolve(res),
        err => reject(err))
-   })
+   });
   }
 
   doLogin(value){
@@ -32,7 +33,7 @@ export class AuthProvider {
     this.afAuth.auth.signInWithEmailAndPassword(value.email, value.password)
      .then(
        res => {
-         this.email = value.email
+         this.email = value.email;
          resolve(res)
         },
        err => reject(err))
@@ -45,7 +46,7 @@ export class AuthProvider {
       .then(() => {
         resolve();
       }).catch((error) => {
-        reject();
+        reject(error);
       });
     })
   }
