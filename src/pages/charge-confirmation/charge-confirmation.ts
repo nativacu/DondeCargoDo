@@ -15,7 +15,7 @@ import { WebsocketProvider } from '../../providers/websocket/websocket';
   templateUrl: 'charge-confirmation.html',
 })
 export class ChargeConfirmationPage {
-  placeData:any
+  placeData:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public websocket:WebsocketProvider) {
     this.placeData = this.navParams.get('data');
   }

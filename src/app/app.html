@@ -1,47 +1,52 @@
 <ion-menu *ngIf="user" [content]="mycontent">
     <ion-content *ngIf="!editing">
         <div class="picture">
-                        <button ion-button round outline small center color="light" id="editButton1" (click)="enableEdit()">Editar Perfil</button> 
+                        <button ion-button round outline small center color="light" id="editButton1" (click)="enableEdit()">Editar Perfil</button>
             <ion-avatar style="padding-top: 10px;" >
                 <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="border: 3px solid; color: white; height: 20%; min-height: 120px; border-radius: 50%; display: block;
                             margin-left: auto;
                             margin-right: auto;" id="profilePic">
-            </ion-avatar>  
+            </ion-avatar>
             <h3 id = name>
                 {{userName}}
             </h3>
-            
+
         </div>
         <ion-list>
-                <ion-item>
-                        <button ion-button menuClose round (click)="logout()" id="logoutButton">Cerrar Sesión</button>
-                        <button ion-button round outline color="dark" id="deleteButton" (click)="eraseAccount()">Eliminar Cuenta</button>
-                </ion-item>
-            <ion-item> 
+          <button menuClose ion-button outline small color="primary"  round (click)="logout()" id="logoutButton">Cerrar Sesión</button>
+
+            <ion-item>
                 {{email}}
             </ion-item>
             <ion-item>
                 {{phoneNumber}}
             </ion-item>
-          
+
 
             <ion-item>
                 <h6>Métodos de Pago</h6>
                 <ion-icon name="card"> xxxx 0000</ion-icon>
             </ion-item>
-        
+
         </ion-list>
-        
+
         <ion-item (click)="addNewStation()">
                 <ion-icon slot="left" name="add-circle-outline"></ion-icon>
                 <ion-label>Agregar Lugar</ion-label>
-            </ion-item> 
-            
+            </ion-item>
+
         <ion-item (click)="showAllTransactions()">
             <ion-icon slot="item-left" name="add-circle-outline"></ion-icon>
             <ion-label>Ver transacciones anteriores</ion-label>
-        </ion-item> 
+        </ion-item>
+
+
+      <ion-footer no-border>
+        <button ion-button round outline small color="dark" id="deleteButton" (click)="eraseAccount()">Eliminar Cuenta</button>
+      </ion-footer>
     </ion-content>
+
+
 
     <ion-content *ngIf="editing">
         <div class="picture" style="margin-bottom: 10px;">
@@ -57,30 +62,30 @@
             <ion-item class="picture">
                     <div class="input-group input-group-lg mb-3 mr-2 ml-2 pr-5">
                         <input type="text" class="form-control" [(ngModel)]="userName">
-                    </div>  
+                    </div>
                 </ion-item>
         </div>
 
-    
+
         <ion-list>
 
             <ion-item>
                 <div class="input-group input-group-lg mb-3 mr-2 ml-2 pr-5">
-                    <input type="text" class="form-control" [(ngModel)]="email">
-                </div>  
+                    <input type="text" class="form-control" [(ngModel)]="user.Email">
+                </div>
             </ion-item>
 
             <ion-item>
                 <div class="input-group input-group-lg mr-2 ml-2 pr-5">
-                    <input type="text" class="form-control" [(ngModel)]="phoneNumber">
-                </div>  
+                    <input type="text" class="form-control" [(ngModel)]="user.Telefono">
+                </div>
             </ion-item>
 
             <div>
                 <button ion-button round (click)="showInfo()" id="saveButton">Salvar</button>
             </div>
 
-        </ion-list>        
+        </ion-list>
     </ion-content>
 </ion-menu>
 

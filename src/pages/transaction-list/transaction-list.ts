@@ -23,7 +23,6 @@ export class TransactionListPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TransactionListPage');
   }
 
   getPlaceName(IOTPlugPlugID: string): string {

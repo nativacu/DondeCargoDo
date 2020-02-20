@@ -135,7 +135,7 @@ export class LocationsApp {
 
   eraseAccount(){
     //TODO change http for socket send
-    this.http.sendPostRequest({email: this.email},'delete.php');
+    //this.http.sendPostRequest({email: this.email},'delete.php');
   }
 
   openGallery (): void {
@@ -164,8 +164,8 @@ export class LocationsApp {
 
   showInfo(){
     this.editing = false;
-    this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
-      foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
+    // this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
+    //   foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
 
   enableEdit(){
@@ -175,7 +175,7 @@ export class LocationsApp {
   logout()
   {
     this.fauth.doLogout();
-    this.socket.sendMessage({Command:'LogOut'})
+    this.socket.sendMessage({Command:'LogOut'});
     this.nav.setRoot(LoginPage);
   }
   addNewStation()
@@ -201,7 +201,7 @@ export class LocationsApp {
           {
             text: 'Sí',
             handler: () => {
-              this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
+              //this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
               this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "Y" , PlugID: + payload.additionalData}));
             }
           }

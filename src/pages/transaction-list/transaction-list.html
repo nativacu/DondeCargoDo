@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="secondary">
     <ion-title>Transacciones Anteriores</ion-title>
   </ion-navbar>
 </ion-header>
@@ -15,10 +15,10 @@
     <ion-list>
           <ion-item *ngFor="let transaction of transactionList">
             <ion-label>
-              <h2>Día: {{transaction.Fecha_Inicio}}
+                <h2>Día: {{transaction.Fecha_Inicio}}
                 <br>Tiempo Total: {{transaction.Date.getUTCHours()}}:{{transaction.Date.getUTCMinutes()}}
                 <br>Monto: RD${{transaction.Monto}}
-                <br>Lugar: {{getPlaceName(transaction.IOTPlugPlugID)}}</h2>
+                <br>Lugar: {{transaction.Nombre}}</h2>
             </ion-label>
           </ion-item>
     </ion-list>

@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="secondary">
     <ion-title>Información Adicional</ion-title>
   </ion-navbar>
 </ion-header>
@@ -26,7 +26,7 @@
       <ion-label>Descripción</ion-label>
       <ion-input type='text' [(ngModel)]="stationDesc"></ion-input>
     </ion-item>
-  
+
   <ion-item>
     <ion-label>Horario de Inicio</ion-label>
     <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="initTimeSlot"></ion-datetime>
@@ -70,15 +70,15 @@
           <ion-option value='Minuto'>Minuto</ion-option>
       </ion-select>
     </ion-item>
-    
+
     <ion-item>
         <ion-label>Costo (RD$)</ion-label>
         <ion-input type="number" [(ngModel)]="number" required="true" min="1"></ion-input>
     </ion-item>
 
-    
+
     <ion-item no-lines>
-      <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="uploadData()"><span class="glyphicon glyphicon-off"></span> Registrar</button> 
+      <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="uploadData()"><span class="glyphicon glyphicon-off"></span> Registrar</button>
     </ion-item>
 
 </ion-content>

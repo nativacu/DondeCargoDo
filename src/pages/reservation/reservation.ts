@@ -30,7 +30,7 @@ export class ReservationPage {
   chargerType: any;
   showCost: boolean;
   initTimeSlot: any;
-  endTimeSlot: any; 
+  endTimeSlot: any;
   dateSlot: any;
   userId: any;
 
@@ -62,25 +62,25 @@ export class ReservationPage {
     if(this.costType === "Gratis"){
       this.showCost = false;
     }
-    
+
   }
 
   reserve(){
-    
+
     let postData = {
       "UserUserID": this.userId,
-      "IOTPlugPlugID": this.charger.id, //TODO this.charger.id contains placeID not plugID 
+      "IOTPlugPlugID": this.charger.id, //TODO this.charger.id contains placeID not plugID
       "Fecha": this.dateSlot,
       "Hora_Inicio": this.initTimeSlot,
       "Hola_Fin": this.endTimeSlot
     }
     if(checkAvailability){
-      this.http.sendPostRequest(postData, 'reservations');
+      //this.http.sendPostRequest(postData, 'reservations');
     }
   }
 
   checkCharger(data){
-    let index = data.indexOf(this.charger); ; 
+    let index = data.indexOf(this.charger); ;
     if(data[this.charger]==1){
       return true;
     }
@@ -92,7 +92,7 @@ export class ReservationPage {
   checkAvailability(){
     //let locations = this.http.makeStationRequest();
     this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}))
-    
+
   }
 
 

@@ -13,14 +13,14 @@ import { TransactionListPage } from '../transaction-list/transaction-list';
 
 @Component({
   selector: 'page-map',
-  templateUrl: 'map.html' 
+  templateUrl: 'map.html'
 })
 
 export class MapPage {
 
-  
+
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('pleaseConnect') pleaseConnect: ElementRef; 
+  @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
 
   data: any;
   currentCharger: any;
@@ -28,11 +28,11 @@ export class MapPage {
   adminButton: boolean;
   userId:any;
   //tipos de cargadores
-  constructor(public navCtrl: NavController, 
-    public maps: GoogleMapsProvider, 
-    public http: HttpRequestProvider, 
-    public platform: Platform, 
-    public locations: LocationsProvider, 
+  constructor(public navCtrl: NavController,
+    public maps: GoogleMapsProvider,
+    public http: HttpRequestProvider,
+    public platform: Platform,
+    public locations: LocationsProvider,
     public menu: MenuController,
     public fauth:AuthProvider,
     public socket:WebsocketProvider) {
@@ -47,7 +47,7 @@ export class MapPage {
             this.chargersInit(data.Lugares);
             break;
           case 'ChargeInitRequest':
-            this.navCtrl.push(ChargeConfirmationPage, {data:data});
+            //this.navCtrl.push(ChargeConfirmationPage, {data:data});
             break;
           case 'ChargeInitSecured':
            //carga iniciada
@@ -55,31 +55,31 @@ export class MapPage {
            break;
           case 'ChargeEndSecured':
             //fin de la carga
-            console.log(data.Monto)
+            console.log(data.Monto);
             this.navCtrl.popToRoot();
             break;
           case "TransactionRequest":
-            this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)})
+            this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)});
             break;
           default:
             break;
         }
-      })
+      });
       this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
       this.adminButton = false;
 
   }
 
-  
+
   ionViewDidLoad(){
-    
-    
+
+
     this.platform.ready().then(() => {
       //TODO change all this logic of stationrequest
     });
 
   }
-  
+
   toReserve(){
     this.navCtrl.push(ReservationPage, {
       charger: this.currentCharger
@@ -97,7 +97,7 @@ export class MapPage {
 
     //Waiting for charger to be pressed to transition to reserve charging station screen
     let chargerObserver = this.maps.chargerObserver;
-      
+
     chargerObserver.subscribe(currentCharger => {
       if(currentCharger != null){
         this.currentCharger = currentCharger;
@@ -131,19 +131,20 @@ export class MapPage {
         }
       }
     })
-      
+
   }
-  
+
   private chargeInitSecuredLogic(data:any){
     let dateInit:String = data.Fecha_Inicio;
-    let datePar = dateInit.split('-')
-    let hourInit:String = data.Hora_Inicio
-    let hourPar = hourInit.split(':')
+    let datePar = dateInit.split('-');
+    let hourInit:String = data.Hora_Inicio;
+    let hourPar = hourInit.split(':');
     let startDate =  new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1]);
     return startDate
   }
 
   private transactionRequestLogic(data:any){
+    console.log(data);
     for(let ok of data.Transactions)
     {
       if(ok.Monto)
@@ -164,4 +165,4 @@ export class MapPage {
       return data;
     }
 
-} 
+}
