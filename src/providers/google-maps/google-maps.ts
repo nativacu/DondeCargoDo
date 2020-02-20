@@ -368,7 +368,6 @@ export class GoogleMapsProvider {
     console.log(charger)
     let str:string = charger.Hora_Inicio_Operaciones
     let startHour = 0;
-    console.log(str);
     startHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
     str = charger.Hora_Fin_Operaciones
     let endHour = 0;

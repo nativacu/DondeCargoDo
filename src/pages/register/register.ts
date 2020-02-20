@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { regexValidators, uniqueIdValidator } from '../validators/validators';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
 
 /**
  * Generated class for the RegisterPage page.
@@ -91,7 +92,6 @@ export class RegisterPage {
           const dataToSend = {Command: 'CrearUser', Cedula: this.registerForm.controls.uniqueId.value , PrimerNombre: this.registerForm.controls.fname.value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls.lname.value, SegundoApellido: slname
           , TipoUsuario: type, Foto: 0, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
           this.socket.sendMessage(JSON.stringify(dataToSend));
-          window.alert("Usuario creado exitosamente. Por favor inicie sesión");
         },
         (error) => {
           window.alert(error);
@@ -136,11 +136,13 @@ export class RegisterPage {
       switch(data.Command)
       {
         case 'UserCreationSuccess':
+          window.alert("Usuario creado exitosamente. Por favor inicie sesión");
           this.fauth.currUser.next(data);
           this.navCtrl.setRoot(LoginPage);
           break;
         case 'UserCreationFailure':
           this.fauth.afAuth.auth.currentUser.delete();
+          break;
         default:
           break;
       }

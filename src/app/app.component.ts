@@ -76,16 +76,6 @@ export class LocationsApp {
         this.lname = this.user.PrimerApellido;
         this.phoneNumber = this.user.Telefono;
       }
-      else
-      {
-        //this.user = true;
-        this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
-        this.userName = "Pedro";
-        this.lname = "Pérez"
-        this.email = "pedrop@gmail.com";
-        this.phoneNumber = "809-000-0000";
-        this.accountType = 1;
-      }
 
    });
 

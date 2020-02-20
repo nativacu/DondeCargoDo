@@ -40,6 +40,7 @@ export class RegisterPlugPage {
     this.userEmail = this.navParams.get('email');
     this.auth.currUser.subscribe((usr) =>{
       this.user = usr;
+      console.log(this.user);
     });
     this.socket.getMessages().subscribe((data:any) =>{
       switch(data.Command)
@@ -63,7 +64,7 @@ export class RegisterPlugPage {
 
   uploadData(){
       let data =
-       {Command: "CrearLugar", UserUserID: this.user.UserID, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot
+       {Command: "CrearLugar", Email: this.user.Email, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot
        ,Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit]
        , Dia_Fin_Operaciones: this.daysArray[this.dateEnd], lat: this.placeLocation.lat(), lng: this.placeLocation.lng()
        , Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number};
