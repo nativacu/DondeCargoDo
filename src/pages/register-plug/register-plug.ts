@@ -45,7 +45,7 @@ export class RegisterPlugPage {
     this.socket.getMessages().subscribe((data:any) =>{
       switch(data.Command)
       {
-        case 'LugarCreado':
+        case 'LugarCreationSuccess':
           this.navCtrl.setRoot(MapPage);
           break;
         default:
