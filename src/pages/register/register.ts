@@ -1,5 +1,5 @@
 import { Component, PlatformRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Loading, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { LoginPage } from '../login/login';
@@ -30,8 +30,9 @@ export class RegisterPage {
   imageSrc: any;
   picture: HTMLImageElement;
   registerForm:FormGroup;
+  loading:Loading;
   constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
-    public socket:WebsocketProvider) {
+    public socket:WebsocketProvider, public loadingCtrl:LoadingController) {
 
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -64,6 +65,11 @@ export class RegisterPage {
   }
 
   signup() {
+    this.loading = this.loadingCtrl.create({
+      spinner: "circles",
+      content: "Connecting",
+    });
+    this.loading.present();
     this.socket.startConnection('').then(() => {
       this.getMessages();
       let type = 0;
@@ -87,10 +93,12 @@ export class RegisterPage {
         },
         (error) => {
           window.alert(error);
+          this.loading.dismiss();
         }
       );
     }, (error) => {
       window.alert(error);
+      this.loading.dismiss();
     });
   }
 
@@ -122,6 +130,7 @@ export class RegisterPage {
 
   getMessages(){
     this.socket.getMessages().subscribe((data:any) =>{
+      this.loading.dismiss();
       switch(data.Command)
       {
         case 'UserCreationSuccess':

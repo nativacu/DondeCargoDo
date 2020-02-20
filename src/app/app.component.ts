@@ -90,7 +90,7 @@ export class LocationsApp {
    });
 
     fauth.getUser().subscribe(user =>{
-      //this.email = user.email;
+      this.email = user.email;
     })
 
     platform.ready().then(() => {
@@ -192,7 +192,7 @@ export class LocationsApp {
     this.nav.push(PlacePlugPage, {email: this.email});
   }
   private onPushReceived(payload: OSNotificationPayload) {
-    
+
   }
 
   private onPushOpened(payload: OSNotificationPayload) {
