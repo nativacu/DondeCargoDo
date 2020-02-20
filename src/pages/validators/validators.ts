@@ -57,10 +57,7 @@ export class uniqueIdValidator
         even+= dig;
       }
     }
-    console.log(even)
-    console.log(odd)
     ver = 10 - (even + odd)%10;
-    console.log(ver)
     if((ver == 10 && digver == 0) || ver == digver)
     {
       return null;
