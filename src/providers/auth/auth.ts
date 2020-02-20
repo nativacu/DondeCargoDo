@@ -15,7 +15,6 @@ export class AuthProvider {
   currUser: BehaviorSubject<any>;
   constructor(public http: HttpClient, public afAuth: AngularFireAuth) {
     this.currUser = new BehaviorSubject(null);
-    console.log('Hello AuthProvider Provider');
     this.email = "placeholder";
   }
   doRegister(value){
