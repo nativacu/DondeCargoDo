@@ -20,7 +20,6 @@ export class AuthProvider {
   }
   doRegister(value){
    return new Promise<any>((resolve, reject) => {
-     debugger;
      this.afAuth.auth.createUserWithEmailAndPassword(value.email, value.password)
      .then(
        res => resolve(res),

@@ -77,7 +77,7 @@ export class RegisterPage {
         type += +x;
       }
       this.fauth.doRegister({email: this.registerForm.controls.email.value, password: this.registerForm.controls.password.value}).then(
-        (user: firebase.User) => {
+        (user) => {
           console.log(user);
           let slname = this.registerForm.controls.slname.value;
           let sname = this.registerForm.controls.sname.value;
@@ -138,6 +138,7 @@ export class RegisterPage {
         case 'UserCreationSuccess':
           this.fauth.currUser.next(data);
           this.navCtrl.setRoot(LoginPage);
+          break;
         case 'UserCreationFailure':
           this.fauth.afAuth.auth.currentUser.delete();
         default:
