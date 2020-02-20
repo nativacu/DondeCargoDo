@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { MapPage } from '../map/map';
 
 /**
  * Generated class for the ReceiptPage page.
@@ -42,6 +43,10 @@ export class ReceiptPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceiptPage');
+  }
+
+   toPay() {
+     this.navCtrl.push(MapPage);
   }
 
 }
