@@ -45,7 +45,7 @@ export class ReceiptPage {
     console.log('ionViewDidLoad ReceiptPage');
   }
 
-   toPay() {
+  toPayment() {
      this.navCtrl.push(MapPage);
   }
 
