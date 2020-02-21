@@ -16,6 +16,7 @@ import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
 import { isCordovaAvailable } from '../common/is-cordova-available';
 import { oneSignalAppId, sender_id } from '../config';
 import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
+import { ChargersPage } from '../pages/chargers/chargers';
 //import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 enum account {
@@ -213,6 +214,10 @@ export class LocationsApp {
 
     showAllTransactions(){
         this.socket.sendMessage(JSON.stringify({Command:"InitTransactionRequest", Email: this.user.Email}));
+    }
+
+    chargers(){
+      this.nav.setRoot(ChargersPage);
     }
 
 }

@@ -33,6 +33,7 @@ import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { ReceiptPage } from '../pages/receipt/receipt';
 import { TransactionListPage } from '../pages/transaction-list/transaction-list';
+import { ChargersPage } from '../pages/chargers/chargers';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { TransactionListPage } from '../pages/transaction-list/transaction-list'
     ChargingMenuPage,
     ReceiptPage,
     TransactionListPage,
+    ChargersPage
   ],
   imports: [
     BrowserModule,
@@ -70,6 +72,7 @@ import { TransactionListPage } from '../pages/transaction-list/transaction-list'
     ChargingMenuPage,
     ReceiptPage,
     TransactionListPage,
+    ChargersPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
