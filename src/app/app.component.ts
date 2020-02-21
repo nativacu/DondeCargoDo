@@ -195,14 +195,15 @@ export class LocationsApp {
             text: 'No',
             role: 'cancel',
             handler: () => {
-              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "N" , PlugID: + payload.additionalData}));
+              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "N" , PlugID: payload.additionalData.PlugID}));
             }
           },
           {
             text: 'Sí',
             handler: () => {
               //this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
-              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "Y" , PlugID: + payload.additionalData}));
+              //window.alert(JSON.stringify(payload.additionalData));
+              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "Y" , PlugID: payload.additionalData.PlugID}));
             }
           }
         ]
