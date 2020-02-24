@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, Platform, Loading, LoadingControll
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { LoginPage } from '../login/login';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { regexValidators, uniqueIdValidator } from '../validators/validators';
 import { PlatformProvider } from '../../providers/platform/platform';
@@ -33,7 +33,7 @@ export class RegisterPage {
   registerForm:FormGroup;
   loading:Loading;
   constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
-    public socket:WebsocketProvider, public loadingCtrl:LoadingController) {
+    public socket:WebsocketProvider, public loadingCtrl:LoadingController, private camera:Camera) {
 
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -110,19 +110,20 @@ export class RegisterPage {
     console.log(this.picture.src);
 
     if(this.plt.isMobile){
-      //   let cameraOptions = {
-      //   sourceType: Camera.Picti.PHOTOLIBRARY,
-      //   destinationType: Camera.DestinationType.FILE_URI,
-      //   quality: 100,
-      //   targetWidth: 1000,
-      //   targetHeight: 1000,
-      //   encodingType: Camera.EncodingType.JPEG,
-      //   correctOrientation: true
-      // }
-
-      // Camera.getPicture(cameraOptions)
-      //   .then(file_uri => this.picture = file_uri,
-      //   err => console.log(err));
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        correctOrientation: true,
+        sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
+      }
+  
+      this.camera.getPicture(options).then((imageData) => {
+        let base64Image = 'data:image/jpeg;base64,' + imageData;
+      }, (err) => {
+        // Handle error
+      });
     }
 
     else{

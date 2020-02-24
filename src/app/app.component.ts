@@ -140,7 +140,7 @@ export class LocationsApp {
   }
 
   openGallery (): void {
-    let cameraOptions = {
+    /*let cameraOptions = {
       sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: Camera.DestinationType.FILE_URI,
       quality: 100,
@@ -148,7 +148,7 @@ export class LocationsApp {
       targetHeight: 1000,
       encodingType: Camera.EncodingType.JPEG,
       correctOrientation: true
-    }
+    }*/
 
     // Camera.getPicture(cameraOptions)
     //   .then(FILE_URI => this.imageSrc = FILE_URI,
