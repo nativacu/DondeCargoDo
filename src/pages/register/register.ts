@@ -2,13 +2,11 @@ import { Component, PlatformRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, Loading, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
-import { LoginPage } from '../login/login';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { regexValidators, uniqueIdValidator } from '../validators/validators';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
-import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
 
 /**
  * Generated class for the RegisterPage page.
@@ -33,7 +31,7 @@ export class RegisterPage {
   registerForm:FormGroup;
   loading:Loading;
   constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
-    public socket:WebsocketProvider, public loadingCtrl:LoadingController) {
+    public socket:WebsocketProvider, public loadingCtrl:LoadingController, private camera:Camera) {
 
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -90,7 +88,7 @@ export class RegisterPage {
           }
         // TODO: needs to check about t_usuario
           const dataToSend = {Command: 'CrearUser', Cedula: this.registerForm.controls.uniqueId.value , PrimerNombre: this.registerForm.controls.fname.value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls.lname.value, SegundoApellido: slname
-          , TipoUsuario: type, Foto: 0, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
+          , TipoUsuario: type, Foto: this.imageSrc, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
           this.socket.sendMessage(JSON.stringify(dataToSend));
         },
         (error) => {
@@ -110,19 +108,21 @@ export class RegisterPage {
     console.log(this.picture.src);
 
     if(this.plt.isMobile){
-      //   let cameraOptions = {
-      //   sourceType: Camera.Picti.PHOTOLIBRARY,
-      //   destinationType: Camera.DestinationType.FILE_URI,
-      //   quality: 100,
-      //   targetWidth: 1000,
-      //   targetHeight: 1000,
-      //   encodingType: Camera.EncodingType.JPEG,
-      //   correctOrientation: true
-      // }
-
-      // Camera.getPicture(cameraOptions)
-      //   .then(file_uri => this.picture = file_uri,
-      //   err => console.log(err));
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        correctOrientation: true,
+        sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
+      }
+  
+      this.camera.getPicture(options).then((imageData) => {
+        this.imageSrc = 'data:image/jpeg;base64,' + imageData;
+        this.picture.src = this.imageSrc;
+      }, (err) => {
+        // Handle error
+      });
     }
 
     else{
@@ -138,7 +138,7 @@ export class RegisterPage {
         case 'UserCreationSuccess':
           window.alert("Usuario creado exitosamente. Por favor inicie sesión");
           this.fauth.currUser.next(data);
-          this.navCtrl.setRoot(LoginPage);
+          this.navCtrl.popToRoot();
           break;
         case 'UserCreationFailure':
           this.fauth.afAuth.auth.currentUser.delete();

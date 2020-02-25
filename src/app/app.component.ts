@@ -2,20 +2,15 @@ import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
 import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { MapPage } from '../pages/map/map'
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
-import { TransactionListPage } from '../pages/transaction-list/transaction-list';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
 import { isCordovaAvailable } from '../common/is-cordova-available';
 import { oneSignalAppId, sender_id } from '../config';
-import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
 import { ChargersPage } from '../pages/chargers/chargers';
 //import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
@@ -47,9 +42,9 @@ export class LocationsApp {
     public fauth:AuthProvider,
     public http: HttpRequestProvider,
     public socket:WebsocketProvider,
-    private push: Push,
     private alertCtrl: AlertController,
-    private oneSignal: OneSignal) {
+    private oneSignal: OneSignal,
+    private camera: Camera) {
 
    //  this.push.hasPermission()
   // .then((res: any) => {
@@ -140,19 +135,20 @@ export class LocationsApp {
   }
 
   openGallery (): void {
-    let cameraOptions = {
-      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: Camera.DestinationType.FILE_URI,
-      quality: 100,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      encodingType: Camera.EncodingType.JPEG,
-      correctOrientation: true
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
     }
 
-    // Camera.getPicture(cameraOptions)
-    //   .then(FILE_URI => this.imageSrc = FILE_URI,
-    //   err => console.log(err));
+    this.camera.getPicture(options).then((imageData) => {
+      this.imageSrc = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      // Handle error
+    });
   }
 
 
@@ -165,6 +161,12 @@ export class LocationsApp {
 
   showInfo(){
     this.editing = false;
+    this.user.Command = 'UpdateUserInfo';
+    this.user.Foto = this.imageSrc;
+    this.user.PrimerNombre = this.userName;
+    this.user.Telefono = this.phoneNumber;
+    this.socket.sendMessage(JSON.stringify(this.user))
+    this.fauth.currUser.next(this.user);
     // this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
     //   foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
