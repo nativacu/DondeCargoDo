@@ -32,7 +32,7 @@ export class ChargersPage {
     this.socket.getMessages().subscribe((data) => {
       switch (data.Command) {
         case 'CargadorCreationSuccess':
-          this.navCtrl.setRoot(MapPage);
+          this.navCtrl.popToRoot();
           break;
         case 'CargadoresRetreived':
           this.chargers = data.Cargadores;

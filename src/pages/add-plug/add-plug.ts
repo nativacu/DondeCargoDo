@@ -50,7 +50,7 @@ export class AddPlugPage {
     this.act = act;
     //TODO needs command
     this.socket.sendMessage(JSON.stringify({Command: 'CrearPlug', LugarLugarID: this.lugarid,PlugID:this.serialForm.controls['serial'].value}));
-    this.navCtrl.setRoot(MapPage);
+    this.navCtrl.popToRoot();
   }
 
 }

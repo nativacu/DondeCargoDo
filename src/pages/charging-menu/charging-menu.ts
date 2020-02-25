@@ -55,7 +55,7 @@ export class ChargingMenuPage {
           let datePar = dateEnd.split('-')
           let hourEnd:String = data.Hora_Fin
           let hourPar = hourEnd.split(':')
-          this.navCtrl.setRoot(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])})
+          this.navCtrl.push(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])})
           break;
       }
     })

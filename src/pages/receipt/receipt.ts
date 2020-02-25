@@ -46,7 +46,7 @@ export class ReceiptPage {
   }
 
   toPayment() {
-     this.navCtrl.push(MapPage);
+     this.navCtrl.popToRoot();
   }
 
 }

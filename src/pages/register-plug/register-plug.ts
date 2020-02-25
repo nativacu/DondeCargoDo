@@ -46,7 +46,7 @@ export class RegisterPlugPage {
       switch(data.Command)
       {
         case 'LugarCreationSuccess':
-          this.navCtrl.setRoot(MapPage);
+          this.navCtrl.popToRoot();
           break;
         default:
       }

@@ -140,7 +140,7 @@ export class RegisterPage {
         case 'UserCreationSuccess':
           window.alert("Usuario creado exitosamente. Por favor inicie sesión");
           this.fauth.currUser.next(data);
-          this.navCtrl.setRoot(LoginPage);
+          this.navCtrl.popToRoot();
           break;
         case 'UserCreationFailure':
           this.fauth.afAuth.auth.currentUser.delete();
