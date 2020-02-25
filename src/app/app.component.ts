@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
 import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
@@ -43,7 +43,8 @@ export class LocationsApp {
     public http: HttpRequestProvider,
     public socket:WebsocketProvider,
     private alertCtrl: AlertController,
-    private oneSignal: OneSignal) {
+    private oneSignal: OneSignal,
+    private camera: Camera) {
 
    //  this.push.hasPermission()
   // .then((res: any) => {
@@ -134,19 +135,20 @@ export class LocationsApp {
   }
 
   openGallery (): void {
-    /*let cameraOptions = {
-      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: Camera.DestinationType.FILE_URI,
-      quality: 100,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      encodingType: Camera.EncodingType.JPEG,
-      correctOrientation: true
-    }*/
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
+    }
 
-    // Camera.getPicture(cameraOptions)
-    //   .then(FILE_URI => this.imageSrc = FILE_URI,
-    //   err => console.log(err));
+    this.camera.getPicture(options).then((imageData) => {
+      this.imageSrc = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      // Handle error
+    });
   }
 
 
@@ -159,6 +161,12 @@ export class LocationsApp {
 
   showInfo(){
     this.editing = false;
+    this.user.Command = 'UpdateUserInfo';
+    this.user.Foto = this.imageSrc;
+    this.user.PrimerNombre = this.userName;
+    this.user.Telefono = this.phoneNumber;
+    this.socket.sendMessage(JSON.stringify(this.user))
+    this.fauth.currUser.next(this.user);
     // this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
     //   foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
