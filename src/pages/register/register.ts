@@ -90,7 +90,7 @@ export class RegisterPage {
           }
         // TODO: needs to check about t_usuario
           const dataToSend = {Command: 'CrearUser', Cedula: this.registerForm.controls.uniqueId.value , PrimerNombre: this.registerForm.controls.fname.value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls.lname.value, SegundoApellido: slname
-          , TipoUsuario: type, Foto: 0, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
+          , TipoUsuario: type, Foto: this.imageSrc, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
           this.socket.sendMessage(JSON.stringify(dataToSend));
         },
         (error) => {
@@ -120,7 +120,8 @@ export class RegisterPage {
       }
   
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image = 'data:image/jpeg;base64,' + imageData;
+        this.imageSrc = 'data:image/jpeg;base64,' + imageData;
+        this.picture.src = this.imageSrc;
       }, (err) => {
         // Handle error
       });
