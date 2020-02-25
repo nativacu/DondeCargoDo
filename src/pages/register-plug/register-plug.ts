@@ -1,9 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
-import { MapPage } from '../map/map';
-import { AddPlugPage } from '../add-plug/add-plug';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { AuthProvider } from '../../providers/auth/auth';
 

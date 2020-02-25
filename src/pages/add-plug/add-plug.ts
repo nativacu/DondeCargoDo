@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
-import { MapPage } from '../map/map';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 
 /**
@@ -32,7 +31,7 @@ export class AddPlugPage {
         //TODO need the command
         case '':
             if(this.act == 1)
-              this.navCtrl.setRoot(MapPage);
+              this.navCtrl.popToRoot();
             else
               this.serialForm.controls['serial'].setValue('');
           break;

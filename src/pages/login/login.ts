@@ -7,7 +7,6 @@ import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { PlatformProvider } from '../../providers/platform/platform';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
-import { ChargingMenuPage } from '../charging-menu/charging-menu';
 import { OneSignal } from '@ionic-native/onesignal';
 
 
@@ -102,10 +101,6 @@ export class LoginPage implements OnInit{
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
 
-  }
-
-  test(){
-    this.navCtrl.push(ChargingMenuPage, {Date: new Date(2019, 11, 13, 0, 38, 6)});
   }
 
   showHide()

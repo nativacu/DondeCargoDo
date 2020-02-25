@@ -2,20 +2,15 @@ import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
 import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { MapPage } from '../pages/map/map'
 import { Camera } from '@ionic-native/camera';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { PlacePlugPage } from '../pages/place-plug/place-plug';
 import { WebsocketProvider } from '../providers/websocket/websocket';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
-import { TransactionListPage } from '../pages/transaction-list/transaction-list';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
 import { isCordovaAvailable } from '../common/is-cordova-available';
 import { oneSignalAppId, sender_id } from '../config';
-import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
 import { ChargersPage } from '../pages/chargers/chargers';
 //import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
@@ -47,7 +42,6 @@ export class LocationsApp {
     public fauth:AuthProvider,
     public http: HttpRequestProvider,
     public socket:WebsocketProvider,
-    private push: Push,
     private alertCtrl: AlertController,
     private oneSignal: OneSignal) {
 

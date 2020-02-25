@@ -4,7 +4,6 @@ import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { AuthProvider } from '../../providers/auth/auth';
 import {NgModule} from '@angular/core';
 import {RoundProgressModule} from 'angular-svg-round-progressbar';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReceiptPage } from '../receipt/receipt';
 import { AlertController } from 'ionic-angular';
 /**

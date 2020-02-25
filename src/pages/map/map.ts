@@ -7,7 +7,6 @@ import { ReservationPage } from '../reservation/reservation';
 import { AddPlugPage } from '../add-plug/add-plug';
 import { AuthProvider } from '../../providers/auth/auth';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
-import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
 import { TransactionListPage } from '../transaction-list/transaction-list';
 
