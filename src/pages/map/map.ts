@@ -7,7 +7,6 @@ import { ReservationPage } from '../reservation/reservation';
 import { AddPlugPage } from '../add-plug/add-plug';
 import { AuthProvider } from '../../providers/auth/auth';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
-import { ChargeConfirmationPage } from '../charge-confirmation/charge-confirmation';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
 import { TransactionListPage } from '../transaction-list/transaction-list';
 
@@ -101,7 +100,7 @@ export class MapPage {
     chargerObserver.subscribe(currentCharger => {
       if(currentCharger != null){
         this.currentCharger = currentCharger;
-        this.adminButton = (this.userId == currentCharger.UserUserID)
+        this.adminButton = (this.userId == currentCharger.UserUserID);
         //Reducing map to show button
         var map = document.getElementById("map");
         var button = document.getElementById("reserveButton");
@@ -151,10 +150,10 @@ export class MapPage {
       {
         let dateInit:Array<String> = ok.Fecha_Inicio.split('-');
         let hourInit:Array<String> = ok.Hora_Inicio.split(':');
-        let initDate:any = new Date(+dateInit[0], +dateInit[1] - 1, +dateInit[2], +hourInit[0], +hourInit[1])
+        let initDate:any = new Date(+dateInit[0], +dateInit[1] - 1, +dateInit[2], +hourInit[0], +hourInit[1]);
         let dateEnd:Array<String> = ok.Fecha_Fin.split('-');
         let hourEnd:Array<String> = ok.Hora_Fin.split(':');
-        let endDate:any = new Date(+dateEnd[0], +dateEnd[1] - 1, +dateEnd[2], +hourEnd[0], +hourEnd[1])
+        let endDate:any = new Date(+dateEnd[0], +dateEnd[1] - 1, +dateEnd[2], +hourEnd[0], +hourEnd[1]);
         ok.Date = new Date(endDate - initDate)
       }
       else
