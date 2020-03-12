@@ -17,7 +17,7 @@ export class ConnectivityProvider {
     if(this.onDevice && Network.Connection){
       return Network.Connection !== Connection.NONE;
     } else {
-      return navigator.onLine; 
+      return navigator.onLine;
     }
   }
 
@@ -25,7 +25,7 @@ export class ConnectivityProvider {
     if(this.onDevice && Network.Connection){
       return Network.Connection === Connection.NONE;
     } else {
-      return !navigator.onLine;   
+      return !navigator.onLine;
     }
   }
 

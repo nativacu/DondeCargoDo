@@ -1,89 +1,72 @@
-<!-- 
-<div class="container login-container">
-    <div class="row">
-        <div class="col-md-6 login-form-1">
-            <h3>Iniciar Sesión</h3>
-            <div class="form-group">
-                <input type="email" class="form-control" name="email" placeholder="Correo" [(ngModel)]="loginEmail" required/>
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Contraseña" [(ngModel)]="loginPassword" required />
-            </div>
+<div *ngIf="this.platform.checkPlatform(); then mobile else web">
 
-            <div class="form-group">
-                <input type="submit" class="btnSubmit" value="Acceder" (click)="login()"/>
+</div>
 
-            <div class="form-group">
-                <a href="#" class="ForgetPwd">Olvidé mi contraseña</a>
-            </div>
-        </div>
+<ng-template #mobile>
+    <ion-header>
+        <ion-navbar color="secondary">
+             <ion-title >Iniciar Sesión</ion-title>
+        </ion-navbar>
+    </ion-header>
+
+    <ion-content style="margin-top: 5%;">
+            <ion-item>
+                <ion-label position="floating">Correo</ion-label>
+                <ion-input type="email" id="defaultLoginFormEmail"  [(ngModel)]="loginEmail" required #email> </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input type={{inputType}} id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
+                <button *ngIf="inputType == 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+                    <ion-icon name="eye-off" style="font-size:25px;"></ion-icon>
+                </button>
+                <button *ngIf="inputType != 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+                    <ion-icon name="eye" style="font-size:32px;"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item no-lines >
+                <button ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" type="submit" value="Acceder" (click)="login()">Acceder</button>
+            </ion-item>
+
+            <!-- Register -->
+            <ion-item no-lines>
+                <p style="font-size:12pt;">¿No tienes cuenta?
+                    <span style="color: #2365db;" (click)="openRegister()">Únete</span>
+                </p>
+            </ion-item>
+<!--            <button (click)="test()">test</button>-->
+        </ion-content>
+</ng-template>
+
+<ng-template #web>
+    <div class="container" style="margin-top: 15%">
+        <p class="h4 mb-4" style="text-align: center; font-size:15pt;">Iniciar Sesión</p>
     </div>
-    <div class="col-md-6 login-form-2">
-        <h3>Crear Cuenta</h3>
-            <div class="form-group">
-                <input type="text" class="form-control" name="email" placeholder="Correo" [(ngModel)]="signupEmail" required/>
-            </div>
 
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Contraseña" [(ngModel)]="signupPassword" required />
-            </div>
+    <ion-item>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input type="email" id="defaultLoginFormEmail"  [(ngModel)]="loginEmail" required #email> </ion-input>
+    </ion-item>
 
-            <div class="form-group">
-                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Primer Nombre" [(ngModel)]="fname" required>
-            </div>
-
-            <div class="form-group">
-                <input type="text" name="first_name" id="second_name" class="form-control" placeholder="Segundo Nombre" [(ngModel)]="sname" required>
-            </div>
-
-            <div class="form-group">
-                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Primer Apellido" [(ngModel)]="lname" required>
-            </div>
-
-            <div class="form-group">
-                <input type="text" name="last_name" id="second_lname" class="form-control" placeholder="Segundo Apellido" [(ngModel)]="slname" required>
-            </div>
-
-            <div class="form-group">
-                <input type="phone" class="form-control" id="phone_number" placeholder="Número de teléfono" [(ngModel)]="phone" required />
-            </div>
-
-            <div class="form-group">
-                <input type="text" name="id" id="id" class="form-control" placeholder="Cédula de identidad" [(ngModel)]="id" required>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" class="btnSubmit" value="Registrar" (click)="signup()" />
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
-<div class="container" style="margin-top: 15%">
-    <!-- <div class="row"> -->
-        <p class="h4 mb-4" style="text-align: center">Iniciar Sesión</p>
-    <!-- </div> -->
-    <!-- Email -->
-    <div class="row">
-        <div class="col-md">
-            <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Correo" [(ngModel)]="loginEmail" required #email>
-        </div>
-    </div>
-    <!-- Password -->
-    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" [(ngModel)]="loginPassword" placeholder="Contraseña" required #password>
-
-    <!-- Sign in button -->
-    <div class="row">
-        <div class="col-md">
-            <button ion-button small full color="secondary" style="text-transform: none;" type="submit" value="Acceder" (click)="login()">Acceder</button>
-        </div>
-    </div>
+    <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type={{inputType}} id="defaultLoginFormPassword" [(ngModel)]="loginPassword" required #password></ion-input>
+        <button *ngIf="inputType == 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+            <ion-icon name="eye-off" style="font-size:32px;"></ion-icon>
+        </button>
+        <button *ngIf="inputType != 'text'" ion-button clear item-end (click)='showHide()' style="height:32px;">
+            <ion-icon name="eye" style="font-size:32px;"></ion-icon>
+        </button>
+    </ion-item>
+    <ion-item no-lines >
+        <button ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" type="submit" value="Acceder" (click)="login()">Acceder</button>
+    </ion-item>
 
     <!-- Register -->
-    <p>¿No tienes cuenta?
-        <span style="color: #2365db" (click)="openRegister()">Únete</span>
-    </p>
-
-    
-  </div>
+    <ion-item no-lines>
+        <p style="font-size:12pt;">¿No tienes cuenta?
+            <span style="color: #2365db;" (click)="openRegister()">Únete</span>
+        </p>
+    </ion-item>
+</ng-template>

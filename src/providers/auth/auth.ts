@@ -15,7 +15,6 @@ export class AuthProvider {
   currUser: BehaviorSubject<any>;
   constructor(public http: HttpClient, public afAuth: AngularFireAuth) {
     this.currUser = new BehaviorSubject(null);
-    console.log('Hello AuthProvider Provider');
     this.email = "placeholder";
   }
   doRegister(value){
@@ -24,7 +23,7 @@ export class AuthProvider {
      .then(
        res => resolve(res),
        err => reject(err))
-   })
+   });
   }
 
   doLogin(value){
@@ -32,7 +31,7 @@ export class AuthProvider {
     this.afAuth.auth.signInWithEmailAndPassword(value.email, value.password)
      .then(
        res => {
-         this.email = value.email
+         this.email = value.email;
          resolve(res)
         },
        err => reject(err))
@@ -45,7 +44,7 @@ export class AuthProvider {
       .then(() => {
         resolve();
       }).catch((error) => {
-        reject();
+        reject(error);
       });
     })
   }

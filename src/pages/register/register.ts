@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, PlatformRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, Platform, Loading, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
-import { MapPage } from '../map/map';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { regexValidators, uniqueIdValidator } from '../validators/validators';
+import { PlatformProvider } from '../../providers/platform/platform';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
 
 /**
  * Generated class for the RegisterPage page.
@@ -10,6 +14,11 @@ import { MapPage } from '../map/map';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+enum account {
+  placeOwner = 1,
+  consumer = 2,
+  hybrid = 3
+}
 
 @IonicPage()
 @Component({
@@ -17,39 +26,127 @@ import { MapPage } from '../map/map';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+  imageSrc: any;
+  picture: HTMLImageElement;
+  registerForm:FormGroup;
+  loading:Loading;
+  constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
+    public socket:WebsocketProvider, public loadingCtrl:LoadingController, private camera:Camera) {
 
-  signupEmail:string;
-  signupPassword:string;
-  fname:string;
-  lname:string;
-  id:string;
-  phone: string;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider) {
+    this.registerForm = this.formBuilder.group({
+      email: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(regexValidators.email)
+      ])],
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(regexValidators.password)
+      ])],
+      fname: ['', Validators.required],
+      sname: [''],
+      lname: ['', Validators.required],
+      slname: [''],
+      telNumber: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(regexValidators.phone_number)
+      ])],
+      uniqueId: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(regexValidators.id),
+        uniqueIdValidator.uniqueID
+      ])],
+      accountType: ['', Validators.required]
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  signup(){
-    this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
-      (user:firebase.User)=>{
-        console.log('Registered user');
-        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
-          foto: 0, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
-            this.fauth.currUser.next(data);
-            this.navCtrl.setRoot(MapPage);
-          },
-          (kabum) =>{
-            user.delete();
-          });
-      },
-      (error) =>{
-        window.alert(error);
+  signup() {
+    this.loading = this.loadingCtrl.create({
+      spinner: "circles",
+      content: "Connecting",
+    });
+    this.loading.present();
+    this.socket.startConnection('').then(() => {
+      this.getMessages();
+      let type = 0;
+      for (const x of this.registerForm.controls.accountType.value) {
+        type += +x;
       }
-    );
+      this.fauth.doRegister({email: this.registerForm.controls.email.value, password: this.registerForm.controls.password.value}).then(
+        (user) => {
+          console.log(user);
+          let slname = this.registerForm.controls.slname.value;
+          let sname = this.registerForm.controls.sname.value;
+          if (sname === null) {
+            sname = '0';
+          }
+          if (slname === null) {
+            slname = '0';
+          }
+        // TODO: needs to check about t_usuario
+          const dataToSend = {Command: 'CrearUser', Cedula: this.registerForm.controls.uniqueId.value , PrimerNombre: this.registerForm.controls.fname.value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls.lname.value, SegundoApellido: slname
+          , TipoUsuario: type, Foto: this.imageSrc, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
+          this.socket.sendMessage(JSON.stringify(dataToSend));
+        },
+        (error) => {
+          window.alert(error);
+          this.loading.dismiss();
+        }
+      );
+    }, (error) => {
+      window.alert(error);
+      this.loading.dismiss();
+    });
   }
 
+  selectPicture(){
+    this.picture = document.getElementById('profilePic') as HTMLImageElement;
+
+    console.log(this.picture.src);
+
+    if(this.plt.isMobile){
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        correctOrientation: true,
+        sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
+      }
+  
+      this.camera.getPicture(options).then((imageData) => {
+        this.imageSrc = 'data:image/jpeg;base64,' + imageData;
+        this.picture.src = this.imageSrc;
+      }, (err) => {
+        // Handle error
+      });
+    }
+
+    else{
+
+    }
+  }
+
+  getMessages(){
+    this.socket.getMessages().subscribe((data:any) =>{
+      this.loading.dismiss();
+      switch(data.Command)
+      {
+        case 'UserCreationSuccess':
+          window.alert("Usuario creado exitosamente. Por favor inicie sesión");
+          this.fauth.currUser.next(data);
+          this.navCtrl.popToRoot();
+          break;
+        case 'UserCreationFailure':
+          this.fauth.afAuth.auth.currentUser.delete();
+          break;
+        default:
+          break;
+      }
+    })
+  }
 
 }

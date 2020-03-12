@@ -11,19 +11,19 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class HttpRequestProvider {
-  
-  endpoint = 'http://192.168.43.141/';
+
+   endpoint = 'http://192.168.43.141/';
   //endpoint = 'https://private-443a5-chargingstation.apiary-mock.com/';
   chargers : any;
   reservations: any;
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin' : '*',
+     /* 'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Access-Control-Allow-Origin',
-      'Accept':'application/json',
+     */ 'Accept':'application/json',
       'content-type': 'application/json'
     })};
 
@@ -43,12 +43,11 @@ export class HttpRequestProvider {
 
   public getStations(){
     this.makeStationRequest().subscribe(data => {
-      console.log(data);
       this.chargers = data.next();
       console.log(this.chargers);
       return data;
     }, () => { console.log(this.chargers);
-    }); 
+    });
   }
 
   public makeReservationRequest(): Observable<any> {
@@ -63,7 +62,7 @@ export class HttpRequestProvider {
       console.log(this.reservations);
       return data;
     }, () => { console.log(this.reservations);
-    }); 
+    });
   }
 
   public sendPostRequest(postData: any = {}, path: string) {

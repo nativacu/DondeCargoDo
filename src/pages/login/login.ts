@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
-import { Platform, ModalController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController, Loading } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { PlatformProvider } from '../../providers/platform/platform';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { OneSignal } from '@ionic-native/onesignal';
+
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -20,72 +22,73 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class LoginPage {
+export class LoginPage implements OnInit{
 
   loginEmail:string;
   loginPassword:string;
+  loginIp:string;
   signupEmail:string;
   signupPassword:string;
   fname:string;
   lname:string;
   id:string;
   phone: string;
-  base64img:any;
-  loading: any;
-  webImg:any;
-  constructor(public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, 
-    public navCtrl: NavController, public navParams: NavParams, public fauth:AuthProvider, 
-    public http: HttpRequestProvider, private transfer: FileTransfer, private camera: Camera, 
-    public loadingCtrl: LoadingController, public modal: ModalController) {
+  inputType:string = "password";
+  loading:Loading;
+  constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController,
+    public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
+    public socket:WebsocketProvider, public onesignal:OneSignal, public loadingCtrl:LoadingController) {
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
 
-    // platform.ready().then(() => {
-    //   // Okay, so the platform is ready and our plugins are available.
-    //   // Here you can do any higher level native things you might need.
-    //   statusBar.styleDefault();
-    //   splashScreen.hide();
-    //   (window as any).handleOpenURL = (url: string) => {
-    //     Auth0Cordova.onRedirectUri(url);
-    //   }
-    // });
- 
+    //this.getSocketMessages();
   }
   ionViewDidLoad() {
 
     console.log('ionViewDidLoad LoginPage');
   }
   login(){
-    this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
-      ()=>{
-        this.http.sendPostRequest({email: this.loginEmail}, 'get.php').then((data) =>{
-            this.fauth.currUser.next(data[0]);
-            this.navCtrl.setRoot(MapPage);
-          },
-          (kabum) =>{
-          });
-      },
-      (error) =>{
-        window.alert(error);
-      }
-    );
-  }
-  signup(){
-    let photo = (this.platform.is('core'))? this.webImg : this.base64img;
-    this.fauth.doRegister({"email": this.signupEmail, "password":this.signupPassword}).then(
-      (user:firebase.User)=>{
-        this.http.sendPostRequest({cedula: this.id, primernombre: this.fname, segundonombre: 0, primerapellido: this.lname, segundoapellido: 0, t_usuario: 2,
-          foto: photo, email: this.signupEmail, telefono: this.phone}, 'post.php').then((data) =>{
-            this.fauth.currUser.next(data);
-            this.navCtrl.setRoot(MapPage);
-          },
-          (error) =>{
-            user.delete();
-            window.alert(error);
-          });
-      },
-      (error) =>{
-        window.alert(error);
-      }
-    );
+    this.loading = this.loadingCtrl.create({
+      spinner: "circles",
+      content: "Connecting",
+    });
+    this.loading.present();
+    this.socket.startConnection('').then(() =>{
+      this.getSocketMessages();
+      this.fauth.doLogin({"email": this.loginEmail, "password":this.loginPassword}).then(
+        ()=>{
+          if(this.platform.checkPlatform()){
+            this.loading.setDuration(5000);
+            new Promise<any>((resolve, reject) =>{
+              this.loading.onDidDismiss(() =>{
+                reject("El servicio de notificaciones no esta disponible");
+              });
+
+              this.onesignal.getIds().then((idData) =>{
+                resolve(idData);
+              })
+            }).then((idData) =>{
+              this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: idData.userId}));
+            }, (error) =>{
+              window.alert(error);
+            })
+          }
+          else
+          {
+            this.socket.sendMessage(JSON.stringify({Command:"CrearConexion", Email: this.loginEmail, OneSignalId: 0}));
+          }
+        },
+        (error) =>{
+          window.alert(error);
+          this.loading.dismiss();
+        }
+      );
+    }, (error) =>{
+      window.alert(error);
+      this.loading.dismiss();
+    })
   }
   getImage(){
     const options:CameraOptions={
@@ -105,15 +108,35 @@ export class LoginPage {
   }
 
   openRegister(){
-    console.log("i made it");
-    const registerModal = this.modal.create('RegisterPage');
-    registerModal.present();
+    this.navCtrl.push('RegisterPage');
+    //const registerModal = this.modal.create('RegisterPage');
+    //registerModal.present();
   }
 
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-   
+
+  }
+
+  showHide()
+  {
+    this.inputType = this.inputType == "text"? "password":"text";
+  }
+
+  getSocketMessages(){
+    this.socket.getMessages().subscribe((data:any) => {
+      console.log(data)
+      this.loading.dismiss();
+      switch(data.Command)
+      {
+        case "ConexionCreated":
+            this.fauth.currUser.next(data);
+            this.navCtrl.setRoot(MapPage);
+        default:
+          break;
+      }
+    })
   }
 
 }

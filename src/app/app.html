@@ -1,42 +1,97 @@
-<ion-menu [content]="mycontent">
-    <ion-content id="user">
-        <div id="picture">
-            <img [src]="imageSrc" height= "25%" (click)="openGallery()"/>  
+<ion-menu *ngIf="user" [content]="mycontent">
+    <ion-content *ngIf="!editing">
+        <div class="picture">
+                        <button ion-button round outline small center color="light" id="editButton1" (click)="enableEdit()">Editar Perfil</button>
+            <ion-avatar style="padding-top: 10px;" >
+                <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="border: 3px solid; color: white; height: 20%; min-height: 120px; border-radius: 50%; display: block;
+                            margin-left: auto;
+                            margin-right: auto;" id="profilePic">
+            </ion-avatar>
             <h3 id = name>
-                {{userName}} <ion-icon name="create" id="editIcon" size="small" (click)="changeName()"></ion-icon>
+                {{userName}}
             </h3>
-            <!-- Input with placeholder -->
-            <ion-input maxlength="32" [(ngModel)]="userName" id="input" dark></ion-input>
-            
+
         </div>
-        <button ion-button round outline small center color="dark" id="editButton" (click)="enableEdit()">Editar Perfil</button>
-        <p id=mail>
-            {{email}}  <ion-icon name="create" id="editIcon1" size="small" (click)="changeMail()"></ion-icon>
-        </p>
+        <ion-list>
+          <button menuClose ion-button outline small color="primary"  round (click)="logout()" id="logoutButton">Cerrar Sesión</button>
 
-        <ion-input maxlength="32" inputmode="email" [(ngModel)]="email" class="edit" id="mailInput"></ion-input>
+            <ion-item>
+                {{email}}
+            </ion-item>
+            <ion-item>
+                {{phoneNumber}}
+            </ion-item>
 
-        <p id=phoneNumber>
-            {{phoneNumber}}<ion-icon name="create"  id="editIcon2" size="small" (click)="changePhoneNumber()"></ion-icon>
-        </p>
 
-        <ion-input maxlength="17" inputmode="tel" [(ngModel)]="phoneNumber" class="edit" id="phoneInput"></ion-input>
+            <ion-item>
+                <h6>Métodos de Pago</h6>
+                <ion-icon name="card"> xxxx 0000</ion-icon>
+            </ion-item>
 
-        <hr>
-        <h6>Métodos de Pago</h6>
-        <ion-icon name="card"> xxxx 0000</ion-icon>
-        <hr>
-        
-        <button ion-button round (click)="showInfo()" id="saveButton">Salvar</button>
-        <hr>
-        <!-- <button ion-button round (click)="login()" id="loginButton">Login</button> -->
-        <button ion-button menuClose round (click)="logout()" id="logoutButton">Logout</button>
+        </ion-list>
 
-        <button ion-button round outline small center color="dark" id="deleteButton" (click)="eraseAccount()">Eliminar Cuenta</button>
-        
+        <ion-item (click)="addNewStation()">
+                <ion-icon slot="left" name="add-circle-outline"></ion-icon>
+                <ion-label>Agregar Lugar</ion-label>
+        </ion-item>
+
+        <ion-item (click)="chargers()">
+            <ion-icon slot="left" name="add-circle-outline"></ion-icon>
+            <ion-label>Cargadores</ion-label>
+    </ion-item>
+
+        <ion-item (click)="showAllTransactions()">
+            <ion-icon slot="item-left" name="add-circle-outline"></ion-icon>
+            <ion-label>Ver transacciones anteriores</ion-label>
+        </ion-item>
+
+
+      <ion-footer no-border>
+        <button ion-button round outline small color="dark" id="deleteButton" (click)="eraseAccount()">Eliminar Cuenta</button>
+      </ion-footer>
+    </ion-content>
+
+
+
+    <ion-content *ngIf="editing">
+        <div class="picture" style="margin-bottom: 10px;">
+            <ion-avatar style="padding-top: 10px;" >
+                <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" style="border: 3px solid; color: white; height: 20%; min-height: 120px; border-radius: 50%; display: block;
+                            margin-left: auto;
+                            margin-right: auto;" id="profilePic">
+                    <button ion-button small (click)="openGallery()" style="margin-top: -25px; color: white; margin-left: 80px;">
+                        <ion-icon name="camera"></ion-icon>
+                    </button>
+            </ion-avatar>
+
+            <ion-item class="picture">
+                    <div class="input-group input-group-lg mb-3 mr-2 ml-2 pr-5">
+                        <input type="text" class="form-control" [(ngModel)]="userName">
+                    </div>
+                </ion-item>
+        </div>
+
+
+        <ion-list>
+
+            <ion-item>
+                <div class="input-group input-group-lg mb-3 mr-2 ml-2 pr-5">
+                    <input type="text" class="form-control" [(ngModel)]="user.Email">
+                </div>
+            </ion-item>
+
+            <ion-item>
+                <div class="input-group input-group-lg mr-2 ml-2 pr-5">
+                    <input type="text" class="form-control" [(ngModel)]="user.Telefono">
+                </div>
+            </ion-item>
+
+            <div>
+                <button ion-button round (click)="showInfo()" id="saveButton">Salvar</button>
+            </div>
+
+        </ion-list>
     </ion-content>
 </ion-menu>
-
-      
 
 <ion-nav  #mycontent [root]="rootPage" ></ion-nav>

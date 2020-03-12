@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { checkAvailability } from '@ionic-native/core';
+import { AuthProvider } from '../../providers/auth/auth';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
 
 
 /**
@@ -27,52 +29,70 @@ export class ReservationPage {
   potency: any;
   chargerType: any;
   showCost: boolean;
-  selectedTimeSlot: any; 
+  initTimeSlot: any;
+  endTimeSlot: any;
+  dateSlot: any;
+  userId: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider, private auth: AuthProvider, public socket:WebsocketProvider) {
     this.charger = navParams.get('charger');
     this.showCost = true;
+
+    this.auth.currUser.subscribe((user)=>{
+      this.userId = user.UserID;
+    });
+    this.socket.getMessages().subscribe((data:any) => {
+      switch(data.Command)
+      {
+        case 'LugaresRetreived':
+          this.checkCharger(data)
+          break;
+        default:
+      }
+    })
   }
 
   ionViewDidLoad() {
-    this.displayName = this.charger.charger_name;
-    this.cost = this.charger.cost;
-    this.costType = this.charger.cost_type;
-    this.potency = this.charger.potency;
-    this.chargerType = this.charger.type;
+    this.displayName = this.charger.Nombre;
+    this.cost = this.charger.CostoCarga;
+    this.costType = this.charger.TipoCostoCarga;
+    // this.potency = this.charger.potency;
+    // this.chargerType = this.charger.type;
 
     if(this.costType === "Gratis"){
       this.showCost = false;
     }
-    
+
   }
 
   reserve(){
-    
+
     let postData = {
-      "charger": this.charger,
-      "time_slot": this.selectedTimeSlot
+      "UserUserID": this.userId,
+      "IOTPlugPlugID": this.charger.id, //TODO this.charger.id contains placeID not plugID
+      "Fecha": this.dateSlot,
+      "Hora_Inicio": this.initTimeSlot,
+      "Hola_Fin": this.endTimeSlot
     }
     if(checkAvailability){
-      this.http.sendPostRequest(postData, 'reservations');
+      //this.http.sendPostRequest(postData, 'reservations');
+    }
+  }
+
+  checkCharger(data){
+    let index = data.indexOf(this.charger); ;
+    if(data[this.charger]==1){
+      return true;
+    }
+    else{
+      return false;
     }
   }
 
   checkAvailability(){
-    let locations = this.http.makeStationRequest();
+    //let locations = this.http.makeStationRequest();
+    this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}))
 
-    locations.subscribe(data => {
-      let index = data.indexOf(this.charger); ; 
-      if(data[this.charger].is_operational){
-        return true;
-      }
-
-      else{
-        return false;
-      }
-
-    });
-    
   }
 
 

@@ -19,11 +19,18 @@
     <ion-label><b>Tipo de cargador:</b> {{chargerType}}</ion-label>
     <ion-label *ngIf="!showCost"><b>Servicio Gratuito</b></ion-label>
     <ion-label *ngIf="showCost"><b>Precio: </b>{{cost}} RD$/{{costType}} </ion-label>
-    <ion-label><b>Potencia:</b> {{potency}}</ion-label>
+    <!-- <ion-label><b>Potencia:</b> {{potency}}</ion-label> -->
+    <ion-label>Día de Reserva</ion-label>
     <ion-item>
-     
-      <ion-label>Horario de Reserva</ion-label>
-      <ion-datetime displayFormat="h:mm A" placeholder="Seleccionar" pickerFormat="h mm A" [(ngModel)]="selectedTimeSlot"></ion-datetime>
+      <ion-datetime displayFormat="MMM DD" placeholder="Día" [(ngModel)]="dateSlot"></ion-datetime>
+    </ion-item>
+    <ion-label>Horario de Reserva</ion-label>
+    <ion-item>
+      
+      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Inicio" pickerFormat="h mm A" [(ngModel)]="initTimeSlot"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Fin" pickerFormat="h mm A" [(ngModel)]="endTimeSlot"></ion-datetime>
     </ion-item>
 
     <button ion-button full color="primary" (click)="reserve()">Hacer Reserva</button>

@@ -5,39 +5,50 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { Camera } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera';
 import { LocationsApp } from './app.component';
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
 import { LocationsProvider } from '../providers/locations/locations';
 import { MapPage } from '../pages/map/map';
-import {LoginPage} from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpRequestProvider } from '../providers/http-request/http-request'; 
+import { HttpRequestProvider } from '../providers/http-request/http-request';
 import { ReservationPage } from '../pages/reservation/reservation';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AuthProvider } from '../providers/auth/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
-const firebase = {
-  apiKey: "AIzaSyB691bJp_LEwx37FIOXfcjEMrUEEwkbXuY",
-  authDomain: "friendlychat-b018e.firebaseapp.com",
-  databaseURL: "https://friendlychat-b018e.firebaseio.com",
-  projectId: "friendlychat-b018e",
-  storageBucket: "friendlychat-b018e.appspot.com",
-  messagingSenderId: "1032475507428",
-}
+import { RegisterPlugPage } from '../pages/register-plug/register-plug';
+import { PlacePlugPage } from '../pages/place-plug/place-plug';
+import { AddPlugPage } from '../pages/add-plug/add-plug';
+import { PlatformProvider } from '../providers/platform/platform';
+import { WebsocketProvider } from '../providers/websocket/websocket';
+import { Push } from '@ionic-native/push';
+import { ChargeConfirmationPage } from '../pages/charge-confirmation/charge-confirmation';
+import { OneSignal } from '@ionic-native/onesignal';
+import { firebase } from '../config'
+import { ChargingMenuPage } from '../pages/charging-menu/charging-menu';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import { ReceiptPage } from '../pages/receipt/receipt';
+import { TransactionListPage } from '../pages/transaction-list/transaction-list';
+import { ChargersPage } from '../pages/chargers/chargers';
 
 @NgModule({
   declarations: [
     LocationsApp,
     MapPage,
     LoginPage,
-    ReservationPage
+    ReservationPage,
+    RegisterPlugPage,
+    PlacePlugPage,
+    AddPlugPage,
+    ChargeConfirmationPage,
+    ChargingMenuPage,
+    ReceiptPage,
+    TransactionListPage,
+    ChargersPage
   ],
   imports: [
     BrowserModule,
@@ -45,14 +56,23 @@ const firebase = {
     AngularFireModule.initializeApp(firebase),
     AngularFireAuthModule,
     IonicModule.forRoot(LocationsApp),
-    IonicStorageModule.forRoot() 
+    IonicStorageModule.forRoot(),
+    RoundProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     LocationsApp,
     MapPage,
     LoginPage,
-    ReservationPage
+    ReservationPage,
+    PlacePlugPage,
+    RegisterPlugPage,
+    AddPlugPage,
+    ChargeConfirmationPage,
+    ChargingMenuPage,
+    ReceiptPage,
+    TransactionListPage,
+    ChargersPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -68,7 +88,11 @@ const firebase = {
     FileTransferObject,
     AngularFireDatabase,
     AuthProvider,
-    FirebaseProvider
+    FirebaseProvider,
+    PlatformProvider,
+    WebsocketProvider,
+    Push,
+    OneSignal,
   ]
 })
 export class AppModule {}
