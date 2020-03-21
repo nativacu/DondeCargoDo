@@ -26,6 +26,7 @@
     "@auth0/cordova": "^0.3.0",
     "@ionic-native/camera": "^4.20.0",
     "@ionic-native/core": "^4.20.0",
+    "@ionic-native/file-transfer": "^5.22.0",
     "@ionic-native/geolocation": "^5.11.0",
     "@ionic-native/keyboard": "^5.16.0",
     "@ionic-native/local-notifications": "^5.15.0",
