@@ -59,6 +59,12 @@ import { ChargersPage } from '../pages/chargers/chargers';
     IonicStorageModule.forRoot(),
     RoundProgressModule
   ],
+  exports: [
+    AddPlugPage,
+    ChargingMenuPage,
+    ReservationPage,
+    LoginPage
+  ],
   bootstrap: [IonicApp],
   entryComponents: [
     LocationsApp,

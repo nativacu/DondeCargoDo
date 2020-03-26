@@ -39,7 +39,7 @@ export class GoogleMapsProvider {
     this.chargerObserver  = new BehaviorSubject(null);
     this.infoWindow = new BehaviorSubject(null);
 
-    this.apiKey = "AIzaSyBUv92FvZgKWpQKeTc9KBZy7JzexjMElNw";
+    this.apiKey = "AIzaSyDYYbX0dlWndChnG7gs37gXvUCUR1vFArg";
     return this.loadGoogleMaps();
 
   }
@@ -62,7 +62,7 @@ export class GoogleMapsProvider {
             }).catch();
 
             this.enableMap();
-          }
+          };
 
           let script = document.createElement("script");
           script.id = "googleMaps";
@@ -116,7 +116,7 @@ export class GoogleMapsProvider {
           //Uncomment to disable street view
           streetViewControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
+        };
 
         this.map = new google.maps.Map(this.mapElement, mapOptions);
         console.log(this.map.center);
@@ -190,7 +190,7 @@ export class GoogleMapsProvider {
     let image = {
       url,
       scaledSize
-    }
+    };
 
     new google.maps.Marker({
       map: this.map,
@@ -210,16 +210,13 @@ export class GoogleMapsProvider {
       strokeOpacity: 0.2,
       scale: 8,
 
-    }
+    };
 
-    let marker = new google.maps.Marker({
+    this.locationMarker = new google.maps.Marker({
       map: this.map,
       position: latLng,
       icon: icon
     });
-
-
-    this.locationMarker = marker;
 
   }
 
@@ -232,8 +229,6 @@ export class GoogleMapsProvider {
 
       var charger =  this.locations[i];
       var image;
-      var state = "Activo";
-
       var contentString = this.setContentString(charger);
 
       let infoWindow = new google.maps.InfoWindow({
@@ -288,7 +283,7 @@ export class GoogleMapsProvider {
   setMarkerIcon(charger){
     let image: any;
     let url: string;
-    let scaledSize = new google.maps.Size(35, 35);;
+    let scaledSize = new google.maps.Size(35, 35);
     charger.is_operational = 1;
     if(charger.is_operational === 1){
       url = 'data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53%0D%0AMy5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNy40NSAyMy42MSI+PGRlZnM+PHN0eWxlPi5j%0D%0AbHMtMSwuY2xzLTN7ZmlsbDojM2RiZjI2O30uY2xzLTEsLmNscy0ye3N0cm9rZTojZmZmO3N0cm9r%0D%0AZS1taXRlcmxpbWl0OjEwO3N0cm9rZS13aWR0aDowLjI1cHg7fS5jbHMtMiwuY2xzLTR7ZmlsbDoj%0D%0AZmZmO308L3N0eWxlPjwvZGVmcz48dGl0bGU+YWN0aXZlLXBsdWc8L3RpdGxlPjxwYXRoIGNsYXNz%0D%0APSJjbHMtMSIgZD0iTTEyLjQuNEE4LjUyLDguNTIsMCwwLDAsMy44LDguODVjMCw3LjUzLDguNiwx%0D%0ANC44Nyw4LjYsMTQuODdTMjEsMTYuMjQsMjEsOC44NUE4LjUyLDguNTIsMCwwLDAsMTIuNC40WiIg%0D%0AdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTMuNjcgLTAuMjcpIi8+PHBhdGggY2xhc3M9ImNscy0yIiBk%0D%0APSJNMTIuNCwyQTYuNzYsNi43NiwwLDAsMCw1LjgsOC45MmMwLDYuMTYsNi42LDEyLjE2LDYuNiwx%0D%0AMi4xNlMxOSwxNSwxOSw4LjkyQTYuNzYsNi43NiwwLDAsMCwxMi40LDJaIiB0cmFuc2Zvcm09InRy%0D%0AYW5zbGF0ZSgtMy42NyAtMC4yNykiLz48cmVjdCBjbGFzcz0iY2xzLTMiIHg9IjYuMDgiIHk9IjQu%0D%0ANzciIHdpZHRoPSIxLjUiIGhlaWdodD0iNi4yMSIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOS45%0D%0AMSIgeT0iNC45OCIgd2lkdGg9IjEuNSIgaGVpZ2h0PSI1LjgzIi8+PHJlY3QgY2xhc3M9ImNscy0z%0D%0AIiB4PSI0Ljg3IiB5PSI2Ljk0IiB3aWR0aD0iMS4yMSIgaGVpZ2h0PSIxLjI5Ii8+PGVsbGlwc2Ug%0D%0AY2xhc3M9ImNscy0zIiBjeD0iOC43NCIgY3k9IjEzLjY0IiByeD0iMC45MiIgcnk9IjEuMTciLz48%0D%0AcmVjdCBjbGFzcz0iY2xzLTQiIHg9IjcuMjQiIHk9IjE0LjI3IiB3aWR0aD0iMi44OCIgaGVpZ2h0%0D%0APSIxLjIxIi8+PC9zdmc+';
@@ -301,7 +296,7 @@ export class GoogleMapsProvider {
     image = {
       url,
       scaledSize
-    }
+    };
 
     return image;
   }
@@ -365,11 +360,11 @@ export class GoogleMapsProvider {
     {
       return;
     }
-    console.log(charger)
-    let str:string = charger.Hora_Inicio_Operaciones
+
+    let str:string = charger.Hora_Inicio_Operaciones;
     let startHour = 0;
     startHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
-    str = charger.Hora_Fin_Operaciones
+    str = charger.Hora_Fin_Operaciones;
     let endHour = 0;
     endHour = +str.substr(0, str.search(':')) + +str.substr(str.search(':') + 1, 2)/60;
     const chargerWeekStart = this.getWeekDayByNumber(charger.Dia_Inicio_Operaciones);

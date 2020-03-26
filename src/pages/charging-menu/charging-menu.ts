@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, IonicPageModule } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { AuthProvider } from '../../providers/auth/auth';
 import {NgModule} from '@angular/core';
@@ -29,32 +29,31 @@ export class ChargingMenuPage {
   user:any;
   current = 1;
   max = 100;
-  duration = 20; //0 si el usuario no puso maximo 
-  background = '#eaeaea'; //#eaeaea si el usuario puso maximo 
+  duration = 20; //0 si el usuario no puso maximo
+  background = '#eaeaea'; //#eaeaea si el usuario puso maximo
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private socket:WebsocketProvider,
     private afauth:AuthProvider,
     private alertCtrl: AlertController) {
     this.startTime = (navParams.get("Date"))?navParams.get("Date"):new Date();
-    //this.startTime = new Date();
-    console.log(Date())
+
     setInterval(this.counter.bind(this), 1000);
 
     setInterval(this.progress.bind(this), 50);
 
     afauth.getUser().subscribe((usr) =>{
       this.user = usr.email;
-    })
+    });
     this.socket.getMessages().subscribe((data)=>{
       switch(data.Command)
       {
         case "ChargeEndSecured":
           let dateEnd:String = data.Fecha_Fin;
-          let datePar = dateEnd.split('-')
-          let hourEnd:String = data.Hora_Fin
-          let hourPar = hourEnd.split(':')
-          this.navCtrl.push(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])})
+          let datePar = dateEnd.split('-');
+          let hourEnd:String = data.Hora_Fin;
+          let hourPar = hourEnd.split(':');
+          this.navCtrl.push(ReceiptPage, {monto: data.Monto, startTime: this.startTime, endTime: new Date(+datePar[0], +datePar[1] - 1, +datePar[2], +hourPar[0], +hourPar[1])});
           break;
       }
     })
@@ -123,8 +122,8 @@ export class ChargingMenuPage {
     if(this.current >= this.max){
       this.current = 1;
     }
-    
+
   }
-  
+
 
 }

@@ -45,7 +45,7 @@ export class ReservationPage {
       switch(data.Command)
       {
         case 'LugaresRetreived':
-          this.checkCharger(data)
+          this.checkCharger(data);
           break;
         default:
       }
@@ -73,20 +73,15 @@ export class ReservationPage {
       "Fecha": this.dateSlot,
       "Hora_Inicio": this.initTimeSlot,
       "Hola_Fin": this.endTimeSlot
-    }
+    };
+
     if(checkAvailability){
       //this.http.sendPostRequest(postData, 'reservations');
     }
   }
 
   checkCharger(data){
-    let index = data.indexOf(this.charger); ;
-    if(data[this.charger]==1){
-      return true;
-    }
-    else{
-      return false;
-    }
+    return data[this.charger] == 1;
   }
 
   checkAvailability(){

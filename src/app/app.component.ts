@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, NavController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -58,7 +58,6 @@ export class LocationsApp {
   // });
 
   this.fauth.currUser.subscribe((usr)=> {
-    console.log(usr)
     this.user = usr;
     if(this.user){
       this.loggedIn = true;
@@ -142,11 +141,12 @@ export class LocationsApp {
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
       sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-    }
+    };
 
     this.camera.getPicture(options).then((imageData) => {
       this.imageSrc = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
+      console.log(err);
       // Handle error
     });
   }
@@ -165,7 +165,7 @@ export class LocationsApp {
     this.user.Foto = this.imageSrc;
     this.user.PrimerNombre = this.userName;
     this.user.Telefono = this.phoneNumber;
-    this.socket.sendMessage(JSON.stringify(this.user))
+    this.socket.sendMessage(JSON.stringify(this.user));
     this.fauth.currUser.next(this.user);
     // this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
     //   foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');

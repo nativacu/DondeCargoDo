@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MapPage } from '../map/map';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
@@ -35,9 +35,10 @@ export class LoginPage implements OnInit{
   phone: string;
   inputType:string = "password";
   loading:Loading;
-  constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen, public navCtrl: NavController,
-    public navParams: NavParams, public fauth:AuthProvider, public http: HttpRequestProvider, private modal: ModalController,
-    public socket:WebsocketProvider, public onesignal:OneSignal, public loadingCtrl:LoadingController) {
+  constructor(public platform: PlatformProvider, statusBar: StatusBar, splashScreen: SplashScreen,
+              public navCtrl: NavController, public navParams: NavParams, public fauth:AuthProvider,
+              public http: HttpRequestProvider, public socket:WebsocketProvider, public onesignal:OneSignal,
+              public loadingCtrl:LoadingController) {
   }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -110,13 +111,13 @@ export class LoginPage implements OnInit{
 
   getSocketMessages(){
     this.socket.getMessages().subscribe((data:any) => {
-      console.log(data)
       this.loading.dismiss();
       switch(data.Command)
       {
         case "ConexionCreated":
             this.fauth.currUser.next(data);
             this.navCtrl.setRoot(MapPage);
+            break;
         default:
           break;
       }
