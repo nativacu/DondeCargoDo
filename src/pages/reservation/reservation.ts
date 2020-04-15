@@ -32,14 +32,14 @@ export class ReservationPage {
   initTimeSlot: any;
   endTimeSlot: any;
   dateSlot: any;
-  userId: any;
+  user: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider, private auth: AuthProvider, public socket:WebsocketProvider) {
     this.charger = navParams.get('charger');
     this.showCost = true;
 
     this.auth.currUser.subscribe((user)=>{
-      this.userId = user.UserID;
+      this.user = user;
     });
     this.socket.getMessages().subscribe((data:any) => {
       switch(data.Command)
@@ -71,17 +71,24 @@ export class ReservationPage {
   }
 
   reserve(){
-
+    console.log(this.user);
+    var d = new Date();
     let postData = {
       "Command": "CreateReserva",
-      "UserID": this.userId,
-      "LugarID": this.charger.id, //TODO this.charger.id contains placeID not plugID
-      "Fecha": this.dateSlot,
+      "Email": this.user.Email,
+      "LugarID": +this.charger.LugarID, //TODO this.charger.id contains placeID not plugID
+      "Fecha": d.getFullYear() + "-" + (this.dateSlot.month > 10?"":"0") + this.dateSlot.month + "-" + this.dateSlot.day,
       "Hora_Inicio": this.initTimeSlot,
-      "Hola_Fin": this.endTimeSlot
+      "Hora_Fin": this.endTimeSlot
     }
+    console.log(postData)
     this.socket.sendMessage(JSON.stringify(postData));
     
+  }
+
+  updatePicker(value:any)
+  {
+    this.dateSlot = value;
   }
 
 }
