@@ -78,10 +78,10 @@ export class ReservationPage {
       "LugarID": this.charger.id, //TODO this.charger.id contains placeID not plugID
       "Fecha": this.dateSlot,
       "Hora_Inicio": this.initTimeSlot,
-      "Hola_Fin": this.endTimeSlot
-    }
+      "Hora_Fin": this.endTimeSlot
+    };
     this.socket.sendMessage(JSON.stringify(postData));
-    
+
   }
 
 }
