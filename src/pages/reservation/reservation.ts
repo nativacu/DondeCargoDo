@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Alert } from 'ionic-angular';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { checkAvailability } from '@ionic-native/core';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -44,8 +44,13 @@ export class ReservationPage {
     this.socket.getMessages().subscribe((data:any) => {
       switch(data.Command)
       {
-        case 'LugaresRetreived':
-          this.checkCharger(data)
+        case 'SuccessReserva':
+          // TODO: present success message
+          window.alert("La reserva se ha realizado con exito");
+          break;
+        case 'ErrorReserva':
+          // TODO: show free hours
+          window.alert("Lo sentimos, la hora seleccionada ya ha sido reservada");
           break;
         default:
       }
@@ -68,32 +73,15 @@ export class ReservationPage {
   reserve(){
 
     let postData = {
-      "UserUserID": this.userId,
-      "IOTPlugPlugID": this.charger.id, //TODO this.charger.id contains placeID not plugID
+      "Command": "CreateReserva",
+      "UserID": this.userId,
+      "LugarID": this.charger.id, //TODO this.charger.id contains placeID not plugID
       "Fecha": this.dateSlot,
       "Hora_Inicio": this.initTimeSlot,
       "Hola_Fin": this.endTimeSlot
     }
-    if(checkAvailability){
-      //this.http.sendPostRequest(postData, 'reservations');
-    }
+    this.socket.sendMessage(JSON.stringify(postData));
+    
   }
-
-  checkCharger(data){
-    let index = data.indexOf(this.charger); ;
-    if(data[this.charger]==1){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-
-  checkAvailability(){
-    //let locations = this.http.makeStationRequest();
-    this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}))
-
-  }
-
 
 }
