@@ -81,11 +81,11 @@
   </ion-item>
 
   <ion-item class="pb-0" no-lines>
-    <ion-label class="text-secondary">Tiempo entre Reservas</ion-label>
+    <ion-label class="text-secondary">Tiempo Mínimo de Antelación para Reservas</ion-label>
   </ion-item>
   <ion-item>
-    <ion-input type="number" min='0' small placeholder="Horas"  [(ngModel)]="timeBetweenReservationsHrs">{{timeBetweenReservationsHrs}}</ion-input>
-    <ion-input type="number" min='0' max='59' small placeholder="Minutos" [(ngModel)]="timeBetweenReservationsMins">{{timeBetweenReservationsMins}}</ion-input>
+    <ion-input type="number" min='0' small placeholder="Horas"  [(ngModel)]="timeBeforeReservationHrs">{{timeBeforeReservationHrs}}</ion-input>
+    <ion-input type="number" min='0' max='59' small placeholder="Minutos" [(ngModel)]="timeBeforeReservationMins">{{timeBeforeReservationMins}}</ion-input>
   </ion-item>
 
     <ion-item no-lines>

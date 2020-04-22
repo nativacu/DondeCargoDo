@@ -38,8 +38,8 @@ export class RegisterPlugPage {
   timeToCancelHrs: number;
   waitingTimeMins: number;
   waitingTimeHrs: number;
-  timeBetweenReservationsMins: number;
-  timeBetweenReservationsHrs: number;
+  timeBeforeReservationMins: number;
+  timeBeforeReservationHrs: number;
   constructor(public navCtrl: NavController, public navParams: NavParams, public https:HttpRequestProvider, public socket:WebsocketProvider, public auth:AuthProvider) {
     this.placeLocation = this.navParams.get('location');
     this.userEmail = this.navParams.get('email');
@@ -70,7 +70,7 @@ export class RegisterPlugPage {
       let maxReservationTime = this.maxReservationTimeHrs * 60 + this.maxReservationTimeMin;
       let timeToCancel = this.timeToCancelHrs * 60 + this.timeToCancelMins;
       let waitngTime = this.waitingTimeHrs * 60 + this.waitingTimeMins;
-      let timeBetweenReservations = this.timeBetweenReservationsHrs * 60 + this.timeBetweenReservationsMins;
+      let timeBetweenReservations = this.timeBeforeReservationHrs * 60 + this.timeBeforeReservationMins;
 
       let data =
        {Command: "CrearLugar", Email: this.user.Email, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot
@@ -83,10 +83,6 @@ export class RegisterPlugPage {
        , TiempoAntelacionReserva: timeBetweenReservations
        };
        this.socket.sendMessage(JSON.stringify(data));
-  }
-
-  convertDateToMins(date: Date) {
-    return 30;
   }
 
 }

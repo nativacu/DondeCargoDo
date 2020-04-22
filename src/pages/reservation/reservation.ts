@@ -18,11 +18,13 @@ import { WebsocketProvider } from '../../providers/websocket/websocket';
   selector: 'page-reservation',
   templateUrl: 'reservation.html',
 })
+
 export class ReservationPage {
 
   @ViewChild('charger') chargerElement: ElementRef;
 
   charger: any;
+  months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   displayName: any;
   cost: any;
   costType: any;
@@ -30,7 +32,7 @@ export class ReservationPage {
   showCost: boolean;
   initTimeSlot: any;
   endTimeSlot: any;
-  dateSlot: any;
+  dateSlot: string;
   user: any;
   currentDate: string;
 
@@ -46,12 +48,13 @@ export class ReservationPage {
     this.socket.getMessages().subscribe(async (data:any) => {
       let title: string;
       let message: string;
-
+      let date: string[];
       switch(data.Command)
       {
         case 'SuccessReserva':
+          date = data.Fecha.split('-');
           title = 'Reserva exitosa';
-          message = 'Por favor presentarse en el plug ' + data.PlugID + ' a las ' + data.Hora_Inicio + ' el día seleccionado.';
+          message = 'Por favor presentarse en el plug ' + data.PlugID + ' a las ' + data.Hora_Inicio + ' el día ' + date[2] + ' de ' + this.months[+date[1] - 1];
           break;
         case 'ErrorReserva':
           // TODO: show free hours
@@ -91,12 +94,12 @@ export class ReservationPage {
     if(!this.validateInput()){
       return;
     }
-    let d = new Date();
+
     let postData = {
       "Command": "CreateReserva",
       "Email": this.user.Email,
       "LugarID": +this.charger.LugarID,
-      "Fecha": d.getFullYear() + "-" + (this.dateSlot.month > 10?"":"0") + this.dateSlot.month + "-" + this.dateSlot.day,
+      "Fecha": this.dateSlot,
       "Hora_Inicio": this.initTimeSlot,
       "Hora_Fin": this.endTimeSlot
     };

@@ -20,7 +20,8 @@ export class PlacePlugPage {
 
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
-  user:any
+  user:any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public maps: GoogleMapsProvider) {
     this.user = this.navParams.get('email');
   }
