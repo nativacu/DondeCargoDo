@@ -72,7 +72,7 @@ export class ReservationPage {
 
   ionViewDidLoad() {
     this.currentDate = new Date().toISOString().split('T')[0];
-    console.log(this.currentDate)
+    this.dateSlot = this.currentDate;
     this.displayName = this.charger.Nombre;
     this.cost = this.charger.CostoCarga;
     this.costType = this.charger.TipoCostoCarga;

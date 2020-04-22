@@ -21,7 +21,7 @@
     <!-- <ion-label><b>Potencia:</b> {{potency}}</ion-label> -->
     <ion-label>Día de Reserva</ion-label>
     <ion-item>
-      <ion-datetime #picker displayFormat="MMM DD" placeholder="Día"  [min]="currentDate" (ionChange) = "updatePicker(picker.value)"></ion-datetime>
+      <ion-datetime #picker displayFormat="MMM DD" placeholder="Día"  [min]="currentDate" [(ngModel)]="dateSlot" ></ion-datetime>
     </ion-item>
     <ion-label>Horario de Reserva</ion-label>
     <ion-item>
