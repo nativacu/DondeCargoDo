@@ -67,6 +67,7 @@ export class ReservationPage {
       let alert = this.alertCtrl.create({
         title: title,
         message: message,
+        buttons: ['OK']
       });
       await alert.present();
 
