@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Alert } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Alert, AlertController } from 'ionic-angular';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { checkAvailability } from '@ionic-native/core';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -26,38 +26,53 @@ export class ReservationPage {
   displayName: any;
   cost: any;
   costType: any;
-  potency: any;
   chargerType: any;
   showCost: boolean;
   initTimeSlot: any;
   endTimeSlot: any;
   dateSlot: any;
   user: any;
+  currentDate: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider, private auth: AuthProvider, public socket:WebsocketProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider,
+              private auth: AuthProvider, public socket:WebsocketProvider, private alertCtrl: AlertController) {
     this.charger = navParams.get('charger');
-    this.showCost = true;
 
+    this.showCost = true;
     this.auth.currUser.subscribe((user)=>{
       this.user = user;
     });
-    this.socket.getMessages().subscribe((data:any) => {
+
+    this.socket.getMessages().subscribe(async (data:any) => {
+      let title: string;
+      let message: string;
+
       switch(data.Command)
       {
         case 'SuccessReserva':
-          // TODO: present success message
-          window.alert("La reserva se ha realizado con exito");
+          title = 'Reserva exitosa';
+          message = 'Por favor presentarse en el plug ' + data.PlugID + ' a las ' + data.Hora_Inicio + ' el día seleccionado.';
           break;
         case 'ErrorReserva':
           // TODO: show free hours
-          window.alert("Lo sentimos, la hora seleccionada ya ha sido reservada");
+          title = 'Ningún cargador reservado';
+          message = 'Lo sentimos, la hora seleccionada ya ha sido reservada. Intente nuevamente con otro horario';
           break;
         default:
+          break;
       }
+      let alert = this.alertCtrl.create({
+        title: title,
+        message: message,
+      });
+      await alert.present();
+
     })
   }
 
   ionViewDidLoad() {
+    this.currentDate = new Date().toISOString().split('T')[0];
+    console.log(this.currentDate)
     this.displayName = this.charger.Nombre;
     this.cost = this.charger.CostoCarga;
     this.costType = this.charger.TipoCostoCarga;
@@ -68,15 +83,19 @@ export class ReservationPage {
       this.showCost = false;
     }
 
+    this.initTimeSlot = this.endTimeSlot = this.charger.Hora_Inicio_Operaciones;
+
   }
 
   reserve(){
-    console.log(this.user);
-    var d = new Date();
+    if(!this.validateInput()){
+      return;
+    }
+    let d = new Date();
     let postData = {
       "Command": "CreateReserva",
       "Email": this.user.Email,
-      "LugarID": +this.charger.LugarID, //TODO this.charger.id contains placeID not plugID
+      "LugarID": +this.charger.LugarID,
       "Fecha": d.getFullYear() + "-" + (this.dateSlot.month > 10?"":"0") + this.dateSlot.month + "-" + this.dateSlot.day,
       "Hora_Inicio": this.initTimeSlot,
       "Hora_Fin": this.endTimeSlot
@@ -90,4 +109,7 @@ export class ReservationPage {
     this.dateSlot = value;
   }
 
+  validateInput(): boolean {
+    return this.endTimeSlot > this.initTimeSlot && this.initTimeSlot >= this.charger.Hora_Inicio_Operaciones && this.endTimeSlot <= this.charger.Hora_Fin_Operaciones;
+  }
 }

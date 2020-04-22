@@ -43,7 +43,9 @@ export class LoginPage implements OnInit{
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
+    if(this.fauth.currUser.value){
+      this.navCtrl.setRoot(MapPage);
+    }
     //this.getSocketMessages();
   }
   ionViewDidLoad() {

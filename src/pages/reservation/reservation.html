@@ -15,19 +15,18 @@
     <ion-list-header>
         <ion-title>{{displayName}}</ion-title>
     </ion-list-header>
-    <ion-img src="https://evbox.com/assets/images/products/elvi-chargers.png" width="170px" height="310px"></ion-img>
     <ion-label><b>Tipo de cargador:</b> {{chargerType}}</ion-label>
     <ion-label *ngIf="!showCost"><b>Servicio Gratuito</b></ion-label>
     <ion-label *ngIf="showCost"><b>Precio: </b>{{cost}} RD$/{{costType}} </ion-label>
     <!-- <ion-label><b>Potencia:</b> {{potency}}</ion-label> -->
     <ion-label>Día de Reserva</ion-label>
     <ion-item>
-      <ion-datetime #picker displayFormat="MMM DD" placeholder="Día" (ionChange) = "updatePicker(picker.value)"></ion-datetime>
+      <ion-datetime #picker displayFormat="MMM DD" placeholder="Día"  [min]="currentDate" (ionChange) = "updatePicker(picker.value)"></ion-datetime>
     </ion-item>
     <ion-label>Horario de Reserva</ion-label>
     <ion-item>
-      
-      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Inicio" pickerFormat="h mm A" [(ngModel)]="initTimeSlot"></ion-datetime>
+
+      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Inicio" pickerFormat="h mm A"  [(ngModel)]="initTimeSlot"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-datetime displayFormat="h:mm A" placeholder="Horario de Fin" pickerFormat="h mm A" [(ngModel)]="endTimeSlot"></ion-datetime>
@@ -35,6 +34,4 @@
 
     <button ion-button full color="primary" (click)="reserve()">Hacer Reserva</button>
   </ion-list>
-  
-
 </ion-content>

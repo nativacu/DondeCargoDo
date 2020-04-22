@@ -61,7 +61,6 @@ import { ChargersPage } from '../pages/chargers/chargers';
   ],
   exports: [
     AddPlugPage,
-    ChargingMenuPage,
     ReservationPage,
     LoginPage
   ],
