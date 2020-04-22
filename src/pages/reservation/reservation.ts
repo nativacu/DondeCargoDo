@@ -35,11 +35,12 @@ export class ReservationPage {
   dateSlot: string;
   user: any;
   currentDate: string;
+  hoursOk:Boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider,
               private auth: AuthProvider, public socket:WebsocketProvider, private alertCtrl: AlertController) {
     this.charger = navParams.get('charger');
-
+    this.hoursOk = false;
     this.showCost = true;
     this.auth.currUser.subscribe((user)=>{
       this.user = user;
@@ -115,4 +116,20 @@ export class ReservationPage {
   validateInput(): boolean {
     return this.endTimeSlot > this.initTimeSlot && this.initTimeSlot >= this.charger.Hora_Inicio_Operaciones && this.endTimeSlot <= this.charger.Hora_Fin_Operaciones;
   }
+  validateHours()
+  {
+    if(this.initTimeSlot == undefined || this.endTimeSlot == undefined)
+      this.hoursOk = false;
+    else{
+      var initArr:Array<String> = this.initTimeSlot.split(":");
+      var hoursInit:any = +initArr[0]*60 + +initArr[1]
+      var endArr:Array<String> = this.endTimeSlot.split(":");
+      var hoursEnd:any = +endArr[0]*60 + +endArr[1];
+      console.log(hoursInit)
+      console.log(hoursEnd)
+      this.hoursOk = (hoursEnd - hoursInit) <= this.charger.TiempoMaximoReserva;
+      console.log(this.hoursOk);
+    }
+  }
+
 }
