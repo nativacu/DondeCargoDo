@@ -39,46 +39,58 @@
 
     <ion-item>
         <ion-label>Día de Inicio</ion-label>
-        <ion-select interface="popover" [(ngModel)]="dateInit">
-          <ion-option value="0">Lunes</ion-option>
-          <ion-option value="1">Martes</ion-option>
-          <ion-option value="2">Miercoles</ion-option>
-          <ion-option value="3">Jueves</ion-option>
-          <ion-option value="4">Viernes</ion-option>
-          <ion-option value="5">Sábado</ion-option>
-          <ion-option value="6">Domingo</ion-option>
+        <ion-select interface="popover" [(ngModel)]="dateInit" >
+          <ion-option *ngFor="let day of daysArray; let i = index" value={{i}}>{{day}}</ion-option>
         </ion-select>
     </ion-item>
 
     <ion-item>
         <ion-label>Día de Fin</ion-label>
         <ion-select interface="popover" [(ngModel)]="dateEnd">
-          <ion-option value="0">Lunes</ion-option>
-          <ion-option value="1">Martes</ion-option>
-          <ion-option value="2">Miercoles</ion-option>
-          <ion-option value="3">Jueves</ion-option>
-          <ion-option value="4">Viernes</ion-option>
-          <ion-option value="5">Sábado</ion-option>
-          <ion-option value="6">Domingo</ion-option>
+          <ion-option *ngFor="let day of daysArray; let i = index" value={{i}}>{{day}}</ion-option>
         </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label>Tipo de Costo de Carga</ion-label>
-      <ion-select multiple="false" [(ngModel)]="tipo">
-          <ion-option value='Kw/h'>Kw/h</ion-option>
-          <ion-option value='Minuto'>Minuto</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-        <ion-label>Costo (RD$)</ion-label>
+        <ion-label>Costo (RD$) por Minuto</ion-label>
         <ion-input type="number" [(ngModel)]="number" required="true" min="1"></ion-input>
     </ion-item>
 
+  <ion-item class="pb-0" no-lines>
+    <ion-label position="stacked" class="text-secondary">Tiempo Máximo por Reserva</ion-label>
+  </ion-item>
+  <ion-item class="pt-0">
+    <ion-input type="number" min='0' placeholder="Horas"  [(ngModel)]="maxReservationTimeHrs">{{maxReservationTimeHrs}}</ion-input>
+    <ion-input type="number" min='0' max='59' placeholder="Minutos" [(ngModel)]="maxReservationTimeMin">{{maxReservationTimeMin}}</ion-input>
+  </ion-item>
+
+  <ion-item class="pb-0" no-lines>
+    <ion-label position="stacked" class="text-secondary">Tiempo Límite para Cancelación de Reserva</ion-label>
+  </ion-item>
+  <ion-item class="pt-0">
+    <ion-input type="number" min='0' placeholder="Horas"  [(ngModel)]="timeToCancelHrs">{{timeToCancelHrs}}</ion-input>
+    <ion-input type="number" min='0' max='59' placeholder="Minutos" [(ngModel)]="timeToCancelMins">{{timeToCancelMins}}</ion-input>
+  </ion-item>
+
+  <ion-item class="pb-0" no-lines>
+    <ion-label position="stacked" class="text-secondary">Tiempo de Espera por Reserva</ion-label>
+  </ion-item>
+  <ion-item class="pt-0">
+    <ion-input type="number" min='0' placeholder="Horas"  [(ngModel)]="waitingTimeHrs">{{waitingTimeHrs}}</ion-input>
+    <ion-input type="number" min='0' max='59' placeholder="Minutos" [(ngModel)]="waitingTimeMins">{{waitingTimeMins}}</ion-input>
+  </ion-item>
+
+  <ion-item class="pb-0" no-lines>
+    <ion-label class="text-secondary">Tiempo Mínimo de Antelación para Reservas</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-input type="number" min='0' small placeholder="Horas"  [(ngModel)]="timeBeforeReservationHrs">{{timeBeforeReservationHrs}}</ion-input>
+    <ion-input type="number" min='0' max='59' small placeholder="Minutos" [(ngModel)]="timeBeforeReservationMins">{{timeBeforeReservationMins}}</ion-input>
+  </ion-item>
 
     <ion-item no-lines>
       <button type="submit" ion-button default full color="secondary" style="text-transform: none; margin-left: 10px;" (click)="uploadData()"><span class="glyphicon glyphicon-off"></span> Registrar</button>
     </ion-item>
 
 </ion-content>
+

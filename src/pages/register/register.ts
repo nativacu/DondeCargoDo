@@ -1,5 +1,5 @@
-import { Component, PlatformRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, Loading, LoadingController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, Loading, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -14,11 +14,6 @@ import { WebsocketProvider } from '../../providers/websocket/websocket';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-enum account {
-  placeOwner = 1,
-  consumer = 2,
-  hybrid = 3
-}
 
 @IonicPage()
 @Component({
@@ -86,9 +81,20 @@ export class RegisterPage {
           if (slname === null) {
             slname = '0';
           }
-        // TODO: needs to check about t_usuario
-          const dataToSend = {Command: 'CrearUser', Cedula: this.registerForm.controls.uniqueId.value , PrimerNombre: this.registerForm.controls.fname.value, SegundoNombre: sname, PrimerApellido: this.registerForm.controls.lname.value, SegundoApellido: slname
-          , TipoUsuario: type, Foto: this.imageSrc, Email: this.registerForm.controls.email.value, Telefono: this.registerForm.controls.telNumber.value};
+
+          const dataToSend = {
+            Command: 'CrearUser',
+            Cedula: this.registerForm.controls.uniqueId.value,
+            PrimerNombre: this.registerForm.controls.fname.value,
+            SegundoNombre: sname,
+            PrimerApellido: this.registerForm.controls.lname.value,
+            SegundoApellido: slname,
+            TipoUsuario: type,
+            Foto: this.imageSrc,
+            Email: this.registerForm.controls.email.value,
+            Telefono: this.registerForm.controls.telNumber.value
+          };
+
           this.socket.sendMessage(JSON.stringify(dataToSend));
         },
         (error) => {
@@ -115,12 +121,13 @@ export class RegisterPage {
         mediaType: this.camera.MediaType.PICTURE,
         correctOrientation: true,
         sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-      }
-  
+      };
+
       this.camera.getPicture(options).then((imageData) => {
         this.imageSrc = 'data:image/jpeg;base64,' + imageData;
         this.picture.src = this.imageSrc;
       }, (err) => {
+        console.log(err);
         // Handle error
       });
     }

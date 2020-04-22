@@ -23,20 +23,15 @@ export class AddPlugPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,  public http: HttpRequestProvider, public formBuilder:FormBuilder, public socket:WebsocketProvider) {
     this.serialForm = this.formBuilder.group({
       serial : ['', Validators.required]
-    })
+    });
     this.lugarid = this.navParams.get('lugarid');
     this.socket.getMessages().subscribe((data:any) =>{
-      switch(data.Command)
-      {
-        //TODO need the command
-        case '':
-            if(this.act == 1)
-              this.navCtrl.popToRoot();
-            else
-              this.serialForm.controls['serial'].setValue('');
-          break;
-        default:
-          break;
+      if (data.Command === '') {
+        if(this.act == 1)
+          this.navCtrl.popToRoot();
+        else
+          this.serialForm.controls['serial'].setValue('');
+      } else {
       }
     })
   }
@@ -47,7 +42,6 @@ export class AddPlugPage {
   upload(act)
   {
     this.act = act;
-    //TODO needs command
     this.socket.sendMessage(JSON.stringify({Command: 'CrearPlug', LugarLugarID: this.lugarid,PlugID:this.serialForm.controls['serial'].value}));
     this.navCtrl.popToRoot();
   }

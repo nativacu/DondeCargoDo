@@ -19,13 +19,14 @@ import { RegisterPlugPage } from '../register-plug/register-plug';
 export class PlacePlugPage {
 
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('pleaseConnect') pleaseConnect: ElementRef; 
-  user:any
+  @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
+  user:any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public maps: GoogleMapsProvider) {
-    this.user = this.navParams.get('email');   
+    this.user = this.navParams.get('email');
   }
 
-  ionViewDidLoad() {this
+  ionViewDidLoad() {
     this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, this.navCtrl, []);
     console.log(this.maps.getMapCenter());
     console.log('ionViewDidLoad PlacePlugPage');
