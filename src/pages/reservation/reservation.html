@@ -25,11 +25,11 @@
     </ion-item>
     <ion-label>Horario de Reserva</ion-label>
     <ion-item>
-      
-      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Inicio" pickerFormat="h mm A" [(ngModel)]="initTimeSlot" (ionChange) = "validateHours()"></ion-datetime>
+
+      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Inicio" pickerFormat="h mm A" [(ngModel)]="initTimeSlot" minuteValues="0,30" (ionChange) = "validateHours()"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Fin" pickerFormat="h mm A" [(ngModel)]="endTimeSlot" (ionChange) = "validateHours()"></ion-datetime>
+      <ion-datetime displayFormat="h:mm A" placeholder="Horario de Fin" pickerFormat="h mm A" [(ngModel)]="endTimeSlot"  minuteValues="20,50" (ionChange) = "validateHours()"></ion-datetime>
     </ion-item>
 
     <button ion-button full color="primary" (click)="reserve()" [disabled] = "!hoursOk">Hacer Reserva</button>
