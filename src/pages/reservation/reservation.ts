@@ -36,12 +36,14 @@ export class ReservationPage {
   user: any;
   currentDate: string;
   hoursOk:Boolean;
+  availableSlots: Array<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider,
               private auth: AuthProvider, public socket:WebsocketProvider, private alertCtrl: AlertController) {
     this.charger = navParams.get('charger');
     this.hoursOk = false;
     this.showCost = true;
+
     this.auth.currUser.subscribe((user)=>{
       this.user = user;
     });
@@ -49,7 +51,7 @@ export class ReservationPage {
     this.socket.getMessages().subscribe(async (data:any) => {
       let title: string;
       let message: string;
-      let date: string[];
+      let date: string;
       switch(data.Command)
       {
         case 'SuccessReserva':
@@ -62,15 +64,21 @@ export class ReservationPage {
           title = 'Ningún cargador reservado';
           message = 'Lo sentimos, la hora seleccionada ya ha sido reservada. Intente nuevamente con otro horario';
           break;
+        case 'HorariosRetrieved':
+          this.availableSlots = data.Horarios;
+          break;
         default:
           break;
+
       }
-      let alert = this.alertCtrl.create({
-        title: title,
-        message: message,
-        buttons: ['OK']
-      });
-      await alert.present();
+      if(title && message){
+        let alert = this.alertCtrl.create({
+          title: title,
+          message: message,
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
 
     })
   }
@@ -81,6 +89,7 @@ export class ReservationPage {
     this.displayName = this.charger.Nombre;
     this.cost = this.charger.CostoCarga;
     this.costType = this.charger.TipoCostoCarga;
+    this.sendPlaceInfo();
     // this.potency = this.charger.potency;
     // this.chargerType = this.charger.type;
 
@@ -109,6 +118,15 @@ export class ReservationPage {
 
   }
 
+  sendPlaceInfo(){
+    let postData = {
+      "Command": "GetHorariosPlugs",
+      "Fecha": this.dateSlot,
+      "LugarID": +this.charger.LugarID
+    };
+    this.socket.sendMessage(JSON.stringify(postData));
+  }
+
   updatePicker(value:any)
   {
     this.dateSlot = value;
@@ -126,10 +144,8 @@ export class ReservationPage {
       var hoursInit:any = +initArr[0]*60 + +initArr[1]
       var endArr:Array<String> = this.endTimeSlot.split(":");
       var hoursEnd:any = +endArr[0]*60 + +endArr[1];
-      console.log(hoursInit)
-      console.log(hoursEnd)
       this.hoursOk = (hoursEnd - hoursInit) <= this.charger.TiempoMaximoReserva;
-      console.log(this.hoursOk);
+
     }
   }
 
