@@ -221,5 +221,9 @@ export class LocationsApp {
       this.nav.setRoot(ChargersPage);
     }
 
+    showAllReserves(){
+      this.socket.sendMessage(JSON.stringify({Command: "InitReservacionRequest", Email: this.user.Email}));
+    }
+
 }
 

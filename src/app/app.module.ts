@@ -34,6 +34,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { ReceiptPage } from '../pages/receipt/receipt';
 import { TransactionListPage } from '../pages/transaction-list/transaction-list';
 import { ChargersPage } from '../pages/chargers/chargers';
+import { MyReservationsPage } from '../pages/my-reservations/my-reservations';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ChargersPage } from '../pages/chargers/chargers';
     ChargingMenuPage,
     ReceiptPage,
     TransactionListPage,
-    ChargersPage
+    ChargersPage,
+    MyReservationsPage
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ import { ChargersPage } from '../pages/chargers/chargers';
     ChargingMenuPage,
     ReceiptPage,
     TransactionListPage,
-    ChargersPage
+    ChargersPage,
+    MyReservationsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

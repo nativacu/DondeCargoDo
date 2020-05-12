@@ -1,0 +1,32 @@
+<!--
+  Generated template for the MyReservationsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Mis reservas</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Reservas Pendientes</h2>
+  <ion-list>
+    <ion-item *ngFor="let item of activeReservations">
+      <p><b>{{item.Nombre}}</b></p>
+      <p><b>Fecha: </b>{{item.Fecha}}</p>
+      <p><b>Horario: </b>{{item.Hora_Inicio}} - {{item.Hora_Fin}}</p>
+      <p><b>Plug: </b> {{item.IOTPlugPlugID}}</p>
+    </ion-item>
+  </ion-list>
+  <h2>Reservas Pasadas</h2>
+  <ion-list>
+    <ion-item *ngFor="let item of pastReservations">
+      <p><b>{{item.Nombre}}</b></p>
+      <p><b>Fecha: </b>{{item.Fecha}}</p>
+      <p><b>Horario: </b>{{item.Hora_Inicio}} - {{item.Hora_Fin}}</p>
+      <p><b>Plug: </b> {{item.IOTPlugPlugID}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
