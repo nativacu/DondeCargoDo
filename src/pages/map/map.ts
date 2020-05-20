@@ -40,37 +40,38 @@ export class MapPage {
         if(usr)
           this.userId = usr.UserID;
       });
-      this.socket.getMessages().subscribe((data:any)=>{
-        switch(data.Command)
-        {
-          case 'LugaresRetreived':
-            this.chargersInit(data.Lugares);
-            break;
-          case 'ChargeInitRequest':
-            //this.navCtrl.push(ChargeConfirmationPage, {data:data});
-            break;
-          case 'ChargeInitSecured':
-           //carga iniciada
-           this.navCtrl.push(ChargingMenuPage, {Date: this.chargeInitSecuredLogic(data)});
-           break;
-          case 'ChargeEndSecured':
-            //fin de la carga
-            console.log(data.Monto);
-            this.navCtrl.popToRoot();
-            break;
-          case "TransactionRequest":
-            this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)});
-            break;
-          case "ReservacionesRetreived":
-            this.navCtrl.push(MyReservationsPage, {data: data.Reservaciones});
-            break;
-          default:
-            break;
-        }
-      });
       this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
       this.adminButton = false;
-
+      this.navCtrl.viewDidEnter.subscribe(() =>{
+        this.socket.getMessages().subscribe((data:any)=>{
+          switch(data.Command)
+          {
+            case 'LugaresRetreived':
+              this.chargersInit(data.Lugares);
+              break;
+            case 'ChargeInitRequest':
+              //this.navCtrl.push(ChargeConfirmationPage, {data:data});
+              break;
+            case 'ChargeInitSecured':
+             //carga iniciada
+             this.navCtrl.push(ChargingMenuPage, {Date: this.chargeInitSecuredLogic(data)});
+             break;
+            case 'ChargeEndSecured':
+              //fin de la carga
+              console.log(data.Monto);
+              this.navCtrl.popToRoot();
+              break;
+            case "TransactionRequest":
+              this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)});
+              break;
+            case "ReservacionesRetreived":
+              this.navCtrl.push(MyReservationsPage, {data: data.Reservaciones});
+              break;
+            default:
+              break;
+          }
+        });
+      })
   }
 
 

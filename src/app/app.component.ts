@@ -218,7 +218,7 @@ export class LocationsApp {
     }
 
     chargers(){
-      this.nav.setRoot(ChargersPage);
+      this.nav.push(ChargersPage);
     }
 
     showAllReserves(){

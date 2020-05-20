@@ -11,8 +11,8 @@ import { AuthProvider } from '../auth/auth';
 @Injectable()
 export class WebsocketProvider {
 
-  socket:WebSocket;
-  observable:Observable<any>;
+  static socket:WebSocket;
+  static observable:Observable<any>;
   constructor(public http: HttpClient, public afs:AuthProvider) {
     console.log('Hello WebsocketProvider Provider');
     //this.startConnection("10.60.16.74");
@@ -21,24 +21,24 @@ export class WebsocketProvider {
   startConnection(ipAddress:String){
     return new Promise<any>( (resolve, reject) =>{
       ipAddress = '190.113.73.11';
-      if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      if (WebsocketProvider.socket) {
         resolve();
       }
 
       else{
-        this.socket = new WebSocket('ws://' + ipAddress +':443/');
+        WebsocketProvider.socket = new WebSocket('ws://' + ipAddress +':443/');
         //this.socket = new WebSocket('ws://190.113.73.11:443');
 
-        this.observable = new Observable(observer => {
-          this.socket.onmessage = function(data) {
+        WebsocketProvider.observable = new Observable(observer => {
+          WebsocketProvider.socket.onmessage = function(data) {
             console.log(data);
             observer.next(JSON.parse(data.data));
           };
         });
-        this.socket.onopen = ((event) =>{
+        WebsocketProvider.socket.onopen = ((event) =>{
           resolve();
         });
-        this.socket.onerror = ((event) =>{
+        WebsocketProvider.socket.onerror = ((event) =>{
           reject("Connection Failed ");
         });
       }
@@ -46,15 +46,15 @@ export class WebsocketProvider {
   });
   }
   sendMessage(data) {
-    this.socket.send(data);
+    WebsocketProvider.socket.send(data);
   }
 
   getMessages() {
-    return this.observable;
+    return WebsocketProvider.observable;
   }
   disconnect()
   {
-    this.socket.close();
+    WebsocketProvider.socket.close();
   }
 
 }
