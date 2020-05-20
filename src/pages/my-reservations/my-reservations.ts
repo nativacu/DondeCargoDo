@@ -22,15 +22,18 @@ export class MyReservationsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.reservations = navParams.get('data');
     this.reservations.pop();
+    this.reservations.reverse();
+    console.log(this.reservations)
     //this.reservations.sort(this.compareReservations);
     let date:Date = new Date();
     let today:string = date.getFullYear() + "-" + ((date.getMonth()+1) > 10?'':'0') + (date.getMonth()+1) + "-" + (date.getDate() > 10?'':'0') + date.getDate();
-    console.log(today);
-    let pos = this.findIndex(0, this.reservations.length, today)
-    if(this.reservations[pos] > today)
+    //console.log(today);
+    let pos = this.findIndex(0, this.reservations.length - 1, today)
+    if(this.reservations[pos].Fecha > today)
     {
       pos++;
     }
+    console.log(pos);
     this.pastReservations = this.reservations.slice(pos, this.reservations.length);
     this.activeReservations = this.reservations.slice(0, pos);
     //console.log(this.reservations);
@@ -65,12 +68,10 @@ export class MyReservationsPage {
       return l;
     if(this.reservations[m].Fecha > date)
     {
-      console.log(this.reservations[m].Fecha);
       return this.findIndex(m + 1, r, date);
     }
     else if(this.reservations[m].Fecha < date)
     {
-      console.log(this.reservations[m].Fecha);
       return this.findIndex(l, m - 1, date);
     }
     else
