@@ -23,6 +23,8 @@
     <ion-item>
       <ion-datetime #picker displayFormat="MMM DD" placeholder="Día"  [min]="currentDate" [(ngModel)]="dateSlot"  (ionChange)="sendPlaceInfo()"></ion-datetime>
     </ion-item>
+
+    <page-reservation-schedule></page-reservation-schedule>
     <ion-label>Horario de Reserva</ion-label>
     <ion-item>
 

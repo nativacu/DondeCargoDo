@@ -10,6 +10,7 @@ import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { ChargingMenuPage } from '../charging-menu/charging-menu';
 import { TransactionListPage } from '../transaction-list/transaction-list';
 import { MyReservationsPage } from '../my-reservations/my-reservations';
+import { ReservationSchedulePage } from '../reservation-schedule/reservation-schedule';
 
 @Component({
   selector: 'page-map',

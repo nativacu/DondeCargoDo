@@ -4,6 +4,8 @@ import { HttpRequestProvider } from '../../providers/http-request/http-request';
 import { checkAvailability } from '@ionic-native/core';
 import { AuthProvider } from '../../providers/auth/auth';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { Reserva } from '../../models/reserva';
+import { PlugScheduleProvider } from '../../providers/plug-schedule/plug-schedule';
 
 
 /**
@@ -36,10 +38,9 @@ export class ReservationPage {
   user: any;
   currentDate: string;
   hoursOk:Boolean;
-  availableSlots: Array<string>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpRequestProvider,
-              private auth: AuthProvider, public socket:WebsocketProvider, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private auth: AuthProvider, public socket:WebsocketProvider, private alertCtrl: AlertController,  private plugScheduleProvider: PlugScheduleProvider) {
     this.charger = navParams.get('charger');
     this.hoursOk = false;
     this.showCost = true;
@@ -65,7 +66,7 @@ export class ReservationPage {
           message = 'Lo sentimos, la hora seleccionada ya ha sido reservada. Intente nuevamente con otro horario';
           break;
         case 'HorariosRetrieved':
-          this.availableSlots = data.Horarios;
+          this.plugScheduleProvider.plugSlots.next(data.Horarios);
           break;
         default:
           break;
@@ -80,10 +81,11 @@ export class ReservationPage {
         await alert.present();
       }
 
-    })
+    });
   }
 
   ionViewDidLoad() {
+
     this.currentDate = new Date().toISOString().split('T')[0];
     this.dateSlot = this.currentDate;
     this.displayName = this.charger.Nombre;
@@ -119,6 +121,7 @@ export class ReservationPage {
   }
 
   sendPlaceInfo(){
+    this.plugScheduleProvider.chosenCharger.next(this.charger);
     let postData = {
       "Command": "GetHorariosPlugs",
       "Fecha": this.dateSlot,
@@ -141,7 +144,7 @@ export class ReservationPage {
       this.hoursOk = false;
     else{
       var initArr:Array<String> = this.initTimeSlot.split(":");
-      var hoursInit:any = +initArr[0]*60 + +initArr[1]
+      var hoursInit:any = +initArr[0]*60 + +initArr[1];
       var endArr:Array<String> = this.endTimeSlot.split(":");
       var hoursEnd:any = +endArr[0]*60 + +endArr[1];
       this.hoursOk = (hoursEnd - hoursInit) <= this.charger.TiempoMaximoReserva;
