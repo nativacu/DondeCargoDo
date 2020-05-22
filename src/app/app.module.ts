@@ -35,6 +35,8 @@ import { ReceiptPage } from '../pages/receipt/receipt';
 import { TransactionListPage } from '../pages/transaction-list/transaction-list';
 import { ChargersPage } from '../pages/chargers/chargers';
 import { MyReservationsPage } from '../pages/my-reservations/my-reservations';
+import { PlugScheduleProvider } from '../providers/plug-schedule/plug-schedule';
+import { ReservationSchedulePage } from '../pages/reservation-schedule/reservation-schedule';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { MyReservationsPage } from '../pages/my-reservations/my-reservations';
     ReceiptPage,
     TransactionListPage,
     ChargersPage,
-    MyReservationsPage
+    MyReservationsPage,
+    ReservationSchedulePage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ import { MyReservationsPage } from '../pages/my-reservations/my-reservations';
     ReceiptPage,
     TransactionListPage,
     ChargersPage,
-    MyReservationsPage
+    MyReservationsPage,
+    ReservationSchedulePage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -98,6 +102,7 @@ import { MyReservationsPage } from '../pages/my-reservations/my-reservations';
     WebsocketProvider,
     Push,
     OneSignal,
+    PlugScheduleProvider
   ]
 })
 export class AppModule {}
