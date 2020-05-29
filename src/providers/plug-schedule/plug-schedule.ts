@@ -28,12 +28,42 @@ export class PlugScheduleProvider {
       return;
 
     this.plugSlots.value.forEach( reservation => {
-      const id =  reservation.IOTPlugPlugID;
+      const id =  +reservation.IOTPlugPlugID;
 
         if(!id) return;
 
         if(uniqueIds.has(id)) {
-          displayPlugs.find(x => x.id == id).reservations.push(reservation);
+          let startTimeHour = +reservation.Hora_Inicio.split(':')[0];
+          let endTimeHour = +reservation.Hora_Fin.split(':')[0];
+          if(+reservation.Hora_Inicio.split(':')[1] == 30)
+          {
+            if(startTimeHour > 12) {
+              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour - 12 + ':' + '30' + 'PM');
+            }
+            else {
+              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour + ':' + '30' + 'AM');
+            }
+            startTimeHour++;
+          }
+          for(let i = startTimeHour; i <= endTimeHour; i++)
+          {
+            if(startTimeHour > 12) {
+              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour - 12 + ':' + '00' + 'PM');
+            }
+            else {
+              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour + ':' + '00' + 'AM');
+            }
+
+            if(i == endTimeHour && reservation.Hora_Fin.split(':')[1] == '20')
+              break;
+
+            if(startTimeHour > 12) {
+              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour - 12 + ':' + '30' + 'PM');
+            }
+            else {
+              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour + ':' + '30' + 'AM');
+            }
+          }
         }
         else {
           displayPlugs.push(new DisplayPlug(id));
@@ -42,7 +72,7 @@ export class PlugScheduleProvider {
         uniqueIds.add(reservation.IOTPlugPlugID);
       }
     );
-
+    console.log(displayPlugs);
     return displayPlugs;
   }
 

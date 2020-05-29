@@ -48,11 +48,12 @@ export class ReservationPage {
     this.auth.currUser.subscribe((user)=>{
       this.user = user;
     });
-
+    this.navCtrl.viewDidEnter.subscribe(() =>{
     this.socket.getMessages().subscribe(async (data:any) => {
       let title: string;
       let message: string;
       let date: string;
+      console.log(data);
       switch(data.Command)
       {
         case 'SuccessReserva':
@@ -81,7 +82,7 @@ export class ReservationPage {
         await alert.present();
       }
 
-    });
+    });})
   }
 
   ionViewDidLoad() {

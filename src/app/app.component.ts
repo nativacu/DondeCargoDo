@@ -197,7 +197,7 @@ export class LocationsApp {
             text: 'No',
             role: 'cancel',
             handler: () => {
-              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "N" , PlugID: payload.additionalData.PlugID}));
+              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "N" , PlugID: payload.additionalData.PlugID, Email: this.email}));
             }
           },
           {
@@ -205,7 +205,7 @@ export class LocationsApp {
             handler: () => {
               //this.nav.push(ChargeConfirmationPage, {data:payload.additionalData});
               //window.alert(JSON.stringify(payload.additionalData));
-              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "Y" , PlugID: payload.additionalData.PlugID}));
+              this.socket.sendMessage(JSON.stringify({Command:"ChargingConfirmation", Confirmation: "Y" , PlugID: payload.additionalData.PlugID, Email: this.email}));
             }
           }
         ]

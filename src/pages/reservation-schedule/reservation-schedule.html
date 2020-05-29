@@ -24,9 +24,12 @@
            <ion-col class="ion-margin-end ion-text-start">
              {{time}}
            </ion-col>
-           <ion-col style="background-color: indianred">
-
-           </ion-col>
+           <ng-container *ngIf="checkAvaibility(time); else elseTemplate">
+              <ion-col style="background-color: green"></ion-col>             
+           </ng-container>
+           <ng-template #elseTemplate>
+              <ion-col style="background-color: indianred"></ion-col>
+           </ng-template>
          </ion-row>
        </div>
 

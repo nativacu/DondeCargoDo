@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 // import { DisplayPlug } from './DisplayPlug';
 import { PlugScheduleProvider } from '../../providers/plug-schedule/plug-schedule';
-import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { Reserva } from '../../models/reserva';
 import { AuthProvider } from '../../providers/auth/auth';
 import { DisplayPlug } from '../../models/display-plug';
+import { ThrowStmt } from '@angular/compiler';
 /**
  * Generated class for the ReservationSchedulePage page.
  *
@@ -27,17 +27,16 @@ export class ReservationSchedulePage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private plugScheduleProvider: PlugScheduleProvider,
-              private websocketProvider: WebsocketProvider) {
-
-    this.plugScheduleProvider.plugSlots.subscribe((slots) => {
-      this.displayPlugs = this.plugScheduleProvider.getDisplayPlugs();
-      this.openTab = slots ? new Array<boolean>(this.displayPlugs.length) : null;
-    });
+              private plugScheduleProvider: PlugScheduleProvider) {
 
     this.plugScheduleProvider.chosenCharger.subscribe((charger) => {
       this.chosenCharger = charger;
       this.displaySchedules = this.plugScheduleProvider.getDisplayTimes();
+    });
+
+    this.plugScheduleProvider.plugSlots.subscribe((slots) => {
+      this.displayPlugs = this.plugScheduleProvider.getDisplayPlugs();
+      this.openTab = slots ? new Array<boolean>(this.displayPlugs.length) : null;
     });
   }
 
@@ -52,5 +51,10 @@ export class ReservationSchedulePage {
 
     if(i != index) this.openTab[i] = false;
     this.openTab[index] = !this.openTab[index];
+  }
+
+  checkAvaibility(time:String):Boolean{
+    const i = this.openTab.findIndex(x => x == true);
+    return this.displayPlugs[i].reservedHours.findIndex(x => x == time) == -1; 
   }
 }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Platform,  MenuController } from 'ionic-angular';
+import { NavController, Platform,  MenuController, Alert, AlertController } from 'ionic-angular';
 import { LocationsProvider } from '../../providers/locations/locations';
 import { GoogleMapsProvider } from '../../providers/google-maps/google-maps';
 import { HttpRequestProvider } from '../../providers/http-request/http-request'
@@ -36,7 +36,8 @@ export class MapPage {
     public locations: LocationsProvider,
     public menu: MenuController,
     public fauth:AuthProvider,
-    public socket:WebsocketProvider) {
+    public socket:WebsocketProvider,
+    private alertCtrl: AlertController) {
       this.fauth.currUser.subscribe((usr)=> {
         if(usr)
           this.userId = usr.UserID;
@@ -57,6 +58,14 @@ export class MapPage {
              //carga iniciada
              this.navCtrl.push(ChargingMenuPage, {Date: this.chargeInitSecuredLogic(data)});
              break;
+            case 'ChargeDenied':
+              var alert = this.alertCtrl.create({
+                title: 'Cargador ya reservado',
+                message: 'El cargador sera usado pronto, por favor intentelo con otro',
+                buttons: ['OK']
+              });
+              alert.present();
+              break;
             case 'ChargeEndSecured':
               //fin de la carga
               console.log(data.Monto);
