@@ -26,9 +26,12 @@ export class PlugScheduleProvider {
     let displayPlugs = new Array<DisplayPlug>();
     if(this.plugSlots.value === null)
       return;
-
+    if(this.plugSlots.value.length > 0 && this.plugSlots.value[this.plugSlots.value.length - 1].IOTPlugPlugID == undefined)
+    {
+      this.plugSlots.value.pop();
+    }
     this.plugSlots.value.forEach( reservation => {
-      const id =  +reservation.IOTPlugPlugID;
+      const id =  reservation.IOTPlugPlugID.toString();
 
         if(!id) return;
 
@@ -69,7 +72,7 @@ export class PlugScheduleProvider {
           displayPlugs.push(new DisplayPlug(id));
         }
 
-        uniqueIds.add(reservation.IOTPlugPlugID);
+        uniqueIds.add(reservation.IOTPlugPlugID.toString());
       }
     );
     console.log(displayPlugs);

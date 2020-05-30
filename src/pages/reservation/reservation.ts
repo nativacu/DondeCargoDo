@@ -6,6 +6,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
 import { Reserva } from '../../models/reserva';
 import { PlugScheduleProvider } from '../../providers/plug-schedule/plug-schedule';
+import { Subscription } from 'rxjs';
 
 
 /**
@@ -38,6 +39,7 @@ export class ReservationPage {
   user: any;
   currentDate: string;
   hoursOk:Boolean;
+  subscription:Subscription;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private auth: AuthProvider, public socket:WebsocketProvider, private alertCtrl: AlertController,  private plugScheduleProvider: PlugScheduleProvider) {
@@ -48,8 +50,37 @@ export class ReservationPage {
     this.auth.currUser.subscribe((user)=>{
       this.user = user;
     });
-    this.navCtrl.viewDidEnter.subscribe(() =>{
-    this.socket.getMessages().subscribe(async (data:any) => {
+  }
+
+  ionViewDidLoad() {
+
+    function pad(number) {
+      if (number < 10) {
+        return '0' + number;
+      }
+      return number;
+    }
+    let date:Date = new Date();
+    let isoString = pad(date.getFullYear()) + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate());
+    this.currentDate = isoString;
+    this.dateSlot = this.currentDate;
+    this.displayName = this.charger.Nombre;
+    this.cost = this.charger.CostoCarga;
+    this.costType = this.charger.TipoCostoCarga;
+    this.sendPlaceInfo();
+    // this.potency = this.charger.potency;
+    // this.chargerType = this.charger.type;
+
+    if(this.costType === "Gratis"){
+      this.showCost = false;
+    }
+
+    this.initTimeSlot = this.endTimeSlot = this.charger.Hora_Inicio_Operaciones;
+
+  }
+
+  ionViewWillEnter(){
+    this.subscription = this.socket.getMessages().subscribe(async (data:any) => {
       let title: string;
       let message: string;
       let date: string;
@@ -82,26 +113,11 @@ export class ReservationPage {
         await alert.present();
       }
 
-    });})
+    });
   }
 
-  ionViewDidLoad() {
-
-    this.currentDate = new Date().toISOString().split('T')[0];
-    this.dateSlot = this.currentDate;
-    this.displayName = this.charger.Nombre;
-    this.cost = this.charger.CostoCarga;
-    this.costType = this.charger.TipoCostoCarga;
-    this.sendPlaceInfo();
-    // this.potency = this.charger.potency;
-    // this.chargerType = this.charger.type;
-
-    if(this.costType === "Gratis"){
-      this.showCost = false;
-    }
-
-    this.initTimeSlot = this.endTimeSlot = this.charger.Hora_Inicio_Operaciones;
-
+  ionViewWillLeave(){
+    this.subscription.unsubscribe();
   }
 
   reserve(){

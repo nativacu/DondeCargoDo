@@ -42,8 +42,6 @@ export class ReservationSchedulePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReservationSchedulePage');
-
-
   }
 
   toggleTab(index: number) {

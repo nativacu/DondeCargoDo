@@ -44,49 +44,48 @@ export class MapPage {
       });
       this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
       this.adminButton = false;
-      this.navCtrl.viewDidEnter.subscribe(() =>{
-        this.socket.getMessages().subscribe((data:any)=>{
-          switch(data.Command)
-          {
-            case 'LugaresRetreived':
-              this.chargersInit(data.Lugares);
-              break;
-            case 'ChargeInitRequest':
-              //this.navCtrl.push(ChargeConfirmationPage, {data:data});
-              break;
-            case 'ChargeInitSecured':
-             //carga iniciada
-             this.navCtrl.push(ChargingMenuPage, {Date: this.chargeInitSecuredLogic(data)});
-             break;
-            case 'ChargeDenied':
-              var alert = this.alertCtrl.create({
-                title: 'Cargador ya reservado',
-                message: 'El cargador sera usado pronto, por favor intentelo con otro',
-                buttons: ['OK']
-              });
-              alert.present();
-              break;
-            case 'ChargeEndSecured':
-              //fin de la carga
-              console.log(data.Monto);
-              this.navCtrl.popToRoot();
-              break;
-            case "TransactionRequest":
-              this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)});
-              break;
-            case "ReservacionesRetreived":
-              this.navCtrl.push(MyReservationsPage, {data: data.Reservaciones});
-              break;
-            default:
-              break;
-          }
-        });
-      })
   }
 
+  ionViewWillEnter(){
+    this.socket.getMessages().subscribe((data:any)=>{
+      switch(data.Command)
+      {
+        case 'LugaresRetreived':
+          this.chargersInit(data.Lugares);
+          break;
+        case 'ChargeInitRequest':
+          //this.navCtrl.push(ChargeConfirmationPage, {data:data});
+          break;
+        case 'ChargeInitSecured':
+         //carga iniciada
+         this.navCtrl.push(ChargingMenuPage, {Date: this.chargeInitSecuredLogic(data)});
+         break;
+        case 'ChargeDenied':
+          var alert = this.alertCtrl.create({
+            title: 'Cargador ya reservado',
+            message: 'El cargador sera usado pronto, por favor intentelo con otro',
+            buttons: ['OK']
+          });
+          alert.present();
+          break;
+        case 'ChargeEndSecured':
+          //fin de la carga
+          console.log(data.Monto);
+          this.navCtrl.popToRoot();
+          break;
+        case "TransactionRequest":
+          this.navCtrl.push(TransactionListPage, {data:this.transactionRequestLogic(data)});
+          break;
+        case "ReservacionesRetreived":
+          this.navCtrl.push(MyReservationsPage, {data: data.Reservaciones});
+          break;
+        default:
+          break;
+      }
+    });
+  }
 
   ionViewDidLoad(){
-
 
     this.platform.ready().then(() => {
       //TODO change all this logic of stationrequest

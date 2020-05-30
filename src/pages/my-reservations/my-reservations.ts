@@ -64,7 +64,7 @@ export class MyReservationsPage {
   findIndex(l:number, r:number, date:string):number
   {
     var m:number = Math.trunc((r+l)/2);
-    if(l == r)
+    if(l >= r)
       return l;
     if(this.reservations[m].Fecha > date)
     {

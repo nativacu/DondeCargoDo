@@ -39,6 +39,7 @@ export class WebsocketProvider {
           resolve();
         });
         WebsocketProvider.socket.onerror = ((event) =>{
+          WebsocketProvider.socket = undefined;
           reject("Connection Failed ");
         });
       }
