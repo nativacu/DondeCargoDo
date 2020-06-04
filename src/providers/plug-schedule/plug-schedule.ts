@@ -50,21 +50,21 @@ export class PlugScheduleProvider {
           }
           for(let i = startTimeHour; i <= endTimeHour; i++)
           {
-            if(startTimeHour > 12) {
-              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour - 12 + ':' + '00' + 'PM');
+            if(i > 12) {
+              displayPlugs.find(x => x.id == id).reservedHours.push(i - 12 + ':' + '00' + 'PM');
             }
             else {
-              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour + ':' + '00' + 'AM');
+              displayPlugs.find(x => x.id == id).reservedHours.push(i + ':' + '00' + 'AM');
             }
 
             if(i == endTimeHour && reservation.Hora_Fin.split(':')[1] == '20')
               break;
 
-            if(startTimeHour > 12) {
-              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour - 12 + ':' + '30' + 'PM');
+            if(i > 12) {
+              displayPlugs.find(x => x.id == id).reservedHours.push(i - 12 + ':' + '30' + 'PM');
             }
             else {
-              displayPlugs.find(x => x.id == id).reservedHours.push(startTimeHour + ':' + '30' + 'AM');
+              displayPlugs.find(x => x.id == id).reservedHours.push(i + ':' + '30' + 'AM');
             }
           }
         }
