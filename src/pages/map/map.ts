@@ -158,6 +158,8 @@ export class MapPage {
 
   private transactionRequestLogic(data:any){
     console.log(data);
+    if(data.Transactions[data.Transactions.length - 1].Nombre == undefined)
+      data.Transactions.pop();
     for(let ok of data.Transactions)
     {
       if(ok.Monto)
@@ -173,9 +175,9 @@ export class MapPage {
       else
       {
         ok.Date = new Date()
-        }
       }
-      return data;
     }
+    return data;
+  }
 
 }
