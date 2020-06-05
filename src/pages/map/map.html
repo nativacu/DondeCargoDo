@@ -2,20 +2,20 @@
     <ion-navbar color="secondary">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
-          </button>      
+          </button>
           <ion-title>DondeCargo.do</ion-title>
     </ion-navbar>
   </ion-header>
 
   <ion-content>
     <button ion-button full class="btn btn-secondary"  [hidden]="!adminButton" id="addPlugButton" (click)="addPlug()">Agregar Plug</button>
-    <button ion-button full class="btn btn-info"  [hidden]="!adminButton" id="ConfigurePlugButton" (click)="configurePlug()">Configurar Plugs</button>
+<!--    <button ion-button full class="btn btn-info"  [hidden]="!adminButton" id="ConfigurePlugButton" (click)="configurePlug()">Configurar Plugs</button>-->
     <div #pleaseConnect id="please-connect">
       <p>Favor conectarse al internet...</p>
     </div>
-    
+
     <div #map id="map"> </div>
-   
+
     <button ion-button full color="primary" [hidden]="!showButton" id="reserveButton" (click)="toReserve()">Reservar</button>
 
   </ion-content>

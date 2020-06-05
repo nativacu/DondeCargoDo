@@ -119,7 +119,7 @@ export class MapPage {
         var map = document.getElementById("map");
         var button = document.getElementById("reserveButton");
         var buttonadd = document.getElementById("addPlugButton");
-        var buttonconf = document.getElementById("ConfigurePlugButton");
+
         map.style.height = (!this.adminButton?"93%":"77%");
         button.hidden = false;
         button.style.color = "white";
@@ -127,12 +127,10 @@ export class MapPage {
         if(this.adminButton)
         {
           buttonadd.hidden= false;
-          buttonconf.hidden= false;
         }
         else
         {
           buttonadd.hidden= true;
-          buttonconf.hidden= true;
         }
         if(!currentCharger.is_operational || currentCharger.type === "No afiliado"){
           button.setAttribute("disabled","disabled");
