@@ -53,4 +53,10 @@ export class AuthProvider {
     return this.afAuth.user
   }
 
+  deleteUser(){
+    var user = this.afAuth.auth.currentUser;
+
+    return user.delete()
+  }
+
 }

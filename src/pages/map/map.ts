@@ -11,6 +11,7 @@ import { ChargingMenuPage } from '../charging-menu/charging-menu';
 import { TransactionListPage } from '../transaction-list/transaction-list';
 import { MyReservationsPage } from '../my-reservations/my-reservations';
 import { ReservationSchedulePage } from '../reservation-schedule/reservation-schedule';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-map',
@@ -78,6 +79,9 @@ export class MapPage {
           break;
         case "ReservacionesRetreived":
           this.navCtrl.push(MyReservationsPage, {data: data.Reservaciones});
+          break;
+        case 'DeleteUserSuccess':
+          this.navCtrl.setRoot(LoginPage);
           break;
         default:
           break;
