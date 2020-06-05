@@ -67,6 +67,9 @@ export class LocationsApp {
         {
           this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
         }
+
+        this.user.SegundoNombre = this.user.SegundoNombre? this.user.SegundoNombre : '';
+        this.user.SegundoApellido = this.user.SegundoApellido? this.user.SegundoApellido : '';
         this.userName = this.user.PrimerNombre + ' ' + this.user.SegundoNombre + ' ' + this.user.PrimerApellido + ' ' + this.user.SegundoApellido;
         this.lname = this.user.PrimerApellido;
         this.phoneNumber = this.user.Telefono;
