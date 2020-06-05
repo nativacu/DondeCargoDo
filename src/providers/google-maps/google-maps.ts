@@ -31,6 +31,30 @@ export class GoogleMapsProvider {
 
   }
 
+  resetMap()
+  {
+    if(this.chargerObserver)
+      this.chargerObserver.unsubscribe();
+    if(this.infoWindow)
+      this.infoWindow.unsubscribe();
+    this.mapElement = undefined
+    this.pleaseConnect = undefined;
+    this.map = undefined;
+    this.mapInitialised = false;
+    this.navController = undefined;
+    this.mapLoaded = undefined;
+    this.mapLoadedObserver = undefined;
+    this.markers= [];
+    this.chargers = undefined;
+    this.locationMarker = undefined;
+    this.locations = [];
+    this.positionSubscription = undefined;
+    this.locationJson = undefined;
+    this.selected = false;
+    this.chargerObserver = undefined;
+    this.infoWindow = undefined;
+  }
+
   init(mapElement: any, pleaseConnect: any, navCtrl: NavController, chargers: any): Promise<any> {
     this.locations = chargers;
     this.navController = navCtrl;
@@ -275,8 +299,10 @@ export class GoogleMapsProvider {
   startTracking(){
     let watch = Geolocation.watchPosition();
     watch.subscribe((data) => {
-      this.locationMarker.setMap(null);
-      this.addCurrentLocationMarker(data.coords.latitude, data.coords.longitude);
+      if(data){
+        this.locationMarker.setMap(null);
+        this.addCurrentLocationMarker(data.coords.latitude, data.coords.longitude);
+      }
     });
   }
 

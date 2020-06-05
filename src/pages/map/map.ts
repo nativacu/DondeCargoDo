@@ -39,15 +39,20 @@ export class MapPage {
     public fauth:AuthProvider,
     public socket:WebsocketProvider,
     private alertCtrl: AlertController) {
-      this.fauth.currUser.subscribe((usr)=> {
-        if(usr)
-          this.userId = usr.UserID;
-      });
-      this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
-      this.adminButton = false;
   }
 
   ionViewWillEnter(){
+    this.maps.resetMap();
+    this.fauth.currUser.subscribe((usr)=> {
+      if(usr)
+        this.userId = usr.UserID;
+    });
+    this.socket.sendMessage(JSON.stringify({Command:"GetLugares"}));
+    this.adminButton = false;
+    this.currentCharger = undefined;
+    document.getElementById("reserveButton").hidden = true;
+    document.getElementById("addPlugButton").hidden = true;
+    document.getElementById("map").style.height = "100%";
     this.socket.getMessages().subscribe((data:any)=>{
       switch(data.Command)
       {
@@ -160,6 +165,8 @@ export class MapPage {
 
   private transactionRequestLogic(data:any){
     console.log(data);
+    if(data.Transactions[data.Transactions.length - 1].Nombre == undefined)
+      data.Transactions.pop();
     for(let ok of data.Transactions)
     {
       if(ok.Monto)
@@ -175,9 +182,9 @@ export class MapPage {
       else
       {
         ok.Date = new Date()
-        }
       }
-      return data;
     }
+    return data;
+  }
 
 }

@@ -82,12 +82,12 @@ export class LoginPage implements OnInit{
         },
         (error) =>{
           window.alert(error);
-          this.loading.dismiss();
+          this.dissmissLoading();
         }
       );
     }, (error) =>{
       window.alert(error);
-      this.loading.dismiss();
+      this.dissmissLoading()
     })
   }
 
@@ -110,7 +110,7 @@ export class LoginPage implements OnInit{
 
   getSocketMessages(){
     this.socket.getMessages().subscribe((data:any) => {
-      this.loading.dismiss();
+      this.dissmissLoading();
       switch(data.Command)
       {
         case "ConexionCreated":
@@ -121,6 +121,12 @@ export class LoginPage implements OnInit{
           break;
       }
     })
+  }
+  dissmissLoading(){
+    if(this.loading)
+    {
+      this.loading.dismiss();
+    }
   }
 
 }
