@@ -26,6 +26,7 @@ export class AddPlugPage {
     });
     this.lugarid = this.navParams.get('lugarid');
     this.socket.getMessages().subscribe((data:any) =>{
+      console.log(data);
       if (data.Command === '') {
         if(this.act == 1)
           this.navCtrl.popToRoot();

@@ -97,6 +97,9 @@ export class MapPage {
     });
 
   }
+  ionViewWillLeave(){
+    document.getElementById("map").style.height = "0%";
+  }
 
   toReserve(){
     this.navCtrl.push(ReservationPage, {

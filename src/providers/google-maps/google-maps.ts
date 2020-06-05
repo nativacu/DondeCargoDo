@@ -38,7 +38,6 @@ export class GoogleMapsProvider {
     if(this.infoWindow)
       this.infoWindow.unsubscribe();
     this.mapElement = undefined
-    this.pleaseConnect = undefined;
     this.map = undefined;
     this.mapInitialised = false;
     this.navController = undefined;
@@ -53,6 +52,7 @@ export class GoogleMapsProvider {
     this.selected = false;
     this.chargerObserver = undefined;
     this.infoWindow = undefined;
+    this.disableMap();
   }
 
   init(mapElement: any, pleaseConnect: any, navCtrl: NavController, chargers: any): Promise<any> {
@@ -107,8 +107,9 @@ export class GoogleMapsProvider {
       else {
 
         if(this.connectivityService.isOnline()){
-          this.initMap();
-          this.enableMap();
+          this.initMap().then(() =>{
+            this.enableMap();
+          });
         }
 
         else {
@@ -299,7 +300,7 @@ export class GoogleMapsProvider {
   startTracking(){
     let watch = Geolocation.watchPosition();
     watch.subscribe((data) => {
-      if(data){
+      if(this.locationMarker){
         this.locationMarker.setMap(null);
         this.addCurrentLocationMarker(data.coords.latitude, data.coords.longitude);
       }
