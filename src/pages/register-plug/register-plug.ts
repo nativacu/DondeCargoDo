@@ -67,17 +67,17 @@ export class RegisterPlugPage {
   }
 
   uploadData(){
-      let maxReservationTime = this.maxReservationTimeHrs * 60 + this.maxReservationTimeMin;
-      let timeToCancel = this.timeToCancelHrs * 60 + this.timeToCancelMins;
-      let waitngTime = this.waitingTimeHrs * 60 + this.waitingTimeMins;
-      let timeBetweenReservations = this.timeBeforeReservationHrs * 60 + this.timeBeforeReservationMins;
+      let maxReservationTime = this.maxReservationTimeHrs ? (+this.maxReservationTimeHrs) * 60 + (+this.maxReservationTimeMin) : +this.maxReservationTimeMin;
+      let timeToCancel = this.timeToCancelHrs ? (+this.timeToCancelHrs) * 60 + (+this.timeToCancelMins) : +this.maxReservationTimeMin;
+      let waitngTime = this.waitingTimeHrs ? (+this.waitingTimeHrs) * 60 + (+this.waitingTimeMins) : +this.waitingTimeMins;
+      let timeBetweenReservations = this.timeBeforeReservationHrs ? (+this.timeBeforeReservationHrs) * 60 + (+this.timeBeforeReservationMins): +this.waitingTimeMins;
 
       let data =
        {Command: "CrearLugar", Email: this.user.Email, Nombre: this.stationName, Direccion: this.stationDir, Horario_Inicio_Operaciones: this.initTimeSlot
-       ,Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit].toLowerCase()
+       , Horario_Fin_Operaciones: this.endTimeSlot, Dia_Inicio_Operaciones: this.daysArray[this.dateInit].toLowerCase()
        , Dia_Fin_Operaciones: this.daysArray[this.dateEnd].toLowerCase(), lat: this.placeLocation.lat(), lng: this.placeLocation.lng()
        , Desc: this.stationDesc, Tipo: this.tipo, Costo: this.number
-         , TiempoMaximoReserva: maxReservationTime
+       , TiempoMaximoReserva: maxReservationTime
        , TiempoCancelarReserva: timeToCancel
        , TiempoEsperarReserva: waitngTime
        , TiempoAntelacionReserva: timeBetweenReservations

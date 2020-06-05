@@ -44,17 +44,17 @@ export class FirebaseProvider implements OnInit {
   GetUsersList() {
     this.usersRef = this.db.list('users');
     return this.usersRef;
-  }  
+  }
   // Update User
   UpdateUser(user: User) {
     this.userRef.update({
       name: user.name,
       email: user.email,
-      tyoe: user.type
+      type: user.type
     })
-  }  
+  }
   // Delete User
-  DeleteUser(id: string) { 
+  DeleteUser(id: string) {
     this.userRef = this.db.object('users/'+id);
     this.userRef.remove();
   }

@@ -67,7 +67,7 @@ export class LocationsApp {
         {
           this.imageSrc = "https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png";
         }
-        this.userName = this.user.PrimerNombre;
+        this.userName = this.user.PrimerNombre + ' ' + this.user.SegundoNombre + ' ' + this.user.PrimerApellido + ' ' + this.user.SegundoApellido;
         this.lname = this.user.PrimerApellido;
         this.phoneNumber = this.user.Telefono;
       }
@@ -159,15 +159,26 @@ export class LocationsApp {
   }
 
   showInfo(){
+    let name = this.userName.split(' ');
+
+    this.user.PrimerNombre = name[0] ? name[0] : '';
+    this.user.SegundoNombre = '';
+    this.user.SegundoApellido = '';
+    if (name.length <= 2) {
+      this.user.PrimerApellido = name[1] ? name[1] : '';
+    }
+    else {
+      this.user.SegundoNombre = name[1] ? name[1] : '';
+      this.user.PrimerApellido = name[2] ? name[2] : '';
+      this.user.SegundoApellido = name[3] ? name[3] : '';
+    }
     this.editing = false;
     this.user.Command = 'UpdateUserInfo';
-    this.user.Foto = this.imageSrc;
-    this.user.PrimerNombre = this.userName;
-    this.user.Telefono = this.phoneNumber;
+    this.user.Foto = '0';
+    this.user.TipoUsuario = this.accountType;
+
     this.socket.sendMessage(JSON.stringify(this.user));
     this.fauth.currUser.next(this.user);
-    // this.http.sendPostRequest({primernombre: this.userName, segundonombre: 0, primerapellido: 'Perez', segundoapellido: 0, t_usuario: 2,
-    //   foto: 0, email: this.email, telefono: this.phoneNumber},'Update.php');
   }
 
   enableEdit(){
