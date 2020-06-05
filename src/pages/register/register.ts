@@ -27,7 +27,6 @@ export class RegisterPage {
   loading:Loading;
   constructor(public navCtrl: NavController, private plt: PlatformProvider, public navParams: NavParams, public fauth: AuthProvider, public http: HttpRequestProvider, public formBuilder:FormBuilder,
     public socket:WebsocketProvider, public loadingCtrl:LoadingController, private camera:Camera) {
-
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,

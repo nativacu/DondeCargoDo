@@ -75,7 +75,8 @@ export class LocationsApp {
    });
 
     fauth.getUser().subscribe(user =>{
-      this.email = user.email;
+      if(user)
+        this.email = user.email;
     });
 
     platform.ready().then(() => {
@@ -92,33 +93,6 @@ export class LocationsApp {
         this.oneSignal.endInit();
       }
 
-      /*socket.getMessages().subscribe((data:any) => {
-        console.log(data)
-        switch(data.Command)
-        {
-          case 'ChargeInitRequest':
-           //iniciar carga
-            this.nav.push(ChargeConfirmationPage, {data:data});
-            break;
-          case 'ChargeInitSecured':
-            //carga iniciada
-            this.nav.push(ChargingMenuPage, {Date:new Date()});
-            break;
-          case 'ChargeEndSecured':
-            //fin de la carga
-            this.nav.popToRoot();
-            break;
-          case "ConexionCreated":
-            this.fauth.currUser.next(data[0]);
-            this.nav.setRoot(MapPage);
-            break;
-          case "TransactionRequest":
-            this.nav.push(TransactionListPage, {data:data})
-            break;
-          default:
-        }
-      });*/
-
     });
   }
 
@@ -127,9 +101,15 @@ export class LocationsApp {
     console.log("still working");
   }
 
-  eraseAccount(){
-    //TODO change http for socket send
-    //this.http.sendPostRequest({email: this.email},'delete.php');
+  async eraseAccount(){
+    try{
+      await this.fauth.deleteUser();
+      this.socket.sendMessage(JSON.stringify({Command:"DeleteUser", Email: this.user.Email}));
+      this.user = null;
+    }
+    catch (e) {
+     console.log(e);
+    }
   }
 
   openGallery (): void {
