@@ -33,8 +33,10 @@ export class GoogleMapsProvider {
 
   resetMap()
   {
-    this.chargerObserver.unsubscribe();
-    this.infoWindow.unsubscribe();
+    if(this.chargerObserver)
+      this.chargerObserver.unsubscribe();
+    if(this.infoWindow)
+      this.infoWindow.unsubscribe();
     this.mapElement = undefined
     this.pleaseConnect = undefined;
     this.map = undefined;

@@ -41,6 +41,7 @@ export class MapPage {
   }
 
   ionViewWillEnter(){
+    this.maps.resetMap();
     this.fauth.currUser.subscribe((usr)=> {
       if(usr)
         this.userId = usr.UserID;
@@ -87,10 +88,6 @@ export class MapPage {
           break;
       }
     });
-  }
-
-  ionViewWillLeave(){
-    this.maps.resetMap();
   }
 
   ionViewDidLoad(){
