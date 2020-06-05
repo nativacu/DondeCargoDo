@@ -164,7 +164,7 @@ export class ReservationPage {
       var hoursInit:any = +initArr[0]*60 + +initArr[1];
       var endArr:Array<String> = this.endTimeSlot.split(":");
       var hoursEnd:any = +endArr[0]*60 + +endArr[1];
-      this.hoursOk = (hoursEnd - hoursInit) <= this.charger.TiempoMaximoReserva;
+      this.hoursOk = (hoursEnd - hoursInit) <= this.charger.TiempoMaximoReserva && (hoursEnd - hoursInit) > 0;
 
     }
   }
