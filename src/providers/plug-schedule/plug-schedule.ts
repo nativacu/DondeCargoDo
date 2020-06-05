@@ -35,7 +35,10 @@ export class PlugScheduleProvider {
 
         if(!id) return;
 
-        if(uniqueIds.has(id)) {
+        if(!uniqueIds.has(id)) {
+          displayPlugs.push(new DisplayPlug(id));
+        }
+        if(reservation.Hora_Inicio != undefined) {
           let startTimeHour = +reservation.Hora_Inicio.split(':')[0];
           let endTimeHour = +reservation.Hora_Fin.split(':')[0];
           if(+reservation.Hora_Inicio.split(':')[1] == 30)
@@ -67,9 +70,6 @@ export class PlugScheduleProvider {
               displayPlugs.find(x => x.id == id).reservedHours.push(i + ':' + '30' + 'AM');
             }
           }
-        }
-        else {
-          displayPlugs.push(new DisplayPlug(id));
         }
 
         uniqueIds.add(reservation.IOTPlugPlugID.toString());
@@ -111,4 +111,5 @@ export class PlugScheduleProvider {
 
     return timespans;
   }
+
 }
